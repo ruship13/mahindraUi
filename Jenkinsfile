@@ -13,9 +13,11 @@ pipeline {
                     url: 'https://github.com/ruship13/mahindraUi.git'
             }
         }
+        
 
         stage('Install Dependencies') {
             steps {
+                sh 'npm install --legacy-peer-deps'
                 sh 'npm install'
             }
         }
