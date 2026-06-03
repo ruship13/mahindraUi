@@ -69,7 +69,7 @@
 }
 
 .background-image {
-  background-image: url("assets/images/mahindra.png");
+  background-image: url("/assets/images/mahindra.png");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: auto;

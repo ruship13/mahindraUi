@@ -3,7 +3,7 @@
 }
 
 .m-m-logo {
-    background-image: url("assets/images/M&M-images.png");
+    background-image: url("/assets/images/M&M-images.png");
     background-repeat: no-repeat;
     background-size: cover;
     width: 300px; /* Adjust width as needed */
