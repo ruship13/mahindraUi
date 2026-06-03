@@ -1,0 +1,174 @@
+<div class="col-sm-10 ">
+    <h4 class="main-heading"><u>Dump Tank Mockdrill Test</u></h4>
+</div>
+<div class="row" style="margin-left:-20px;">
+
+
+    <div>
+        <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#alarmReportFilter"
+            style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+            Filter
+        </button>
+        <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+            style="background-color: white; border-color: red; color: red;">
+            <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png" alt="pdf">
+            <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+            Download
+        </button>
+
+        <button class="btn btn-outline-success float-end mx-1" (click)="mockDrillMissionDetailsExcelReport()">
+            <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png" alt="excel">
+            Download
+        </button>
+
+
+
+    </div>
+</div>
+
+
+
+<div class="collapse" id="alarmReportFilter">
+    <form #alarmFilterForm="ngForm" (ngSubmit)="fetchAlarmMissionRuntimeDetailsByAllFilters()" name="alarmFilterForm">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">Start Date</label>
+                <input type="datetime-local" id="startdatepicker" name="alarmMissionStartDateTime"
+                    [(ngModel)]="alarmMissionStartDateTime" class="form-control" (input)="dateTimeValidation()">
+                <div *ngIf="alarmMissionStartDateTime>alarmMissionEndDateTime" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                        than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">End Date</label>
+                <input type="datetime-local" id="enddatepicker" name="alarmMissionEndDateTime"
+                    [(ngModel)]="alarmMissionEndDateTime" [disabled]="disableDateTime" class="form-control"
+                    (input)="dateTimeValidation()">
+                <div *ngIf="alarmMissionStartDateTime>alarmMissionEndDateTime" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                        than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mt-1">
+                <h5 class="mt-4 "></h5>
+                <button class="btn btn-success " type="submit" [disabled]="disableSearchButton"><i
+                        class="fa fa-search"></i>Search</button>
+                <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+                    (click)="fetchAllAlarmMissionRunTimeReportByCurrentDate()"><i class="fa fa-eraser"></i>
+                    Reset</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div
+    style="background-color: #F8F8F8; box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; background-color: #eaeaf7; padding: 30px; margin-top: 50px; display: flex; justify-content: center; align-items: center; height: 100px;">
+
+    <div class="buttons">
+        <div class="button qrbtn">
+            <button class="button button3" (click)="onAddMockDrillMission('Area-1')" [disabled]="isMonitor()">Area-1 Test</button>
+        </div>
+        <div class="col-2 fetchbtn">
+            <button type="button" class="btn info fetch-button" data-bs-toggle="modal" data-bs-target="#updateWorkDoneModal" (click)="onAddMockDrillMission('Area-2')"  [disabled]="isMonitor()">Area-2 Test
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row table-area"
+    style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; padding-top: 5px; ">
+    <div class="col">
+
+
+        <div id="table">
+            <table datatable [dtOptions]="mockDrillTestReportDtOptions" id="mockDrillTestDetailsId"
+                class="table-responsive-sm table-bordered stripe">
+                <thead>
+
+                    <tr>
+                        <th class="th-sm">Sr No</th>
+                        <th class="th-sm">Yokogawa Alarm Cell No.</th>
+                        <th class="th-sm">Area Name</th>
+                        <th class="th-sm">Floor Name</th>
+                        <th class="th-sm">Day</th>
+                        <th class="th-sm">User Name</th>
+                        <th class="th-sm">Mission Source</th>
+                        <th class="th-sm">CDateTime</th>
+                        <th class="th-sm">Alarm Ocurred Time</th>
+                        <th class="th-sm">Alarm Resolved Time</th>
+                        <th class="th-sm">Alarm Mission StartDateTime</th>
+                        <th class="th-sm">Alarm Mission EndDateTime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let mockDrill of missionDetails; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{mockDrill.yokogawaAlarmCellNo}}</td>
+                        <td>{{mockDrill.areaName}}</td>
+                        <td>{{mockDrill.floorName }}</td>
+                        <td>{{mockDrill.day }}</td>
+                        <td>{{mockDrill.userName}}</td>
+                        <td>{{mockDrill.missionSource}}</td>
+                        <td>{{mockDrill.currentDateTime}}</td>
+                        <td>{{mockDrill.alarmOcurredTime }}</td>
+                        <td>{{mockDrill.alarmResolvedTime}}</td>
+                        <td>{{mockDrill.alarmMissionStartDateTime}}</td>
+                        <td>{{mockDrill.alarmMissionEndDateTime}}</td>
+
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- 
+<div class="modal first-popup" id="confirmationModel" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMission('Area-1')"
+                    [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal second-popup" id="confirmationModel1" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData1?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMissionForArea2('Area-2')"
+                    [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div> -->

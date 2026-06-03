@@ -1,0 +1,578 @@
+<!-- MASTER HEADER SECTION -->
+<div class="row heading-name-area">
+    <div class="col-sm-8 col-md-9 col-lg-10">
+        <h4 class="main-heading"><u>Master User Details</u></h4>
+    </div>
+
+    <div class="col-sm-4 col-md-3 col-lg-2">
+
+        <button type="button" class="btn btn-primary float-end add-user-button" data-bs-toggle="modal" [disabled]="isMonitor()"
+            data-bs-target="#addUserModal"><i class="bi bi-plus-square "></i>
+        </button>
+    </div>
+</div>
+
+<!--Table Section-->
+<div class="row table-area">
+    <div class="col shadow-border p-3 mb-5 rounded">
+
+        <div id="table">
+            
+            <table datatable [dtOptions]="userDtOptions" id="userId" class="table-responsive-sm table-bordered stripe">
+                <thead>
+                    <tr>
+                        <th class="th-sm">Sr No</th>
+                        <th class="th-sm">User Title</th>
+                        <th class="th-sm">First Name</th>
+                        <th class="th-sm">Last Name</th>
+                        <th class="th-sm">User Name</th>
+                        <th class="th-sm">Contact Number</th>
+                        <th class="th-sm">Email ID</th>
+                        <th class="th-sm">Gender</th>
+                        <!-- <th class="th-sm">Role Id</th> -->
+                        <th class="th-sm">Role Name</th>
+                        <th class="th-sm">User Image</th>
+                        <!-- <th class="th-sm">Created DateTime</th>
+                        <th class="th-sm">User Is Deleted</th> -->
+                        <th class="th-sm">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let userDetails of masterUserDetailsTableList; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{userDetails.userTitle}}</td>
+                        <td>{{userDetails.firstName}}</td>
+                        <td>{{userDetails.lastName}}</td>
+                        <td>{{userDetails.userName}}</td>
+                        <td>{{userDetails.contactNumber}}</td>
+                        <td>{{userDetails.emailId}}</td>
+                        <td>{{userDetails.gender}}</td>
+                        <!-- <td>{{userDetails.roleId}}</td> -->
+                        <td>{{userDetails.roleName}}</td>
+                        <td>
+                            <img src="{{userDetails.userPhotoImageIn64Base}}" alt="Red dot"
+                                style="height: 100px; width: 100px;">
+                        </td>
+                        <!-- <td>{{userDetails.cDatetime}}</td>
+                        <td>{{userDetails.userIsDeleted}}</td> -->
+                        <td>
+                            <button type="button" class="btn btn-warning btn-sm edit-button"
+                            data-bs-toggle="modal" data-bs-target="#updateUserModal" [disabled]="isMonitor()"
+                            (click)="editMasterUserDetailsRow(userDetails)" ><i
+                                class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete-button"
+                            data-bs-toggle="modal" data-bs-target="#deleteUserModal" [disabled]="isMonitor()"
+                            (click)="deleteMasterUserDetailsRow(userDetails)"><i
+                                class="bi bi-trash3 "></i>
+                            </button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- dialog box of modal Add modal -->
+<div class="modal fade" id="addUserModal" method="get">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style">
+                <div class="row">
+                    <h4 class="modal-title"><i class="bi bi-plus-square"></i> Add New User Details</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form #addUserDetailsModalForm="ngForm" (ngSubmit)="addMasterUserDetails(addUserDetailsModalForm)"
+                    nonvalidate>
+                    <!-- <form #addUserDetailsModalForm="ngForm" (ngSubmit)="addMasterUserDetails(addUserDetailsModalForm)"
+                    nonvalidate> -->
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Title </p>
+                        </div>
+                        <div class="col-7">
+                            <select name="addUserTitle" id="addUserTitleId" #addUserTitleRef="ngModel"
+                                [(ngModel)]="selectedUserTitle"
+                                (change)="selectedTitleEventChange(addUserTitleRef.value)" required>
+                                <option value="Mr.">Mr</option>
+                                <option value="Ms.">Ms</option>
+                            </select>
+                            <div *ngIf="!addUserTitleRef.invalid &&(addUserTitleRef.dirty || addUserTitleRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserTitleRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Title</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">First Name </p>
+                        </div>
+                        <div class="col-7">
+
+                            <input type="text" id="addUserFirstNameId" name="addUserFirstName" required
+                                #addUserFirstNameRef="ngModel" [(ngModel)]="addUserDetailsInstance.firstName">
+
+                            <div *ngIf="!addUserFirstNameRef.valid &&(addUserFirstNameRef.dirty || addUserFirstNameRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserFirstNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User First Name
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Last Name </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="addUserLastNameId" name="addUserLastName"
+                                #addUserLastNameRef="ngModel" required [(ngModel)]="addUserDetailsInstance.lastName">
+                            <div *ngIf="!addUserLastNameRef.valid &&(addUserLastNameRef.dirty || addUserLastNameRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserLastNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Last Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Name </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="addUserNameId" name="addUserName" #addUserNameRef="ngModel" required
+                                [(ngModel)]="addUserDetailsInstance.userName">
+                            <div *ngIf="!addUserNameRef.valid &&(addUserNameRef.dirty || addUserNameRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Password </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="password" id="addUserPasswordId" name="addUserPassword" minlength="6"
+                                #addUserPasswordRef="ngModel" required [(ngModel)]="addUserDetailsInstance.userPassword"
+                                pattern="^.{6,16}$">
+                            <div *ngIf="addUserPasswordRef.errors?.['pattern'] ">
+                                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Password length
+                                    should be 6-16
+                                    characters </p>
+                            </div>
+
+                            <div *ngIf="!addUserPasswordRef.valid &&(addUserPasswordRef.dirty || addUserPasswordRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserPasswordRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Password</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p >Contact Number </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="addUserContactNumberId" name="addUserContactNumber"
+                                #addUserContactNumberRef="ngModel" 
+                                [(ngModel)]="addUserDetailsInstance.contactNumber" pattern="[0-9]{10}">
+                            <div *ngIf="addUserContactNumberRef.errors?.['pattern'] ">
+                                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please enter valid
+                                    phone number </p>
+                            </div>
+                            <div *ngIf="!addUserContactNumberRef.valid &&(addUserContactNumberRef.dirty || addUserContactNumberRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserContactNumberRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Contact Number</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Email Address </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="email" id="addUserEmailId" name="addUserEmail" #addUserEmailRef="ngModel"
+                          pattern="[a-z0-9.%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="ex.abc@gmail.com"
+                                [(ngModel)]="addUserDetailsInstance.emailId">
+
+                            <div *ngIf="addUserEmailRef.errors?.['pattern']">
+                                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                    Please Enter User Email Id in correct format</p>
+                            </div>
+                            <div *ngIf="!addUserEmailRef.valid &&(addUserEmailRef.dirty || addUserEmailRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserEmailRef.errors?.['required']">
+                                    <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Email Id </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Gender </p>
+                        </div>
+                        <div class="col-7">
+                            <select name="userGender" id="addUserGenderId" #addUserGenderRef="ngModel"
+                                [(ngModel)]="selectedUserGender"
+                                (change)="selectedUserGenderEventChange(addUserGenderRef.value)" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <div *ngIf="!addUserGenderRef.valid &&(addUserGenderRef.dirty || addUserGenderRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserGenderRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Gender</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-5">
+                            <p class="required">Role Id </p>
+                        </div>
+                        <div class="col-7">
+
+                            <input type="text" id="addUserRoleId" name="addUserRole" required
+                                #addUserRoleRef="ngModel" [(ngModel)]="addUserDetailsInstance.roleId">
+
+                            <div *ngIf="!addUserRoleRef.valid &&(addUserRoleRef.dirty || addUserRoleRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserRoleRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Role Id
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- User role -->
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Role Name</p>
+                        </div>
+                        <div class="col-7">
+                            <select name="addUserRoleName" id="addUserRoleNameId" #addUserRoleNameRef="ngModel"
+                                [(ngModel)]="selectedUserRole"
+                                (change)="selectedUserRoleEventChange(addUserRoleNameRef.value)"
+                                [ngClass]="{ 'is-invalid': addUserRoleNameRef.invalid }" required>
+                                <!-- <option *ngFor="let role of userRoleListFromRoleDetails" value="{{role.roleName}}">
+                                    {{role.roleName}}
+                                </option> -->
+                                <ng-container *ngFor="let role of userRoleListFromRoleDetails">
+                                    <option *ngIf="currentUser?.roleName === 'ADMIN' || role.roleName !== 'ADMIN'" 
+                                            [value]="role.roleName">
+                                        {{ role.roleName }}
+                                    </option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="!addUserRoleNameRef.valid &&(addUserRoleNameRef.dirty || addUserRoleNameRef.touched)"
+                                class="error">
+                                <div *ngIf="addUserRoleNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Role Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Image</p>
+                        </div>
+                        <div class="col-7" >
+                            
+                            <input class="input-user-photo" type="file" id="userImageId" name="userImageUpload"
+                                #addUserImage="ngModel"  [(ngModel)]="addUserDetailsInstance.userImage"
+                                (change)="userAddFileSelected($event)" onclick="this.value = null" accept="image/png,image/jpeg" >
+                               
+                                <p style="color: red;">(Please choose an image size that is smaller than 1MB) </p>
+
+                            <div *ngIf="!addUserImage.valid && (addUserImage.dirty || addUserImage.touched)"
+                                class="error">
+                                <div *ngIf="addUserImage.errors?.[''] && addUserImage.errors?.['accept'] ">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Please
+                                        Upload Image.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                            [disabled]="!addUserDetailsModalForm.valid">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deleted User -->
+<div class="modal fade" id="deleteUserModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style">
+                <!-- <i class="bi bi-exclamation-triangle"></i> -->
+                <h4 class="modal-title "><i class="bi bi-trash3 popupidit"></i> Delete User :
+                    "{{deleteUserDetailsInstance.firstName
+                    +" "+deleteUserDetailsInstance.lastName}}"
+                </h4>
+            </div>
+            <div class="alert alert-danger" role="alert" style="background-color: #fadcd9; color: red; margin: 10px;">
+                Only Admin can delete the details of other users. The currently logged-in user  other than Admin can only delete their own details.
+            </div>
+            <div class="modal-body">
+                <p class="textdesign">Are you sure you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="deleteMasterUserDetails()" data-bs-dismiss="modal"
+                    type="submit">Delete</button>
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal window 2 to update the data into table Called on Button=> Update-->
+
+<div class="modal" id="updateUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style">
+                <div class="row">
+                    <h4 class="modal-title"><i class="bi bi-pencil-square popupidit"></i> Edit User Details </h4>
+                </div>
+            </div>
+            <div class="alert alert-danger" role="alert" style="background-color: #fadcd9; color: red; margin: 10px;">
+             
+                Only Admin can edit the details of other users. The currently logged-in user other than Admin can only edit their own details.
+            </div>
+            <div class="modal-body">
+                <form #editUserDetailsModalForm="ngForm" (ngSubmit)="updateMasterUserDetails()" >
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Title</p>
+                        </div>
+                        <div class="col-7">
+                            <select name="editUserTitle" id="editUseTitleId" name="editUseTitle"
+                                #editUseTitleRef="ngModel" [(ngModel)]="editUserDetailsInstance.userTitle"
+                                (change)="selectedTitleEventChange(editUseTitleRef.value)" required>
+                                <option value="Mr.">Mr</option>
+                                <option value="Ms.">Ms</option>
+                            </select>
+                            <div *ngIf="!editUseTitleRef.invalid &&(editUseTitleRef.dirty || editUseTitleRef.touched)"
+                                class="error">
+                                <div *ngIf="editUseTitleRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Title</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">First Name </p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="editUserFirstNameId" name="editUserFirstName"
+                                #editUserFirstNameRef="ngModel" required
+                                [(ngModel)]="editUserDetailsInstance.firstName">
+
+                            <div *ngIf="!editUserFirstNameRef.valid &&(editUserFirstNameRef.dirty || editUserFirstNameRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserFirstNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User First Name
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Last Name</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="editLastNameId" name="editLastName" #editLastNameRef="ngModel"
+                                required [(ngModel)]="editUserDetailsInstance.lastName">
+                            <div *ngIf="!editLastNameRef.valid &&(editLastNameRef.dirty || editLastNameRef.touched)"
+                                class="error">
+                                <div *ngIf="editLastNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Last Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Name</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="editUserNameId" name="editUserName" #editUserNameRef="ngModel"
+                                required [(ngModel)]="editUserDetailsInstance.userName">
+                            <div *ngIf="!editUserNameRef.valid &&(editUserNameRef.dirty || editUserNameRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Contact Number</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="editUserContactNumberId" name="editUserContactNumber"
+                                #editUserContactNumberRef="ngModel" required
+                                [(ngModel)]="editUserDetailsInstance.contactNumber" pattern="[0-9]{10}">
+                            <div *ngIf="editUserContactNumberRef.errors?.['pattern'] ">
+                                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please enter valid
+                                    phone number </p>
+                            </div>
+                            <div *ngIf="!editUserContactNumberRef.valid &&(editUserContactNumberRef.dirty || editUserContactNumberRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserContactNumberRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Contact Number</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Email Id</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="email" id="editUserEmailId" name="editUserEmail" #editUserEmailRef="ngModel"
+                                required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                placeholder="ex: abc@gmail.com" [(ngModel)]="editUserDetailsInstance.emailId">
+                            <div *ngIf="editUserEmailRef.errors?.['pattern']">
+                                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                    Please Enter User Email Id in correct format</p>
+                            </div>
+                            <div *ngIf="!editUserEmailRef.valid &&(editUserEmailRef.dirty || editUserEmailRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserEmailRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Please Enter
+                                        Email Id</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Gender</p>
+                        </div>
+                        <div class="col-7">
+                            <select name="editUserGender" id="editUserGenderId" #editUserGenderRef="ngModel"
+                                [(ngModel)]="editUserDetailsInstance.gender"
+                                (change)="selectedUserGenderEventChange(editUserGenderRef.value)" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <div *ngIf="!editUserGenderRef.invalid &&(editUserGenderRef.dirty || editUserGenderRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserGenderRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Select User Gender</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- User role -->
+                    <!-- <div class="row">
+                        <div class="col-5">
+                            <p class="required">User Role</p>
+                        </div>
+                        <div class="col-7">
+                            <select name="editUserRole" id="editUserRoleId" #editUserRoleRef="ngModel"
+                                [(ngModel)]="editUserDetailsInstance.roleName"
+                                (change)="selectedUserRoleEventChange(editUserRoleRef.value)" required>
+                                <option value="Male">Admin</option>
+                                <option value="Female">Operator</option>
+                            </select>
+                            <div *ngIf="!editUserRoleRef.invalid &&(editUserRoleRef.dirty || editUserRoleRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserRoleRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Select User Role</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                     <div class="row">
+                        <div class="col-5">
+                            <p class="required">Role Name</p>
+                        </div>
+                        <div class="col-7">
+                            <select name="editUserRoleName" id="editUserRoleNameId" #editUserRoleNameRef="ngModel"
+                                [(ngModel)]="selectedEditUserRole"
+                                (change)="selectedUserRoleEventChange(editUserRoleNameRef.value)"
+                                [ngClass]="{ 'is-invalid': editUserRoleNameRef.invalid }" required>
+                                <!-- <option *ngFor="let role of userRoleListFromRoleDetails" value="{{role.roleName}}">
+                                    {{role.roleName}}
+                                </option> -->
+                                <ng-container *ngFor="let role of userRoleListFromRoleDetails">
+                                    <option *ngIf="currentUser?.roleName === 'ADMIN' || role.roleName !== 'ADMIN'" 
+                                            [value]="role.roleName">
+                                        {{ role.roleName }}
+                                    </option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="!editUserRoleNameRef.valid &&(editUserRoleNameRef.dirty || editUserRoleNameRef.touched)"
+                                class="error">
+                                <div *ngIf="editUserRoleNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>
+                                        Please Enter User Role Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required">Photo </p>
+                        </div>
+                        <div class="col-7">
+                            <img class="user-photo" [src]="editImageSrc" alt="Red dot">
+                            <input class="input-user-photo" type="file" id="editUserImage" name="editUserImage"
+                                (change)="userEditFileSelected($event)" onclick="this.value = null">
+                                <!-- <div class="alert alert-danger" role="alert" style="background-color: #f9ccd3; color: red; margin: 10px;">
+                                    Please choose an image size that is smaller than 1MB.
+                                </div> -->
+                                <p style="color: red;">(Please choose an image size that is smaller than 1MB) </p>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                            [disabled]="!editUserDetailsModalForm.valid">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

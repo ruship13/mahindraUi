@@ -1,0 +1,516 @@
+<div class="container-fluid">
+    <!-- Master header section -->
+    <div class="row heading-name-area">
+        <div class="col-sm-8 col-md-9 col-lg-10">
+            <h4 class="main-heading"><u>Equipment Sensor</u></h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <b class="control-label" style="margin-top: -30px; margin-bottom: 10px;">Select Equipment</b>
+    </div>
+    <div class="row">
+        <div class="col-2 row-2-button-style">
+            <select
+                style="border: 1px solid lightgrey; box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;"
+                name="equipment_Name" id="equipmentName_Id" [(ngModel)]="selectedStackerName" class="form-select"
+                #equipmentNameRef="ngModel" (change)="fetchByStackerIdList()">
+                <option value="" disabled selected></option>
+                <option *ngFor="let equipmentName of StackerDetailsList" [ngValue]="equipmentName.stackerName">
+                    {{equipmentName.stackerName}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-2 row-2-button-style">
+            <div class="high"
+                style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;">
+                <i class="fa fa-circle"
+                    style="font-size:20px;color: green; border:3px solid #2F5597; width:30px; height: 25px; text-align: center; margin-left: 13px;"></i>
+                <b style="margin: 1%;"> Active</b>
+                <i class="fa fa-circle"
+                    style="font-size:20px;color: red; border:3px solid #2F5597; width:30px; height: 25px; text-align: center; margin-left: 13px; margin-top: 10px;"></i>
+                <b> Inactive</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="sensor-popup" *ngIf="hoveredSensorDetails">
+        <h5 class="textdesign">Sensor Details</h5>
+        <hr style="background-color: rgb(8, 8, 247); height: 3px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Layout Sensor Number</th>
+                    <th>Sensor Name</th>
+                    <th>Sensor Status</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ hoveredSensorDetails.layoutSensorNumber }}</td>
+                    <td>{{ hoveredSensorDetails.stackerSensorName }}</td>
+                    <td>{{ hoveredSensorDetails.stackerSensorStatus === 1 ? 'ON' : 'OFF' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!--sensor table-->
+    <div class="row">
+        <div class="col-2 row-3-col-2-table-area-sensor-style1">
+            <div class="col table-area-sensor">
+                <div id="equipment-sensor" class="table-area-sensor-id-style">
+                    <table class="table-responsive-sm table-bordered table stripe equipment-sensor-table">
+                        <thead>
+                            <tr style="border-bottom:1px solid #3067c7;">
+                                <th class="th-sm">Sr No</th>
+                                <th class="th-sm">Sensor Name</th>
+                            </tr>
+                        </thead>
+                        <tbody style="height: 30%; overflow-y:scroll; -webkit-text-fill-color: blue">
+                            <tr class="equipment-sensor-table-tr"
+                                *ngFor="let sensorDetails of firstHalfStackerSensorDetailsList; index as i">
+                                <td class="equipment-sensor-table-td"
+                                    style="font-weight: bold; font-family: 'Times New Roman', Times, serif;">
+                                    {{i + 1}}
+                                </td>
+                                <td class="equipment-sensor-table-td">{{sensorDetails.stackerSensorName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-8 row-3-col-8-Stacker-area-style">
+            <!-------------------------------------------------Equipment sensor diagram------------------------------------------------------->
+            <div class="col Stacker-area" style="margin-top: -30px;">
+                <div class="borderDigaram">
+                    <div class="sensor-details-box">
+                        <div class="sensorBox-container" *ngIf="selectedStackerName == 'STACKER-1'">
+                            <!-- Displaying sensors dynamically based on StackerSensorDetailsList -->
+                            <div class="sensorBox1">
+                                <div class="sensorBox box1"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[0].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[0])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[0].layoutSensorNumber }}</div>
+                                <div class="sensorBox box2"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[1].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[1])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[1].layoutSensorNumber }}</div>
+                                <div class="sensorBox box3"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[2].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[2])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[2].layoutSensorNumber }}</div>
+                                <div class="sensorBox box4"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[3].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[3])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[3].layoutSensorNumber }}</div>
+                                <div class="sensorBox box5"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[4].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[4])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[4].layoutSensorNumber }}</div>
+                                <div class="sensorBox box6"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[5].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[5])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[5].layoutSensorNumber }}</div>
+                                <div class="sensorBox box7"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[6].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[6])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[6].layoutSensorNumber }}</div>
+                                <div class="sensorBox box8"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[7].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[7])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[7].layoutSensorNumber }}</div>
+                                <div class="sensorBox box9"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[8].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[8])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[8].layoutSensorNumber }}</div>
+                                <div class="sensorBox box10"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[9].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[9])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[9].layoutSensorNumber }}</div>
+                                <div class="sensorBox box11"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[10].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[10])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[10].layoutSensorNumber }}</div>
+                                <div class="sensorBox box12"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[11].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[11])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[11].layoutSensorNumber }}</div>
+                                <div class="sensorBox box13"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[12].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[12])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[12].layoutSensorNumber }}</div>
+                                <div class="sensorBox box14"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[13].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[13])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[13].layoutSensorNumber }}</div>
+                                <div class="sensorBox box15"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[14].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[14])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[14].layoutSensorNumber }}</div>
+                                <div class="sensorBox box16"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[15].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[15])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[15].stackerSensorDetailsId }}</div>
+                                <div class="sensorBox box17"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[16].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[16])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[16].layoutSensorNumber }}</div>
+                                <div class="sensorBox box18"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[17].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[17])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[17].layoutSensorNumber }}</div>
+                                <div class="sensorBox box19"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[18].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[18])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[18].layoutSensorNumber }}</div>
+                                <div class="sensorBox box20"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[19].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[19])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[19].layoutSensorNumber }}</div>
+                                <div class="sensorBox box21"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[20].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[20])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[20].layoutSensorNumber }}</div>
+                                <div class="sensorBox box22"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[21].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[21])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[21].layoutSensorNumber }}</div>
+                                <div class="sensorBox box23"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[22].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[22])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[22].layoutSensorNumber }}</div>
+                                <div class="sensorBox box24"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[23].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[23])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[23].layoutSensorNumber }}</div>
+                                <div class="sensorBox box25"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[24].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[24])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[24].stackerSensorDetailsId }}</div>
+                                <div class="sensorBox box26"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[25].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[25])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[25].layoutSensorNumber }}</div>
+                                <div class="sensorBox box27"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[26].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[26])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[26].stackerSensorDetailsId }}</div>
+                                <div class="sensorBox box28"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[27].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[27])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[27].layoutSensorNumber }}</div>
+                                <div class="sensorBox box29"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[28].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[28])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[28].stackerSensorDetailsId }}</div>
+                                <div class="sensorBox box30"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[29].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[29])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[29].layoutSensorNumber }}</div>
+                                <div class="sensorBox box31"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[30].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[30])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[30].layoutSensorNumber }}</div>
+                                <div class="sensorBox box32"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[31].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[31])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[31].layoutSensorNumber }}</div>
+                                <div class="sensorBox box33"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[32].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[32])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[32].layoutSensorNumber }}</div>
+                                <div class="sensorBox box34"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[33].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[33])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[33].layoutSensorNumber }}</div>
+                                <div class="sensorBox box35"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[34].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[34])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[34].layoutSensorNumber }}</div>
+                                <div class="sensorBox box36"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[35].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[35])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[35].layoutSensorNumber }}</div>
+                                <div class="sensorBox box37"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[36].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[36])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[36].layoutSensorNumber }}</div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="sensorBox-container" *ngIf="selectedStackerName == 'STACKER-2'">
+
+                            <div class="sensorBox1">
+                                <div class="sensorBox box1"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[0].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[0])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[0].layoutSensorNumber }}</div>
+                                <div class="sensorBox box2"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[1].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[1])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[1].layoutSensorNumber }}</div>
+                                <div class="sensorBox box3"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[2].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[2])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[2].layoutSensorNumber }}</div>
+                                <div class="sensorBox box4"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[3].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[3])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[3].layoutSensorNumber }}</div>
+                                <div class="sensorBox box5"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[4].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[4])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[4].layoutSensorNumber }}</div>
+                                <div class="sensorBox box6"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[5].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[5])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[5].layoutSensorNumber }}</div>
+                                <div class="sensorBox box7"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[6].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[6])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[6].layoutSensorNumber }}</div>
+                                <div class="sensorBox box8"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[7].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[7])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[7].layoutSensorNumber }}</div>
+                                <div class="sensorBox box9"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[8].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[8])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[8].layoutSensorNumber }}</div>
+                                <div class="sensorBox box10"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[9].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[9])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[9].layoutSensorNumber }}</div>
+                                <div class="sensorBox box11"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[10].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[10])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[10].layoutSensorNumber }}</div>
+                                <div class="sensorBox box12"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[11].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[11])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[11].layoutSensorNumber }}</div>
+                                <div class="sensorBox box13"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[12].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[12])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[12].layoutSensorNumber }}</div>
+                                <div class="sensorBox box14"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[13].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[13])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[13].layoutSensorNumber }}</div>
+                                <div class="sensorBox box15"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[14].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[14])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[14].layoutSensorNumber }}</div>
+                                <div class="sensorBox box16"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[15].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[15])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[15].layoutSensorNumber }}</div>
+                                <div class="sensorBox box17"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[16].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[16])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[16].layoutSensorNumber }}</div>
+                                <div class="sensorBox box18"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[17].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[17])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[17].layoutSensorNumber }}</div>
+                                <div class="sensorBox box19"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[18].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[18])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[18].layoutSensorNumber }}</div>
+                                <div class="sensorBox box20"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[19].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[19])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[19].layoutSensorNumber }}</div>
+                                <div class="sensorBox box21"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[20].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[20])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[20].layoutSensorNumber }}</div>
+                                <div class="sensorBox box22"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[21].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[21])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[21].layoutSensorNumber }}</div>
+                                <div class="sensorBox box23"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[22].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[22])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[22].layoutSensorNumber }}</div>
+                                <div class="sensorBox box24"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[23].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[23])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[23].layoutSensorNumber }}</div>
+                                <div class="sensorBox box25"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[24].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[24])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[24].layoutSensorNumber }}</div>
+                                <div class="sensorBox box26"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[25].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[25])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[25].layoutSensorNumber }}</div>
+                                <div class="sensorBox box27"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[26].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[26])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[26].layoutSensorNumber }}</div>
+                                <div class="sensorBox box28"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[27].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[27])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[27].layoutSensorNumber }}</div>
+                                <div class="sensorBox box29"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[28].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[28])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[28].layoutSensorNumber }}</div>
+                                <div class="sensorBox box30"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[29].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[29])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[29].layoutSensorNumber }}</div>
+                                <div class="sensorBox box31"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[30].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[30])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[30].layoutSensorNumber }}</div>
+                                <div class="sensorBox box32"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[31].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[31])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[31].layoutSensorNumber }}</div>
+                                <div class="sensorBox box33"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[32].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[32])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[32].layoutSensorNumber }}</div>
+                                <div class="sensorBox box34"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[33].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[33])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[33].layoutSensorNumber }}</div>
+                                <div class="sensorBox box35"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[34].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[34])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[34].layoutSensorNumber }}</div>
+                                <div class="sensorBox box36"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[35].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[35])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[35].layoutSensorNumber }}</div>
+                                <div class="sensorBox box37"
+                                    [ngClass]="getBoxClass(StackerSensorDetailsList[36].stackerSensorStatus)"
+                                    (mouseenter)="showSensorDetails(StackerSensorDetailsList[36])"
+                                    (mouseleave)="hideSensorDetails()">{{
+                                    StackerSensorDetailsList[36].layoutSensorNumber }}</div>
+                            </div>
+
+
+                        </div>
+
+
+                        <img class="sensor-details-img" src="assets/images/Sensor_Details_image.png"
+                            alt="sensor-details-image">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-2 row-3-col-2-table-area-sensor-style">
+
+            <div class="col table-area-sensor">
+                <div id="equipment-sensor" class="table-area-sensor-id-style">
+                    <table class="table-responsive-sm table-bordered table stripe equipment-sensor-table">
+                        <thead>
+                            <tr style="border-bottom:1px solid #3067c7;">
+                                <th class="th-sm">Sr No</th>
+                                <th class="th-sm">Sensor Name</th>
+                            </tr>
+                        </thead>
+                        <tbody style="-webkit-text-fill-color: blue;">
+                            <tr class="equipment-sensor-table-tr"
+                                *ngFor="let sensorDetails of secondHalfStackerSensorDetailsList; index as i">
+                                <td class="equipment-sensor-table-td"
+                                    style="font-weight: bold; font-family: 'Times New Roman', Times, serif;">
+                                    {{i + 1 + firstHalfStackerSensorDetailsList.length}}
+                                </td>
+                                <td class="equipment-sensor-table-td">{{sensorDetails.stackerSensorName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

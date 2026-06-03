@@ -1,0 +1,177 @@
+<div *ngIf="showYokogawaAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h2>Connection Error</h2>
+    <p>Yokogawa system is unreachable. Immediate attention required!</p>
+    <button (click)="showYokogawaAlert = false">Dismiss</button>
+  </div>
+</div>
+
+
+<div class="col-sm-8 col-md-9 col-lg-10">
+  
+
+
+  <h5 class="main-heading"><u>Yokogawa Temperature Details</u></h5>
+   
+  <div class="row" style="margin-right: -250px;">
+    <div style="margin-top: -30px;">
+ 
+      <button class="button button3 buttonbox float-end mx-1" data-bs-toggle="modal"
+        data-bs-target="#AlarmDetailsModel">Show Alarm</button>
+      <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+        style="background-color: white; border-color: red; color: red;">
+        <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png" alt="pdf">
+        <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+        Download
+      </button>
+      <button class="btn btn-outline-success float-end mx-1" (click)="generateTemperatureDetailsExcelReport()"><img
+          class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+          alt="excel">Download</button>
+
+    
+
+    </div>
+  </div>
+
+  
+   
+
+
+  <h1 class="text-legend"><u>Today's temperature</u></h1>
+
+  <div class="charts-container" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;">
+
+    <div class="chart-item">
+
+      <apx-chart #minTempChart [series]="minTempChartOptions.series" [chart]="minTempChartOptions.chart"
+        [plotOptions]="minTempChartOptions.plotOptions" [dataLabels]="minTempChartOptions.dataLabels"
+        [fill]="minTempChartOptions.fill" [labels]="minTempChartOptions.labels">
+      </apx-chart>
+    </div>
+
+    <div class="chart-item">
+      <apx-chart #maxTempChart [series]="maxTempChartOptions.series" [chart]="maxTempChartOptions.chart"
+        [plotOptions]="maxTempChartOptions.plotOptions" [dataLabels]="maxTempChartOptions.dataLabels"
+        [fill]="maxTempChartOptions.fill" [labels]="maxTempChartOptions.labels">
+      </apx-chart>
+    </div>
+  </div>
+
+
+  <div id="right-legend" class="duplicated-legend">
+    <!-- Duplicating the legend manually here -->
+    <ul>
+      <li><span class="legend-color" style="background-color: #19be1e;"></span>Temp (0-54°C)
+      </li>
+      <li><span class="legend-color" style="background-color: #FFEA00;"></span>Temp (55-62°C)
+      </li>
+      <li><span class="legend-color" style="background-color: #dd3226;"></span>Temp (above 63°C)
+      </li>
+
+    </ul>
+  </div>
+
+
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button class="button-70" role="button" (click)="goToPreviousMonth()">Previous</button>
+
+
+      <select [(ngModel)]="currentMonth" (change)="onMonthChange($event)">
+        <option *ngFor="let month of monthNames; let i = index" [value]="i">{{ month }}</option>
+      </select>
+
+
+      <select [(ngModel)]="currentYear" (change)="onYearChange($event)">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+
+      <button class="button-70" role="button" (click)="goToNextMonth()">Next</button>
+    </div>
+
+    <div class="calendar-days">
+      <div class="calendar-day" *ngFor="let day of daysInMonth">
+        <div class="day-number">{{ day.date }} <i class="bi bi-cloud-sun-fill"></i></div>
+        <div class="temp-details">
+          <!-- <div *ngIf="day.minTemp !== null && day.maxTemp !== null">
+            <span class="min-temp">Min Temp : {{ day.minTemp }}°C</span><br />
+            <span class="max-temp">Max Temp : {{ day.maxTemp }}°C</span>
+          </div> -->
+          <div *ngIf="day.minTemp !== null && day.maxTemp !== null">
+            <span [ngClass]="getMinTempClass(day.minTemp)" class="min-temp">Min Temp : {{ day.minTemp }}°C</span><br />
+            <span [ngClass]="getMaxTempClass(day.maxTemp)" class="max-temp">Max Temp : {{ day.maxTemp }}°C</span>
+          </div>
+
+          <div *ngIf="day.minTemp === null && day.maxTemp === null">
+            <span>No Data</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal " id="AlarmDetailsModel">
+    <div class="modal-dialog modal-lg model-width">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header modal-title-style  modal-header-style" style="background-color: #3e67a0;">
+          <h4 class="modal-title">
+            Yokogawa Alarm Details
+          </h4>
+
+
+
+        </div>
+
+        <div class="modal-body modal-bev">
+          <div class="row">
+            <form #BufferPalletDetailsForm="ngForm" novalidate>
+
+
+
+
+              <table datatable [dtOptions]="batteryDtOptions" id="S230BufferPalletDetailsId"
+                class="table-responsive-sm   table-bordered table stripe column-width">
+
+                <thead>
+
+                  <tr>
+                    <th class="th-sm sticky-th">Position ID</th>
+                    <th class="th-sm sticky-th">Position Name</th>
+                    <th class="th-sm sticky-th">Description</th>
+                    <th class="th-sm sticky-th">Rack ID</th>
+                    <th class="th-sm sticky-th">Area ID</th>
+                    <th class="th-sm sticky-th">Floor ID</th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let position of alarmData; index as i">
+
+                    <td>{{ position.positionId }}</td>
+                    <td>{{ position.positionName }}</td>
+                    <td>{{ position.positionDesc }}</td>
+                    <td>{{ position.rackId }}</td>
+                    <td>{{ position.areaId }}</td>
+                    <td>{{ position.floorId }}</td>
+                    <!-- <td>{{ position.positionIsActive ? 'Active' : 'Inactive' }}</td> -->
+                  </tr>
+                </tbody>
+
+              </table>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

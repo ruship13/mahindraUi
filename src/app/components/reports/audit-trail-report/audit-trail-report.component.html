@@ -1,0 +1,115 @@
+<div>
+  <div class="row heading-name-area">
+    <div class="col-sm-7">
+      <h4 class="float-left main-heading"><u>Audit Trail Report</u></h4>
+    </div>
+    <div class="row" style="margin-left:-40px;">
+
+
+      <div style="margin-left: 30px; margin-bottom: 20px;">
+        <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#alarmHistoryReportFilter"
+          style="margin-left: 4px;" aria-expanded="false" aria-controls="alarmHistoryReportFilter"><i
+            class="bi bi-funnel"></i>
+          Filter
+        </button>
+        <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+          style="background-color: white; border-color: red; color: red;">
+          <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png"
+          alt="pdf">
+          <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+          Download
+        </button>
+        <button class="btn btn-outline-success float-end mx-1" (click)="generateAuditTrailExcelReport()">
+          <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+            alt="excel">Download</button>
+      </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="collapse" id="alarmHistoryReportFilter">
+      <form #alarmHistoryFilterForm="ngForm" (ngSubmit)="fetchAuditTrailDetailsByAllFilters()"
+        name="alarmHistoryFilterForm">
+
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+            <label class="control-label">Start Date</label>
+            <input type="datetime-local" id="startdatepicker" name="startDateTime" [(ngModel)]="startDateTime"
+              class="form-control" (input)="dateTimeValidation()">
+            <div *ngIf="startDateTime>endDateTime" class="error">
+              <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                end-date.
+              </p>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+            <label class="control-label">End Date</label>
+            <input type="datetime-local" id="enddatepicker" name="endDateTime" [(ngModel)]="endDateTime"
+              [disabled]="disableDateTime" class="form-control" (input)="dateTimeValidation()">
+            <div *ngIf="startDateTime>endDateTime" class="error">
+              <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                end-date.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-2 mt-1">
+            <label class="control-label">User Name</label>
+            <select name="selectedUserName" id="selectedUserNameID" [(ngModel)]="userName" class="form-select"
+              #selectedUserNameValue="ngModel" (change)="selectUserNameChangeHandler(selectedUserNameValue.value)">
+              <option value="" disabled selected></option>
+              <option *ngFor="let userNameList of dropDownList" [ngValue]="userNameList.userName">
+                {{userNameList.userName}}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mt-1">
+            <h5 class="mt-4 "></h5>
+            <button class="btn btn-success " type="submit" value="submit" [disabled]="disableSearchButton">
+              <i class="fa fa-search"></i>Submit</button>
+            <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+              (click)="fetchAllAuditTrailDetails()"><i class="fa fa-eraser"></i>
+              Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Table Section -->
+    <div class="row table-area"
+      style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; ">
+      <div class="col">
+        <div class="row table-area">
+          <div class="col">
+            <!-- <div id="table" style="background-color: whitesmoke" class="overflow-scroll"> -->
+            <div id="table">
+              <table datatable [dtOptions]="auditTrailDtOptions" id="auditTrailId"
+                class="table-responsive-sm table-bordered stripe">
+                <thead>
+                  <tr>
+                    <th class="th-sm">Sr. No.</th>
+                    <th class="th-sm">Transaction Details</th>
+                    <th class="th-sm">Field</th>
+                    <th class="th-sm">Reason</th>
+                    <!-- <th class="th-sm">Before Value</th>
+                  <th class="th-sm">After Value</th> -->
+                    <th class="th-sm">User Name</th>
+                    <th class="th-sm">Date Time </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let auditTrailDetails of auditTrailDetailsList; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{auditTrailDetails.operatorActions}}</td>
+                    <td>{{auditTrailDetails.field}}</td>
+                    <td>{{auditTrailDetails.reason}}</td>
+                    <!-- <td>{{auditTrailDetails.beforeValue}}</td>
+                  <td>{{auditTrailDetails.afterValue}}</td> -->
+                    <td>{{auditTrailDetails.username}}</td>
+                    <td>{{auditTrailDetails.datetimeC}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

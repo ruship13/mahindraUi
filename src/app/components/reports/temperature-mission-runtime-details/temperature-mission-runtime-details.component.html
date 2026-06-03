@@ -1,0 +1,124 @@
+<div class="row heading-name-area">
+
+    <div class="col-sm-10 ">
+        <h4 class="main-heading"><u>Temperature Mission Details</u></h4>
+    </div>
+    <div class="row" style="margin-left:-40px;">
+
+
+        <div style="margin-left: 30px; margin-bottom: 20px;">
+            <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#lockUnlockReportFilter"
+                style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i
+                    class="bi bi-funnel"></i>
+                Filter
+            </button>
+
+            <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+                style="background-color: white; border-color: red; color: red;">
+                <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png"
+                alt="pdf">
+                <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+                Download
+            </button>
+            <button class="btn btn-outline-success float-end mx-1" (click)="generateLockUnlockRunTimeExcelReport()"><img
+                    class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+                    alt="excel">Download</button>
+        </div>
+    </div>
+    <div class="collapse" id="lockUnlockReportFilter">
+        <form #infeedFilterForm="ngForm" (ngSubmit)="fetchLockUnlockDetailsByAllFilters()"
+            name="lockUnlockFilterForm">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                    <label class="control-label">Start Date</label>
+                    <input type="datetime-local" id="startdatepicker" name="startCdatetime"
+                        [(ngModel)]="alarmMissionStartDateTime" class="form-control" (input)="dateTimeValidation()">
+                    <div *ngIf="alarmMissionStartDateTime>alarmMissionEndDateTime" class="error">
+                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                            than
+                            end-date.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                    <label class="control-label">End Date</label>
+                    <input type="datetime-local" id="enddatepicker" name="endCdatetime"
+                        [(ngModel)]="alarmMissionEndDateTime" [disabled]="disableDateTime" class="form-control"
+                        (input)="dateTimeValidation()">
+                    <div *ngIf="alarmMissionStartDateTime>alarmMissionEndDateTime" class="error">
+                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                            than
+                            end-date.
+                        </p>
+                    </div>
+                </div>
+
+
+               
+                <div class="col-md-4 mt-1">
+                    <h5 class="mt-4 "></h5>
+                    <button class="btn btn-success " type="submit" [disabled]="disableSearchButton"><i
+                            class="fa fa-search"></i>Search</button>
+                    <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+                        (click)="fetchAllTemperatureDetails()"><i class="fa fa-eraser"></i>
+                        Reset</button>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    <!-- TABLE SECTION -->
+
+
+    <div class="row table-area"
+        style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; padding-top: 5px;">
+        <div class="col">
+
+
+            <div id="table">
+                <table datatable [dtOptions]="tempReportDtOptions" id="tempAlarmMissionDetailsId"
+                    class="table-responsive-sm table-bordered stripe">
+                    <thead>
+
+                        <tr>
+                            <th class="th-sm">Sr No</th>
+                            <th class="th-sm">Pallet Code</th>
+                            <th class="th-sm">Model Name</th>
+                            <th class="th-sm">Part No</th>
+                            <th class="th-sm">Batch Number</th>
+                            <th class="th-sm">BP Serial Number</th>
+                            <th class="th-sm">Position Name</th>
+                            <th class="th-sm">Mission Source</th>
+                            <th class="th-sm">Alarm Mission Status</th>
+                            <th class="th-sm">Alarm Mission StartDateTime</th>
+                            <th class="th-sm">Alarm Mission StartDateTime</th>
+                            <th class="th-sm">CDateTime</th>
+                            <th class="th-sm">Username</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tempMissionDetails of temperatureAlarmMissionDetails; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{tempMissionDetails.palletCode}}</td>
+                            <td>{{tempMissionDetails.productName}}</td>
+                            <td>{{tempMissionDetails.productVariantCode}}</td>
+                            <td>{{tempMissionDetails.batchNumber }}</td>
+                            <td>{{tempMissionDetails.serialNumber}}</td>
+                            <td>{{tempMissionDetails.positionName}}</td>
+                            <td>{{tempMissionDetails.missionSource}}</td>
+                            <td>{{tempMissionDetails.alarmMissionStatus}}</td>
+                            <td>{{tempMissionDetails.alarmMissionStartDateTime}}</td>
+                            <td>{{tempMissionDetails.alarmMissionEndDateTime}}</td>
+                            <td>{{tempMissionDetails.currentDateTime}}</td>
+                            <td>{{tempMissionDetails.userName}}</td>
+                          
+                           
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

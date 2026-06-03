@@ -1,0 +1,97 @@
+<div class="row heading-name-area">
+    <div class="col-sm-10 ">
+        <h4 class="main-heading"><u>Inventory summary dashboard Report</u></h4>
+    </div>
+    <div class="row" style="margin-left:8px;">
+        <div style="margin-bottom: 20px;">
+
+            <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+                style="background-color: white; border-color: red; color: red;">
+                <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png"
+                alt="pdf">
+                <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+                Download
+            </button>
+            <button class="btn btn-outline-success float-end mx-1"
+                (click)="inventorySummaryDashboardDetailsExcelReport()">
+                <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+                    alt="excel">Download
+            </button>
+
+            <!-- <button type="button" class="btn btn-success float-end add-reason-button" data-bs-toggle="modal"
+                data-bs-target="#addEngineDispatchScheduleModal" style="margin-right: 2px;">
+                <i class="bi bi-download" style="font-size: 20px;"></i>
+            </button> -->
+        </div>
+
+    </div>
+</div>
+<!-- <div class="modal" id="addEngineDispatchScheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 300px;"> 
+        <div class="modal-content">
+            <div class="modal-header" style="align-items: start; padding-bottom: 0;">
+                <h5 class="modal-title" id="addEngineDispatchScheduleModalLabel" style="margin-bottom: 0; margin-top: -13px;">Download Options</h5>
+                
+            </div> 
+            <div class="modal-footer" style="flex-direction: column; align-items: start;">
+                <button class="btn btn-outline-primary mx-1 pdfbtn" (click)="createPdf()"
+                        style="background-color: white; border-color: red; color: red; width: 50%;">
+                    <mat-icon class="mx-1" style="color: rgb(240, 26, 26); margin-bottom: -5px;">picture_as_pdf</mat-icon>
+                    PDF
+                </button>
+                <button class="btn btn-outline-success mx-1" (click)="inventorySummaryDashboardDetailsExcelReport()"
+                        style="width: 50%;">
+                    <img class="mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+                         alt="excel">Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+<div class="row table-area">
+    <div class="col">
+
+
+        <div id="table">
+            <table datatable [dtOptions]="agingReportDtOptions" id="agingDetailsId"
+            class="table-responsive-sm table-bordered stripe">
+                <thead>
+
+                    <tr>
+                        <th class="th-sm">Sr. No.</th>
+                        <th class="th-sm">Model</th>
+                        <th class="th-sm">Part No</th>
+                        <th class="th-sm">Part Name</th>
+                        <th class="th-sm">Range 0-3 day's</th>
+                        <th class="th-sm">Range 4-7 day's</th>
+                        <th class="th-sm">Range 8-14 day's</th>
+                        <th class="th-sm">Range 15-30 day's</th>
+                        <th class="th-sm">Range 30+ day's</th>
+                        <th class="th-sm">Total Quantity</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let agingDetails of ageingDetailsList; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{agingDetails.productName}}</td>
+                        <td>{{agingDetails.productvariantCode}}</td>
+                        <td>{{agingDetails.productvariantName}}</td>
+                        <td>{{agingDetails.range0to3}}</td>
+                        <td>{{agingDetails.range4to7}}</td>
+                        <td>{{agingDetails.range8to14}}</td>
+                        <td>{{agingDetails.range15to30}}</td>
+                        <td>{{agingDetails.range30plus}}</td>
+                        <td>{{agingDetails.totalQuantity}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

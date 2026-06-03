@@ -1,0 +1,37 @@
+export class TransferPalletMissionRuntimeDetailsModel{
+    transferPalletMissionRuntimeDetailsId!:number;
+    palletInformationId!:number;
+    palletCode!:string;
+    productvariantCode!:string;
+    productvariantName!:string;
+    productName!:string;
+    quantity!:number;
+    modelNumber!:number;
+    previousePositionId!:number;
+    previousPositionName!:string;
+    transferPositionId!:number;
+    transferPositionName!:string;
+    floorId!:number;
+    floorName!:string;
+    areaId!:number;
+    areaName!:string;
+    rackId!:number;
+    rackName!:string;
+    rackSide!:string;
+    rackColumn!:number;
+    positionNumberInRack!:number;
+    cdatetime!:string;
+    transferMissionStartDatetime!:string;
+    transferMissionEndDatetime!:string;
+    transferMissionStatus!:string;
+    shiftId!:number;
+    shiftName!:string;
+    userId!:number;
+    userName!:string;
+    transferMissionIsDeleted!:number;
+    serialNumber!:string;
+    mfgDate!:string;
+	mfgShift!:string;
+    loadDateTime!:string;
+
+}

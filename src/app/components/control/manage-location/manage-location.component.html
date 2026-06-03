@@ -1,0 +1,234 @@
+<!-- HEADER SECTION -->
+<div class="row heading-name-area">
+  <div class="col-sm-8 col-md-10 ">
+    <h4 class="main-heading"><u>Manage Location</u></h4>
+  </div>
+</div>
+
+
+
+
+<div class="dropbtn">
+  <!-- <h1 class="control-label">Select Area Name</h1> -->
+  <select id="area" class="dropdown" (click)="onAreaChange($event)" style="align-items: center; margin-bottom: 15px;">
+    <option value="Select Area" disabled> Select Area</option>
+    <option *ngFor="let order of masterAreaList" [ngValue]="order.areaName">
+      {{ order.areaName }}
+    </option>
+
+
+  </select>
+</div>
+
+<div class="row table-area table" style="margin-top: 5px; align-items: center;">
+
+  <div class="col-4 area-table boxtable" *ngIf="selectedArea==='Area-1'">
+    <div class="floor_table area-table">
+      <!-- <h4 class="area-name">Area 1</h4> -->
+      <h4 class="title-name title-blink" style="text-align: center;"><u>Area-1</u></h4>
+
+
+      <table id="tableArea1" class="table-responsive-sm  table ">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="stacker-name">{{stacker1DataList[0].equipmentName}}</th>
+            <th>
+              <label class="switch">
+                <input type="checkbox" id="addActiveId" [disabled]="isMonitor()"
+                  (change)="editSelectedEquipmentActiveInActiveCheckBox(stacker1DataList[0],1)"
+                  [checked]="stacker1DataList[0].equipmentIsActive==1">
+                <span class="slider round"></span>
+              </label>
+            </th>
+            <th class="blink">
+              <div *ngIf="stacker1DataList[0].equipmentIsActive==1; else InActiveinfeed"
+                style="color: rgb(58, 150, 58);">
+                {{'Active'}}</div>
+              <ng-template #InActiveinfeed> {{'InActive'}} </ng-template>
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr class="table-heading">
+            <th>Floor</th>
+            <!-- <th></th> -->
+            <th>Infeed</th>
+            <th>Outfeed</th>
+            <th></th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mappingFloorArea1Details of areaId1DetailsList;index as i;">
+            <td class="floor-id">{{mappingFloorArea1Details.floorId}}</td>
+
+            <td>
+              <label class="switch">
+                <input type="checkbox" id="addInfeedActiveId" [disabled]="isMonitor()"
+                  (change)="toggleInfeedActiveInactive(mappingFloorArea1Details)"
+                  [checked]="mappingFloorArea1Details.infeedIsActive==1">
+                <span class="slider round"></span>
+              </label>
+            </td>
+
+
+            <td class="blink">
+              <p *ngIf="mappingFloorArea1Details.infeedIsActive==1; else InActiveinfeed"
+                style="color: rgb(58, 150, 58);">
+                {{'Active'}}</p>
+              <ng-template #InActiveinfeed class="inActiveStatus"> {{'InActive'}} </ng-template>
+            </td>
+
+
+
+
+            <td>
+              <label class="switch">
+                <input type="checkbox" id="addOutfeedActiveId" [disabled]="isMonitor()"
+                  (change)="toggleOutfeedActiveInactive(mappingFloorArea1Details)"
+                  [checked]="mappingFloorArea1Details.outfeedIsActive==1">
+                <span class="slider round"></span>
+              </label>
+            </td>
+
+            <td>
+            <!-- <td>
+              <div class="radio-group">
+               
+             
+                <label class="radio-label">
+                  <input type="checkbox" (change)="updateLockFloorAreaDetails(mappingFloorArea1Details, $event, 'L')"
+                    class="inputbox" [checked]="mappingFloorArea1Details.sideLPositionIsActive === 0"
+                    [disabled]="isMonitor()" />
+                  <span class="custom-radio"></span> LH
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+               
+                <label class="radio-label">
+                  <input type="checkbox" (change)="updateLockFloorAreaDetails(mappingFloorArea1Details, $event, 'R')"
+                    class="inputbox" [checked]="mappingFloorArea1Details.sideRPositionIsActive === 0"
+                    [disabled]="isMonitor()" />
+                  <span class="custom-radio"></span> RH
+                </label>
+
+
+              </div>
+            </td> -->
+
+
+
+
+            <td class="blink">
+              <p *ngIf="mappingFloorArea1Details.outfeedIsActive==1; else InActiveOutfeed"
+                style="color: rgb(58, 150, 58);">
+                {{'Active'}}</p>
+              <ng-template #InActiveOutfeed class="inActiveStatus"> {{'InActive'}} </ng-template>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ------------------------area 2 -->
+
+
+  <div class="col-4 area-table boxtable" *ngIf="selectedArea==='Area-2'">
+    <div id="tableArea2" class="floor_table area-table">
+      <h4 class="title-name title-blink"><u>Area-2</u></h4>
+      <table id="tableArea2" class="table-responsive-sm  table ">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="stacker-name">{{stacker2DataList[0].equipmentName}}</th>
+            <th>
+              <label class="switch">
+
+                <input type="checkbox" id="addActiveId" [disabled]="isMonitor()"
+                  (change)="editSelectedEquipmentActiveInActiveCheckBox(stacker2DataList[0],2)"
+                  [checked]="stacker2DataList[0].equipmentIsActive==1">
+                <span class="slider round "></span>
+              </label>
+            </th>
+            <th class="blink">
+              <div *ngIf="stacker2DataList[0].equipmentIsActive==1; else InActiveinfeed"
+                style="color: rgb(58, 150, 58);">
+                {{' Active'}}</div>
+              <ng-template #InActiveinfeed> {{'InActive'}} </ng-template>
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr class="table-heading">
+            <th>Floor</th>
+            <!-- <th></th> -->
+            <th>Infeed</th>
+            <th>Outfeed</th>
+            <th></th>
+           
+
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mappingFloorArea2Details of areaId2DetailsList;index as i;">
+            <td class="floor-id">{{mappingFloorArea2Details.floorId}}</td>
+            <td>
+              <label class="switch">
+                <input type="checkbox" id="addInfeedActiveId" [disabled]="isMonitor()"
+                  (change)="toggleInfeedActiveInactive(mappingFloorArea2Details)"
+                  [checked]="mappingFloorArea2Details.infeedIsActive==1">
+                <span class="slider round"></span>
+              </label>
+            </td>
+            <td class="blink">
+              <p *ngIf="mappingFloorArea2Details.infeedIsActive==1; else InActiveinfeed"
+                style="color: rgb(58, 150, 58);">
+                {{'Active'}}</p>
+              <ng-template #InActiveinfeed class="inActiveStatus"> {{'InActive'}} </ng-template>
+            </td>
+            <td>
+              <label class="switch">
+                <input type="checkbox" id="addOutfeedActiveId" [disabled]="isMonitor()"
+                  (change)="toggleOutfeedActiveInactive(mappingFloorArea2Details)"
+                  [checked]="mappingFloorArea2Details.outfeedIsActive==1">
+                <span class="slider round"></span>
+              </label>
+            </td>
+            <td class="blink">
+              <p *ngIf="mappingFloorArea2Details.outfeedIsActive==1; else InActiveOutfeed"
+                style="color: rgb(58, 150, 58);">
+                {{'Active'}}</p>
+              <ng-template #InActiveOutfeed class="inActiveStatus"> {{'InActive'}} </ng-template>
+            </td>
+            <td>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="checkbox" (change)="updateLockFloorAreaDetails(mappingFloorArea2Details, $event, 'L')"
+                    class="inputbox" [checked]="mappingFloorArea2Details.sideLPositionIsActive === 0"
+                    [disabled]="isMonitor()" />
+                  <span class="custom-radio"></span> LH
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- Right Side Lock Checkbox -->
+                <label class="radio-label">
+                  <input type="checkbox" (change)="updateLockFloorAreaDetails(mappingFloorArea2Details, $event, 'R')"
+                    class="inputbox" [checked]="mappingFloorArea2Details.sideRPositionIsActive === 0"
+                    [disabled]="isMonitor()" />
+                  <span class="custom-radio"></span> RH
+                </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,842 @@
+<!-- HEADER -->
+<div class="row heading-name-area">
+  <!-- <div class="col-sm-7">
+    <div class="heading-label" style="margin-right: -200px;">
+      <h4 class="main-heading"><u>Current Pallet Stock Details</u></h4>
+    </div>
+    <div class=" currentFilter col-lg-12" >
+      <div>
+        <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#currentPalletStockFilter"
+          style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+          Filter
+        </button>
+        <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+          style="background-color: white; border-color: red; color: red;">
+          <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon>
+          Download
+        </button>
+        <button class="btn btn-outline-success float-end mx-1"
+          (click)="generateCurrentPalletStockDetailsExcelReport()"><img class="float-end mx-1"
+            style="width: 20px; height: 20px;" src="assets/images/excel-1.png" alt="excel">Download</button>
+      </div>
+    </div>
+  </div> -->
+  <div class="col-lg-12 d-flex align-items-center justify-content-between position-relative">
+
+    <h4 class="main-heading text-center mb-0 position-absolute translate-middle" style="left: -100px;">
+      <u>Current Pallet Stock Details</u>
+    </h4>
+
+    <div class="currentFilter d-flex align-items-center justify-content-end ms-auto filterbox">
+      <button class="btn btn-secondary ms-2" data-bs-toggle="collapse" data-bs-target="#currentPalletStockFilter"
+        aria-expanded="false" aria-controls="reportFilter">
+        <i class="bi bi-funnel"></i> Filter
+      </button>
+
+      <button class="btn btn-outline-primary ms-2 pdfbtn" (click)="createPdf()" style="color: red; border-color: red;">
+        <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png" alt="pdf">
+        <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+        Download
+      </button>
+
+      <button class="btn btn-outline-success ms-2" (click)="generateCurrentPalletStockDetailsExcelReport()">
+        <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png" alt="excel">
+        Download
+      </button>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="col-sm-7">
+    <!-- <div class="heading-label" style="margin-right: -200px;">
+      <h4 class="main-heading"><u>Current Pallet Stock Details</u></h4>
+    </div> -->
+
+
+    <div class="card col-lg-12" style="border: none;">
+      <div class="mt-3 col-3">
+        <div class="card voutchers bev" (click)="selectedBEV({ page: '0', size: '10' }, 'BEV','FULL')" >
+          <div class="voutcher-divider">
+            <div class="voutcher-left">
+              <i class="fa fa-cubes day-wise-icon-style bevicon" aria-hidden="true" style="width: 100px;"></i>
+              <h5 class="voutcher-code" style="margin-top:15px; font-size: 20px;">BEV</h5>
+            </div>
+            <div class="voutcher-right text-center border-left">
+              <h3 class="textcolor bev">{{ dashboardDetails.bevCurrentStockCount }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mt-3 col-3" (click)="selectedS230({page: '0', size: '10'}, 'S230','FULL')">
+        <div class="card voutchers S230">
+          <div class="voutcher-divider">
+            <div class="voutcher-left">
+              <i class="fa fa-cubes day-wise-icon-style s230box" aria-hidden="true" style=" width: 100px;"></i>
+              <h5 class="voutcher-code" style="margin-top:16px; font-size: 20px;">S230</h5>
+            </div>
+            <div class="voutcher-right text-center border-left" style="background-color:rgb(224,224,224);">
+              <h3 class="textcolor s230text">
+                {{ dashboardDetails.s230CurrentStockCount }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mt-3 box" (click)="fetchAllEmptyPalletList({ page: '0', size: '10' }, 'EMPTY','BEV')"
+        style="margin-left: 250px;">
+        <div class="card voutchers S230 empty-box" style="margin-top: -110px;">
+          <div class="voutcher-divider">
+            <div class="voutcher-left">
+              <i class="fa fa-cubes day-wise-icon-style s230box" aria-hidden="true"
+                style=" width: 100px; color: rgb(240, 61, 234);"></i>
+              <h5 class="voutcher-code" style="margin-top:3px; font-size: 20px;">BEV Empty</h5>
+            </div>
+            <div class="voutcher-right text-center border-left" style="background-color:rgb(224,224,224);">
+              <h3 class="textcolor s230text" style="color: rgb(240, 61, 234);">
+                {{dashboardDetails.bevEmptyPalletCount}}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="mt-3 box" (click)="fetchAllS230EmptyPalletList({ page: '0', size: '10' }, 'EMPTY','S230')"
+        style="margin-left: 500px;">
+        <div class="card voutchers S230 empty-box" style="margin-top: -125px;">
+          <div class="voutcher-divider">
+            <div class="voutcher-left">
+              <i class="fa fa-cubes day-wise-icon-style s230box" aria-hidden="true"
+                style=" width: 100px; color: rgb(240, 61, 234);;"></i>
+              <h5 class="voutcher-code" style="margin-top:3px; font-size: 20px;">S230 Empty</h5>
+            </div>
+            <div class="voutcher-right text-center border-left" style="background-color:rgb(224,224,224);">
+              <h3 class="textcolor s230text" style="color: rgb(240, 61, 234);;">
+                {{dashboardDetails.s230EmptyPalletCount}}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+  <div class="col-md-2 mt-2 serachContainer">
+    <!-- <label class="control-label">Pallet Code</label> -->
+
+
+    <form class="example" (submit)="findPalletDetailsByPalletCode($event)" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search Pallet Code" name="search2" [(ngModel)]="palletCode" required>
+      <button type="submit" [disabled]="!palletCode" data-bs-toggle="modal"
+        data-bs-target="#openSearchedPalletCodeModal">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <div class="col-md-2 mt-2">
+    <!-- <label class="control-label">BP Serial No.</label> -->
+
+
+    <form class="example" (submit)="findPalletDetailsBySerialNumber($event)" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search Serial No" name="search2" [(ngModel)]="serialNumber" required>
+      <button type="submit" [disabled]="!serialNumber" data-bs-toggle="modal"
+        data-bs-target="#openSearchedSerialNumberModal">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+
+  </div>
+  <!-- <div class="row currentFilter" style="margin-top: -30px;">
+    <div style="margin-left: 1px; margin-top: -70px; padding-bottom: 10px;">
+      <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#currentPalletStockFilter"
+        style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+        Filter
+      </button>
+      <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+        style="background-color: white; border-color: red; color: red;">
+        <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon>
+        Download
+      </button>
+      <button class="btn btn-outline-success float-end mx-1"
+        (click)="generateCurrentPalletStockDetailsExcelReport()"><img class="float-end mx-1"
+          style="width: 20px; height: 20px;" src="assets/images/excel-1.png" alt="excel">Download</button>
+    </div>
+  </div> -->
+  <!-- <div class="col-sm-7" style="margin-top: -40px; margin-left: 150px; padding-bottom: 10px;">
+    <form #addPalletCodeDetailsModalForm="ngForm"  (ngSubmit)="addPalletCodeDetails(addPalletCodeDetailsModalForm)"
+      nonvalidate>
+      <label class="control-label" style="margin-left: 40%;"><b>Enter Pallet Code</b></label>
+      <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRef="ngModel"
+        [(ngModel)]="manualOutfeedPalletCode" style="width:300px;">
+      <button type="button" class="btn btn-success" type="dispatch"  [disabled]="!addPalletCodeDetailsModalForm.valid">
+        Dispatch</button>
+      <div *ngIf="!addPalletCodeRef.valid &&(addPalletCodeRef.dirty||addPalletCodeRef.touched)" class="error">
+        <div *ngIf="addPalletCodeRef.errors?.['required']">
+          <p class="text-danger" style="margin-left: 53%;"><i class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+            Code</p>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div> -->
+
+  <!-- 
+  <div class="col-sm-7 currentInputBox" style="margin-left: 400px;margin-top: -120px;">
+    <form #addPalletCodeDetailsModalForm="ngForm" (ngSubmit)="addPalletCodeDetails(addPalletCodeDetailsModalForm)"
+      nonvalidate>
+      <label class="control-label current mainbox"><b>Enter Pallet Code</b></label>
+      <input class="form-control pallet-code-input" type="text" name="palletCode" id="palletCode" required
+        #addPalletCodeRef="ngModel" (click)="onDispatchButtonClick()" [(ngModel)]="manualOutfeedPalletCode">
+      <button type="button" class="btn btn-success dispatch" type="dispatch"
+        [disabled]="isDispatchButtonDisabled() || !addPalletCodeDetailsModalForm.valid">
+        Dispatch
+      </button>
+      <div *ngIf="!addPalletCodeRef.valid && (addPalletCodeRef.dirty || addPalletCodeRef.touched)" class="error">
+        <div *ngIf="addPalletCodeRef.errors?.['required']">
+          <p class="text-danger" style="margin-left: 53%; margin-top: -25px;"><i
+              class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+            Code</p>
+        </div>
+      </div>
+    </form>
+  </div> -->
+
+  <div class="col-sm-7 currentInputBox" style="margin-top: -130px;margin-bottom: 10px;">
+    <form #addPalletCodeDetailsModalForm="ngForm" (ngSubmit)="addPalletCodeDetails(addPalletCodeDetailsModalForm)"
+      nonvalidate>
+      <label class="control-label current mainbox"><b>Enter Pallet Code :</b></label>
+      <input class="form-control pallet-code-input" type="text" name="palletCode" id="palletCode" required
+        #addPalletCodeRef="ngModel"  [(ngModel)]="manualOutfeedPalletCode">
+      <button type="button" class="btn btn-success dispatch" type="dispatch"
+        [disabled]="!addPalletCodeDetailsModalForm.valid ||isMonitor()">
+        Dispatch
+      </button>
+      <div *ngIf="!addPalletCodeRef.valid && (addPalletCodeRef.dirty || addPalletCodeRef.touched)" class="error">
+        <div *ngIf="addPalletCodeRef.errors?.['required']">
+          <p class="text-danger" style="margin-left: 53%; margin-top: -25px;"><i
+              class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+            Code</p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-sm-7 currentInputBox" style="margin-top: -68px;margin-bottom: 10px;">
+    <form #addBPSerialNoForm="ngForm" (ngSubmit)="addSerialNumberDetails(addBPSerialNoForm)" novalidate>
+      <label class="control-label current mainbox"><b>Enter BP Serial No :</b></label>
+      <input class="form-control pallet-code-input" type="text" name="bpSerialNo" id="bpSerialNo" required
+        #bpSerialNoRef="ngModel" [(ngModel)]="manualOutfeedSerialNumber">
+      <button type="submit" class="btn btn-success dispatch"
+        [disabled]="!addBPSerialNoForm.valid ||isMonitor()">
+        Dispatch
+      </button>
+      <div *ngIf="!bpSerialNoRef.valid && (bpSerialNoRef.dirty || bpSerialNoRef.touched)" class="error">
+        <div *ngIf="bpSerialNoRef.errors?.['required']">
+          <p class="text-danger" style="margin-left: 53%; margin-top: -25px;">
+            <i class="bi bi-exclamation-circle-fill"></i> Enter BP Serial No.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+  <!-- <div class="col-sm-7 currentInputBox" style="margin-top: -90px;">
+    <form #addBPSerialNoForm="ngForm" (ngSubmit)="addPalletCodeDetails(addBPSerialNoForm)" novalidate>
+      <label class="control-label current mainbox"><b>Enter BP Serial No. :</b></label>
+      <input class="form-control pallet-code-input" type="text" name="bpSerialNo" id="bpSerialNo" required
+        #bpSerialNoRef="ngModel" (click)="onDispatchButtonClick()" [(ngModel)]="manualOutfeedPalletCode">
+      <button type="button" class="btn btn-success dispatch"
+        [disabled]="isDispatchButtonDisabled() || !addBPSerialNoForm.valid">
+        Dispatch
+      </button>
+      <div *ngIf="!bpSerialNoRef.valid && (bpSerialNoRef.dirty || bpSerialNoRef.touched)" class="error">
+        <div *ngIf="bpSerialNoRef.errors?.['required']">
+          <p class="text-danger" style="margin-left: 53%; margin-top: -25px;">
+            <i class="bi bi-exclamation-circle-fill"></i> Enter BP Serial No.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div> -->
+
+
+  <!-- <div class="row">
+
+
+    <div style="margin-left: 1px; margin-top: -40px; padding-bottom: 10px;">
+      <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#currentPalletStockFilter"
+        style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+        Filter
+      </button>
+      <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+        style="background-color: white; border-color: red; color: red;">
+        <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon>
+        Download
+      </button>
+      <button class="btn btn-outline-success float-end mx-1"
+        (click)="generateCurrentPalletStockDetailsExcelReport()"><img class="float-end mx-1"
+          style="width: 20px; height: 20px;" src="/assets/images/excel-1.png" alt="excel">Download</button>
+    </div>
+  </div> -->
+
+  <!-- FILTER -->
+  <div class="collapse" id="currentPalletStockFilter">
+    <form #currentPalletStockFilterForm="ngForm" (ngSubmit)="fetchCurrentPalletStockDetailsByAllFilters()"
+      name="currentPalletStockFilterForm">
+
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+          <label class="control-label">Start Date</label>
+          <input type="datetime-local" id="startdatepicker" name="startDateTime" [(ngModel)]="startDateTime"
+            class="form-control" (input)="dateTimeValidation()">
+          <div *ngIf="startDateTime>endDateTime" class="error">
+            <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+              end-date.
+            </p>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+          <label class="control-label">End Date</label>
+          <input type="datetime-local" id="enddatepicker" name="endDateTime" [(ngModel)]="endDateTime"
+            [disabled]="disableDateTime" class="form-control" (input)="dateTimeValidation()">
+          <div *ngIf="startDateTime>endDateTime" class="error">
+            <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+              end-date.
+            </p>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-2 mt-1">
+          <label class="control-label">Part No</label>
+          <select name="selectedProductVariantCode" id="selectedProductVariantCode" [(ngModel)]="productVariantCode"
+            class="form-select" #selectedProductVariantNameValue="ngModel"
+            (change)="selectProductVariantCodeChangeHandler(selectedProductVariantNameValue.value)">
+
+            <option value="" disabled selected></option>
+            <option *ngFor="let productVariantDetails of productVariantDropDownList"
+              [ngValue]="productVariantDetails.productVariantCode">
+              {{productVariantDetails.productVariantCode}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-2 mt-1">
+          <label class="control-label">Area</label>
+          <select name="selectedArea" id="selectedArea" [(ngModel)]="areaName" class="form-select"
+            #selectedAreaValue="ngModel" (change)="selectAreaChangeHandler(selectedAreaValue.value)">
+
+            <option value="" disabled selected></option>
+            <option *ngFor="let areaDetails of areaDetailsDropDownList" [ngValue]="areaDetails.areaName">
+              {{areaDetails.areaName}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-2 mt-1">
+          <label class="control-label">Floor</label>
+          <select name="selectedFloor" id="selectedFloor" [(ngModel)]="floorName" class="form-select"
+            #selectedFloorValue="ngModel" (change)="selectFloorChangeHandler(selectedFloorValue.value)">
+
+            <option value="" disabled selected></option>
+            <option *ngFor="let floorDetails of floorDetailsDropDownList" [ngValue]="floorDetails.floorName">
+              {{floorDetails.floorName}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-2 mt-1">
+          <label class="control-label">Model</label>
+          <select name="selectedProductName" id="selectedProductName" [(ngModel)]="productName" class="form-select"
+            #selectedProductName="ngModel" (change)="selectProductNameChangeHandler(selectedProductName.value)">
+
+            <option value="" disabled selected></option>
+            <option *ngFor="let productDetails of masterProductDetailsTableList" [ngValue]="productDetails.productName">
+              {{productDetails.productName}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-2 mt-1">
+          <label class="control-label">Pallet Status</label>
+          <select name="selectedProductName" id="selectedProductName" [(ngModel)]="palletStatus" class="form-select"
+            #selectedPalletStatus="ngModel" (change)="selectPalletStausChangeHandler(selectedPalletStatus.value)">
+
+            <option value="" disabled selected></option>
+            <option value="FULL">FULL</option>
+            <option value="EMPTY">EMPTY</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <h5 class="mt-4 "></h5>
+          <button class="btn btn-success" type="submit" value="submit" [disabled]="disableSearchButton">
+            <i class="fa fa-search"></i>Submit</button>
+          <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+            (click)="onResetClick()"><i class="fa fa-eraser"></i>
+            Reset</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <!-- TABLE SECTION -->
+  <div class="row table-area" style="margin-top: 20px;">
+    <div class="col">
+      <div id="table">
+
+        <table datatable [dtOptions]="currentPalletStockDetailsDtOptions" id="currentPalletStockTableId"
+          class="table-responsive-sm table-hover table-bordered table stripe ">
+          <thead>
+            <tr>
+              <th class="th-sm">Sr. No.</th>
+              <th class="th-sm">Pallet Code</th>
+              <th class="th-sm">BP Serial No.</th>
+              <th class="th-sm"> Part No</th>
+              <th class="th-sm">Model</th>
+              <!-- <th class="th-sm">Batch Number</th> -->
+              <th class="th-sm">Part Name</th>
+              <th class="th-sm">Quantity</th>
+              <!-- <th class="th-sm">Uom</th> -->
+              <th class="th-sm">Quality Status</th>
+              <th class="th-sm">Ageing Days</th>
+              <!-- <th class="th-sm">Reject Status</th> -->
+              <!-- <th class="th-sm">Area</th> -->
+              <!-- <th class="th-sm">Floor</th> -->
+              <th class="th-sm">Pallet Status</th>
+              <th class="th-sm">MFG Date</th>
+              <th class="th-sm">Load Date Time</th>
+              <!-- <th class="th-sm">Expiry Date</th> -->
+              <th class="th-sm">Location</th>
+              <th class="th-sm">Change Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let currentStockDetails of currentPalletStockDetailsList; index as i">
+              <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+              <td>{{ currentStockDetails.palletCode }}</td>
+              <td>{{ currentStockDetails.serialNumber }}</td>
+              <td>{{ currentStockDetails.productVariantCode }}</td>
+              <!-- <td>{{ currentStockDetails.productVariantName }}</td> -->
+              <td>{{ currentStockDetails.productName }}</td>
+              <td>{{ currentStockDetails.productVariantName }}</td>
+              <td>{{ currentStockDetails.quantity }}</td>
+              <!-- <td>{{currentStockDetails.uom}}</td> -->
+              <td>{{currentStockDetails.qualityStatus}}</td>
+              <td>{{currentStockDetails.ageingDays}}</td>
+              <!-- <td>{{currentStockDetails.areaName}}</td> -->
+              <!-- <td>{{currentStockDetails.floorName}}</td> -->
+              <td>{{currentStockDetails.palletStatusname}}</td>
+              <td>{{ currentStockDetails.mfgDate}}</td>
+              <td>{{ currentStockDetails.loadDatetime }}</td>
+              <!-- <td>{{currentStockDetails.expiryDate}}</td> -->
+              <td>{{ currentStockDetails.positionName }}</td>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm edit-button" data-bs-toggle="modal"
+                  data-bs-target="#updateCurrentModal" [disabled]="isMonitor()"
+                  (click)="editCurrentPalletStockDetailsRow(currentStockDetails)"><i class="bi bi-pencil-square"></i>
+                </button>
+                <!-- <button type="button" class="btn btn-info btn-sm edit-button"  (click)="dispatchCurrentStockDetailsRow(currentStockDetails)">Dispatch
+              </button> -->
+                <!-- <button type="button" class="btn btn-info btn-sm edit-button"
+                (click)="dispatchCurrentStockDetailsRow(currentStockDetails)"
+                [disabled]="!isManualDispatchEnabled(currentStockDetails.positionName)">
+                Dispatch
+              </button> -->
+                <ng-container *ngIf="currentStockDetails.qualityStatus === 'NOK'; else dispatchButton">
+                  <button type="button" class="btn btn-danger btn-sm edit-button" style="width: 74px;"
+                    (click)="dispatchCurrentStockDetailsRow(currentStockDetails)"
+                    [disabled]="!isManualDispatchEnabled(currentStockDetails.positionName) ||isMonitor()">
+                    Reject
+                  </button>
+                </ng-container>
+
+                <ng-template #dispatchButton>
+                  <button type="button" class="btn btn-info btn-sm edit-button"
+                    (click)="dispatchCurrentStockDetailsRow(currentStockDetails)"
+                    [disabled]="!isManualDispatchEnabled(currentStockDetails.positionName) || currentStockDetails.qualityStatus !== 'OK' ||isMonitor()">
+                    Dispatch
+                  </button>
+                </ng-template>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[ 10, 25, 100]" [pageSize]="10" [length]="totalElements"
+          (page)="nextPage($event,'BEV')"> </mat-paginator> -->
+
+
+        <!-- Paginator with conditional binding for BEV -->
+        <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements"
+          (page)="nextPage($event)" *ngIf="dataType === 'BEV'; else defaultPaginator">
+        </mat-paginator> -->
+        <!-- <ng-template #defaultPaginator> -->
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements"
+          (page)="nextPage($event)">
+        </mat-paginator>
+        <!-- </ng-template> -->
+
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+<!-- Modal window 2 to update the data into table Called on Button=> Update-->
+<div class="modal" id="updateCurrentModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header  modal-header-style">
+
+        <h4 class="modal-title"> Pallet Code : {{editCurrentPalletStockDetailsInstance.palletCode}}
+        </h4>
+
+      </div>
+      <div class="container">
+        <div class="modal-body">
+          <form #editCurrentDetailsModalForm="ngForm" (ngSubmit)="editCurrentPalletStockDetails()" nonvalidate>
+            <div class="row">
+
+              <div class="col-8">
+                <p class="required status-label-style">Quality Inspection Status</p>
+              </div>
+
+            </div>
+
+            <select name="editQualityStatus" id="editQualityStatus" #editQualityStatus="ngModel" required
+              class="form-control text-center" [(ngModel)]="editCurrentPalletStockDetailsInstance.qualityStatus"
+              class="form-select">
+              <option value="" disabled selected>Select Inspection Status Name</option>
+              <option value="" disabled selected></option>
+              <option value="OK">OK</option>
+              <option value="NOK">NOK</option>
+            </select>
+
+
+            <div class="row">
+              <!-- Modal footer -->
+              <div class="modal-footer" style="
+              margin-top: 30px;">
+                <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                  [disabled]="!editCurrentDetailsModalForm.valid">Update</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal AudioPopup" id="confirmationModel1" tabindex="-1" role="dialog" data-bs-keyboard="false"
+  data-bs-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-style" style="background-color: white;">
+        <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+
+      </div>
+      <div class="modal-body" style="background-color: red;">
+
+        <p class="textdesign1">{{ responseDataforAudio?.message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal" id="openSearchedPalletCodeModal" >
+  <div class="modal-dialog modal-lg" style="min-width:50%;">
+    <div class="modal-content">
+
+      <div class="modal-header modal-title-style">
+        <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">
+          Bin Location: {{binLocation}}
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+
+
+          <div class="col-lg-2 inputfield">
+            <p>Pallet Code :</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="displayPalletCodeId" name="displayPalletCodeName" [(ngModel)]="palletCode"
+              readonly="true" style="width: 180px;">
+
+          </div>
+
+          <div class="col-lg-2 inputfield">
+            <p>User Name :</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="displayUserNameId" name="displayUserName" [(ngModel)]="userName" readonly="true"
+              style="width: 180px;">
+
+          </div>
+
+
+        </div>
+
+        <div class="container">
+
+          <h5 style="font-size: 1.0rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; ">Pallet Details:</h5>
+
+          <table class="table-responsive-sm  palletDetails table-bordered table stripe" 
+            id="palletCodeListFromCurrentStock">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Part No</th>
+                <th>Model</th>
+                <th>BP Serial No</th>
+                <th>Quantity</th>
+                <th>Quality Status</th>
+                <th>Load Date Time</th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let searchPallet of palletCodeList index as i;">
+                <td>{{i+1}}</td>
+                <td>{{searchPallet.productVariantCode}} </td>
+                <td>{{searchPallet.productName}}</td>
+                <td>{{searchPallet.serialNumber}}</td>
+                <td>
+                  {{searchPallet.quantity}}
+                </td>
+                <td>{{searchPallet.qualityStatus}}</td>
+                <td>{{searchPallet.loadDatetime}}</td>
+                <td> <ng-container *ngIf="searchPallet.qualityStatus === 'NOK'; else dispatchButton">
+                  <button type="button" class="btn btn-danger btn-sm edit-button" style="width: 74px;"
+                    (click)="dispatchCurrentStockDetailsRow(searchPallet)"
+                    [disabled]="!isManualDispatchEnabled(searchPallet.positionName) ||isMonitor()">
+                    Reject
+                  </button>
+                </ng-container>
+
+                <ng-template #dispatchButton>
+                  <button type="button" class="btn btn-info btn-sm edit-button"
+                    (click)="dispatchCurrentStockDetailsRow(searchPallet)"
+                    [disabled]="!isManualDispatchEnabled(searchPallet.positionName) || searchPallet.qualityStatus !== 'OK' ||isMonitor()">
+                    Dispatch
+                  </button>
+                </ng-template>
+              </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+
+
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="openSearchedSerialNumberModal">
+  <div class="modal-dialog modal-lg" style="min-width:50%;">
+    <div class="modal-content">
+
+      <div class="modal-header modal-title-style">
+        <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">
+          Bin Location: {{binLocation}}
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-3 inputfield">
+            <p>BP Serial Number:</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="displaySerialNoId" name="displayPalletCodeName" [(ngModel)]="serialNumber"
+              readonly="true" style="width: 180px;">
+          </div>
+
+          <div class="col-lg-2 inputfield">
+            <p>User Name :</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="displayUserNameId" name="displayUserName" [(ngModel)]="userName" readonly="true"
+              style="width: 180px;">
+          </div>
+        </div>
+
+        <div class="container">
+          <h5 style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; ">Pallet Details:</h5>
+          <table class="table-responsive-sm palletDetails table-bordered table stripe" style="width: 100%;">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Part No</th>
+                <th>Model</th>
+                <th>Pallet Code</th>
+                <th>Quantity</th>
+                <th>Quality Status</th>
+                <th>Load Date Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let searchSerialNo of serialNumberList; index as i">
+                <td>{{i + 1}}</td>
+                <td>{{searchSerialNo.productVariantCode}}</td>
+                <td>{{searchSerialNo.productName}}</td>
+                <td>{{searchSerialNo.palletCode}}</td>
+                <td>{{searchSerialNo.quantity}}</td>
+                <td>{{searchSerialNo.qualityStatus}}</td>
+                <td>{{searchSerialNo.loadDatetime}}</td>
+
+                <td> <ng-container *ngIf="searchSerialNo.qualityStatus === 'NOK'; else dispatchButton">
+                  <button type="button" class="btn btn-danger btn-sm edit-button" style="width: 74px;"
+                    (click)="dispatchCurrentStockDetailsSerialNumber(searchSerialNo)"
+                    [disabled]="!isManualDispatchEnabled(searchSerialNo.positionName) ||isMonitor()">
+                    Reject
+                  </button>
+                </ng-container>
+
+                <ng-template #dispatchButton>
+                  <button type="button" class="btn btn-info btn-sm edit-button"
+                    (click)="dispatchCurrentStockDetailsSerialNumber(searchSerialNo)"
+                    [disabled]="!isManualDispatchEnabled(searchSerialNo.positionName) || searchSerialNo.qualityStatus !== 'OK' ||isMonitor()">
+                    Dispatch
+                  </button>
+                </ng-template>
+              </td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+
+<div class="modal first-popup" id="confirmationModel2" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData2?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMission('Area-1')" [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal second-popup" id="confirmationModel3" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData3?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMissionForArea2('Area-2')" [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+<div class="modal" id="confirmationModel77" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+              
+                <p class="textdesign1">{{ responseDataMismatchCell?.message }}</p>
+
+               
+                <ul class="text-white">
+                    <li *ngFor="let cell of responseDataMismatchCell?.data">
+                        {{ cell }}
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>

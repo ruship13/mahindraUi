@@ -1,0 +1,375 @@
+<!-- MASTER HEADER SECTION -->
+<div class="row heading-name-area">
+  <div class="col-sm-8 col-md-9 col-lg-10">
+    <!-- <h4 class="headertag"> <u>Master Material Details</u></h4> -->
+    <h5 class="main-heading"><u>Master Part No Details</u></h5>
+  </div>
+
+  <div class="col-sm-4 col-md-3 col-lg-2">
+
+    <button type="button" class="btn btn-primary float-end add-product-button" data-bs-toggle="modal"
+      data-bs-target="#addProductModal" [disabled]="isMonitor()"><i class="bi bi-plus-square" ></i> </button>
+  </div>
+</div>
+
+<!-- TABLE SECTION -->
+<div class="row table-area ">
+  <div class="col shadow-border p-3 mb-5 rounded">
+    <div id="table">
+      <table datatable [dtOptions]="productDtOptions" id="prodId" class="table-responsive-sm table-bordered stripe">
+        <thead>
+          <tr>
+            <th class="th-sm">Sr No</th>
+            <th class="th-sm">Part No </th>
+            <th class="th-sm">Part Name</th>
+            <th class="th-sm">Model</th>
+            <th class="th-sm">Created Date Time</th>
+            <th class="th-sm">Retest Days</th>
+            <!-- <th class="th-sm">Is Active </th> -->
+            <th class="th-sm">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let productVariantDetails of masterProductVariantDetailsTableList; index as i">
+            <td>{{i+1}}</td>
+            <td>{{productVariantDetails.productVariantCode}}</td>
+            <td>{{productVariantDetails.productVariantname}}</td>
+            <td>{{productVariantDetails.productName}}</td>
+
+            <td> {{productVariantDetails.cdatetime}}</td>
+            <td> {{productVariantDetails.inspectionInDays}}</td>
+            <!-- <td> {{productVariantDetails.inspectionInDays}}</td>
+ -->
+
+            <!-- <td>
+            
+              <p *ngIf="productVariantDetails.productVariantIsActive==1; else InActiveProductVariant">
+                <button type="button" class="btn btn-success btn-sm"  
+                  (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                  data-bs-target="#editActiveInctiveButtonModal">{{'Active'}}</button>
+              </p>
+              <ng-template #InActiveProductVariant>
+                <button type="button" class="btn btn-danger btn-sm"
+                  (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                  data-bs-target="#editActiveInctiveButtonModal">{{'InActive'}}</button>
+              </ng-template>
+
+         
+              <button type="button" class="btn btn-warning btn-sm edit-button" 
+                (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                data-bs-target="#editProductVarientModal">
+                <i class="bi bi-pencil-square"></i></button>
+
+          
+              <button class="btn btn-danger btn-sm delete-button"
+                (click)="deleteProductVariantRow(productVariantDetails.productVariantId,productVariantDetails.productVariantname)"
+                data-bs-toggle="modal" data-bs-target="#deleteproductVariantModal"><i class="bi bi-trash3"></i></button>
+            </td> -->
+            <td style="white-space: nowrap; ">
+              <!-- Buttons for Active/Inactive -->
+              <p *ngIf="productVariantDetails.productVariantIsActive==1; else InActiveProductVariant"
+                style="display: inline-block; margin-right: 10px;">
+                <button type="button" class="btn btn-success btn-sm"
+                  (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                  data-bs-target="#editActiveInctiveButtonModal" [disabled]="isMonitor()">
+                  {{'Active'}}
+                </button>
+              </p>
+              <ng-template #InActiveProductVariant>
+                <button type="button" class="btn btn-danger btn-sm"
+                  (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                  data-bs-target="#editActiveInctiveButtonModal"[disabled]="isMonitor()" >
+                  {{'InActive'}}
+                </button>
+              </ng-template>
+
+              <!-- Edit Button -->
+              <button type="button" class="btn btn-warning btn-sm edit-button"
+                (click)="editProductVariantRow(productVariantDetails)" data-bs-toggle="modal"
+                data-bs-target="#editProductVarientModal" [disabled]="isMonitor()" style="margin-right: 10px;">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+
+              <!-- Delete Button -->
+              <button class="btn btn-danger btn-sm delete-button" [disabled]="isMonitor()"
+                (click)="deleteProductVariantRow(productVariantDetails.productVariantId,productVariantDetails.productVariantname,productVariantDetails.productVariantCode)"
+                data-bs-toggle="modal" data-bs-target="#deleteproductVariantModal" style="margin-right: 10px;">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </td>
+
+
+          </tr>
+        </tbody>
+      </table>
+      <!-- <mat-paginator [pageSizeOptions]="[ 10, 25, 100]" [pageSize]="10" [length]="totalElements"
+          (page)="nextPage($event)"> </mat-paginator> -->
+    </div>
+  </div>
+
+
+  <!-- Modal window 2 to insert the data into table Called on Button=> Add-->
+  <div class="modal" id="addProductModal" method="get">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header modal-header-style" >
+          <div class="row">
+
+            <h4 class="modal-title"><i class="bi bi-plus-square"></i> Add New Part Details</h4>
+
+          </div>
+
+        </div>
+        <div class="modal-body">
+          <form #addProductDetailsModalForm="ngForm"
+            (ngSubmit)="addMasterProductVariantDetails(addProductDetailsModalForm)" nonvalidate>
+            <div class="row">
+              <div class="col-5">
+                <p class="required label-text1">Model </p>
+              </div>
+              <div class="col-7">
+                <input type="text" id="addProductNameId" name="addProductName" required #addProductNameRef="ngModel"
+                  [(ngModel)]="addProductVariantDetailsInstance.productVariantname">
+                <div *ngIf="!addProductNameRef.valid &&(addProductNameRef.dirty || addProductNameRef.touched)"
+                  class="error">
+                  <div *ngIf="addProductNameRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Model Name
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-5">
+                <p class="required label-text1">Part No </p>
+              </div>
+              <div class="col-7">
+                <input type="text" id="addProductCodecId" name="addProductCode" #addProductCodeRef="ngModel" required
+                  [(ngModel)]="addProductVariantDetailsInstance.productVariantCode">
+                <div *ngIf="!addProductCodeRef.valid &&(addProductCodeRef.dirty || addProductCodeRef.touched)"
+                  class="error">
+                  <div *ngIf="addProductCodeRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Part No </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <p class="required label-text1">Retest Days</p>
+              </div>
+              <div class="col-7">
+                <input type="text" id="addInspectionInDaysId" name="addInspectionInDaysName"
+                  #addInspectionInDaysRef="ngModel" required
+                  [(ngModel)]="addProductVariantDetailsInstance.inspectionInDays">
+                <div
+                  *ngIf="!addInspectionInDaysRef.valid &&(addInspectionInDaysRef.dirty || addInspectionInDaysRef.touched)"
+                  class="error">
+                  <div *ngIf="addInspectionInDaysRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Retest days
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <p class="required label-text1">Part Is Active</p>
+              </div>
+              <div class="col-7">
+                <input type="radio" id="addActiveId" name="addActiveInActive" value="addProductVariantActiveRadioButton"
+                  checked="checked" (change)="addSelectedProductVariantctiveInActiveRadioButton($event)">
+
+                <label for="addProductVariantActiveRadioButton" class="label-text1">Active</label>
+                <input type="radio" id="addInActiveId" name="addActiveInActive"
+                  value="addProductVariantInActiveRadioButton"
+                  (change)="addSelectedProductVariantctiveInActiveRadioButton($event)">
+                <label for="addProductVariantActiveRadioButton" class="label-text1">InActive</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                [disabled]="!addProductDetailsModalForm.valid">Submit</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal window 2 to update the data into table Called on Button=> Update-->
+<div class="modal" id="editProductVarientModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-style" >
+        <div class="row">
+          <h4 class="modal-title"><i class="bi bi-pencil-square popupidit"></i>Edit Material Details :
+            {{editProductVariantDetailsInstance.productVariantCode}}</h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form #editProductDetailsModalForm="ngForm"
+          (ngSubmit)="editMasterProductVariantDetails(editProductVariantDetailsInstance)" nonvalidate>
+          <div class="row">
+            <div class="col-5">
+              <p class="required label-text1">Model </p>
+            </div>
+            <div class="col-7">
+              <input type="text" id="editproductNameId" name="editproductName" #editProductNameRef="ngModel" required
+                [(ngModel)]="editProductVariantDetailsInstance.productName">
+
+              <div *ngIf="!editProductNameRef.valid &&(editProductNameRef.dirty || editProductNameRef.touched)"
+                class="error">
+                <div *ngIf="editProductNameRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Please
+                    Enter Model Name
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <p class="required label-text1">Part No</p>
+            </div>
+            <div class="col-7">
+              <input type="text" id="editProductVariantCodeId" name="editProductVariantCode"
+                #editProductDescRef="ngModel" required disabled
+                [(ngModel)]="editProductVariantDetailsInstance.productVariantCode">
+              <div *ngIf="!editProductDescRef.valid &&(editProductDescRef.dirty || editProductDescRef.touched)"
+                class="error">
+                <div *ngIf="editProductDescRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Part No</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <p class="required label-text1">Retest Days</p>
+            </div>
+            <div class="col-7">
+              <input type="text" id="editInspectionInDaysId" name="editInspectionInDaysName"
+                #editInspectionInDaysRef="ngModel" required
+                [(ngModel)]="editProductVariantDetailsInstance.inspectionInDays">
+              <div
+                *ngIf="!editInspectionInDaysRef.valid &&(editInspectionInDaysRef.dirty || editInspectionInDaysRef.touched)"
+                class="error">
+                <div *ngIf="editInspectionInDaysRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Inspection in days
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+              [disabled]="!editProductDetailsModalForm.valid">Update</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- for active inactive modal -->
+<div class="modal" id="editActiveInctiveButtonModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+
+      <div class="modal-header modal-header-style" >
+        <h4 class="modal-title1">Change Status OF Part No : {{editProductVariantDetailsInstance.productVariantCode}}
+        </h4>
+
+
+      </div>
+      <div class="modal-body">
+        <form #updateMasterProductVariantDetailsModalForm="ngForm"
+          (ngSubmit)="editMasterProductVariantDetails(editProductVariantDetailsInstance)" novalidate>
+          <div class="row">
+            <div class="col-5">
+              <p class="required status-label-style1">Are you sure you want to Active/Inactive the Part No
+              </p>
+            </div>
+            <div class="col-7">
+              <div *ngIf="editProductVariantDetailsInstance.productVariantIsActive==1 ; else InActive">
+                <input type="radio" id="editProductVariantActiveId" name="editProductVariantActive_InActive"
+                  value="editProductVariantActiveRadioButton" checked="checked"
+                  (change)="editSelectedProductVariantActiveInActiveRadioButton($event)">
+                <label for="editProductVariantActiveRadioButton" class="label-text1">Active</label>
+
+                <input type="radio" id="editProductVariantInActiveId" name="editProductVariantActive_InActive"
+                  value="editProductVariantInActiveRadioButton"
+                  (change)="editSelectedProductVariantActiveInActiveRadioButton($event)">
+                <label for="editProductVariantInActiveRadioButton" class="label-text1">InActive</label>
+              </div>
+
+              <ng-template #InActive>
+                <input type="radio" id="editProductVariantActiveId" name="editProductVariantActive_InActive"
+                  value="editProductVariantActiveRadioButton"
+                  (change)="editSelectedProductVariantActiveInActiveRadioButton($event)">
+                <label for="editProductVariantActiveRadioButton" class="label-text1">Active</label>
+                <input type="radio" id="editProductVariantInActiveId" name="editProductVariantActive_InActive"
+                  value="editSkuInActiveRadioButton" checked="checked"
+                  (change)="editSelectedProductVariantActiveInActiveRadioButton($event)">
+                <label for="editProductVariantInActiveRadioButton" class="label-text1">InActive</label>
+              </ng-template>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" type="submit">Yes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Product Variant Modal -->
+<div class="modal" id="deleteproductVariantModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form #DeleteMasterMaterialTable="ngForm" novalidate>
+        <!--  Header -->
+
+
+        <div class="modal-header modal-header-style" >
+          <h4 class="modal-title3"><i class="bi bi-trash3 popupidit"></i>Delete Master Part No :
+            {{productVariantCode}}
+          </h4>
+        </div>
+
+        <!--Modal body -->
+        <div class="modal-body">
+          <p class="status-label-style">Are you sure you want to delete?</p>
+
+          <label class="required status-label-style">Mention the reason</label><br><br>
+          <select id="deleteReason" name="deleteReason" [(ngModel)]="selectedAddReasonName" #deleteReasonRef="ngModel"
+            (change)="selectReasonChangeHandler(deleteReasonRef.value)" required style="width: 450px; height: 40px;">
+            <option value="" disabled selected>Select reason</option>
+            <option *ngFor="let masterReasonDetails of masterReasonDetailsTableList"
+              [ngValue]="masterReasonDetails.reason">
+              {{masterReasonDetails.reason}}</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" data-bs-dismiss="modal" type="button"
+            [disabled]="!DeleteMasterMaterialTable.valid"
+            (click)="deleteProductVariantDetails(DeleteMasterMaterialTable)">Delete</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div>
+  <div class="row heading-name-area">
+      <div class="col-sm-7">
+          <h4 class="float-left main-heading"><u>Master Ageing Days Details</u></h4>
+      </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="row table-area">
+      <div class="col shadow-border p-3 mb-5 rounded">
+          <div id="table">
+              <table datatable [dtOptions]="ageingDaysId" id="masterAgingDaysId"
+                  class="table-responsive-sm table-bordered stripe">
+                  <thead>
+                      <tr>
+                          <th class="th-sm">Sr. No.</th>
+                          <th class="th-sm">Product Name</th>
+                          <th class="th-sm">Ageing Days</th>
+                          <th class="th-sm">Created Date Time</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+
+                  <tbody>
+                      <tr *ngFor="let ageingDays of AgeingDaysList; index as i">
+                          <td>{{i+1}}</td>
+                          <td>{{ageingDays.productName}}</td>
+                          <td>{{ageingDays.ageingDays}}</td>
+                          <td>{{ageingDays.cdateTime}}</td>
+                          <td>
+                              <button type="button" class="btn btn-warning btn-sm edit-button button-cell"
+                                  (click)="editAgingDaysRow(ageingDays)"
+                                  data-bs-toggle="modal" data-bs-target="#editProductVarientModal"
+                                  style="margin-right: 10px;">
+                                  <i class="bi bi-pencil-square"></i>
+                              </button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="editProductVarientModal">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header" style="background-color: #333F50;">
+              <div class="row">
+                  <h4 class="modal-title"><i class="bi bi-pencil-square popupidit"></i>Edit Ageing Days : 
+                      {{ editProductAgeingDaysDetailsInstance.productName }}
+                  </h4>
+              </div>
+          </div>
+          <div class="modal-body">
+              <form #editProductDetailsModalForm="ngForm" (ngSubmit)="editAgeingDaysDetails()"
+                  nonvalidate>
+                  <div class="row">
+                      <div class="col-5">
+                          <p class="required" style="font-size: 20px; font-weight: normal;">Ageing Days</p>
+                      </div>
+                      <div class="col-7">
+                        <input type="text" id="editproductNameId" name="editproductName" #editAgeingDaysRef="ngModel" required
+                        [(ngModel)]="editProductAgeingDaysDetailsInstance.ageingDays">
+                 
+
+                          <div *ngIf="!editAgeingDaysRef.valid && (editAgeingDaysRef.dirty || editAgeingDaysRef.touched)"
+                              class="error">
+                              <div *ngIf="editAgeingDaysRef.errors?.['required']">
+                                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Please Enter
+                                      Ageing
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                      <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                          [disabled]="!editProductDetailsModalForm.valid">Update</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

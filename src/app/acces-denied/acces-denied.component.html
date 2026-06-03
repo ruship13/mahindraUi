@@ -1,0 +1,29 @@
+<!-- <div class="w3-display-middle">
+    <h1 class="w3-jumbo w3-animate-top w3-center"><code>Access Denied</code></h1>
+    <hr class="w3-border-white w3-animate-left" style="margin:auto;width:0%">
+    <h3 class="w3-center w3-animate-right">You dont have permission to view this page.</h3>
+    <h5>Only Supervisor and Admin can access this page.</h5>
+    <h3 class="w3-center w3-animate-zoom">🚫🚫🚫🚫</h3>
+    
+</div> -->
+
+<div class="w3-display-middle">
+<!-- <div><i class="fa fa-lock" style="font-size: 50px; color: black; --fa-animation-duration: 10s; color:black" aria-hidden="true"></i></div> -->
+<div class="fa-5x">
+    <!-- <i class="fas fa-lock fa-flip" style="--fa-animation-duration: 5s; color: red"></i> -->
+    <img class="mahindra-logo" src="assets/images/lock-image.png" alt="mahindra-logo" style="height: 100px;width: 100px;">
+  </div>
+  <br>
+<div class="message">
+    <h1 class="w3-jumbo w3-animate-top w3-center"><code>Access Denied</code></h1>
+    <hr class="w3-border-white w3-animate-left" style="margin:auto;width:0%">
+    <h4 class="w3-center w3-animate-right">You don't have permission to view this page.</h4>
+    <!-- <h5>Only Supervisor and Admin can access this page.</h5> -->
+    <h5 *ngIf="isOperator()">Only Supervisor and Admin can access this page.</h5>
+    <h5 *ngIf="isSuperwiser()">Admin can access this page.</h5>
+    <h5 *ngIf="otherRoleORAdmin()">Please check Access Matrix.</h5>
+
+
+    <h3 class="w3-center w3-animate-zoom">🚫🚫🚫🚫</h3>
+</div>
+</div>

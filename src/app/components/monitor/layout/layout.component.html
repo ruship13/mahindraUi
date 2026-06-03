@@ -1,0 +1,1654 @@
+<div class="row heading-name-area">
+  <div class="col-sm-8">
+    <h4 class="heading  main-heading"><img class="blink" src="assets/images/live-icon.png"
+        style="height: 55px;"><span>Live</span> 2D AS/RS Visualization
+    </h4>
+
+  </div>
+
+  <div class="col-md-2 mt-1 fourInput">
+    <label class="control-label">Area Name</label>
+    <select name="areaName" id="areaNameId" [(ngModel)]="selectAreaName" #selectAreaNameRef="ngModel"
+      (change)="selectAreaNameChangeHandler(selectAreaNameRef.value)" class="form-select optionBox">
+      <option value="" disabled selected>Select Area</option>
+      <option *ngFor="let areaNameDetails of fetchAreaDetailsList" [ngValue]="areaNameDetails.areaId">
+        {{areaNameDetails.areaName}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-2 mt-1">
+    <label class="control-label">Floor Name</label>
+    <select name="floorName" id="floorNameId" [(ngModel)]="selectedFloorName" class="form-select optionBox"
+      #selectedFloorNameValue="ngModel" (change)="selectFloorNameChangeHandler(selectedFloorNameValue.value)">
+      <option value="" disabled selected>Select Floor</option>
+      <option *ngFor="let floorNameDetails of floorNameDropDownList" [ngValue]="floorNameDetails.floorId">
+        {{floorNameDetails.floorName}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-2 mt-1">
+    <label class="control-label">Pallet Code</label>
+
+    <!-- <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search.." name="search2" [(ngModel)]="palletCode">
+      <button type="submit" [disabled]="!palletCode" data-bs-toggle="modal"
+        data-bs-target="#openSearchedPalletCodeModal"><i class="fa fa-search"
+          (click)="findPalletDetailsByPalletCode()"></i></button>
+    </form> -->
+    <form class="example" (submit)="findPalletDetailsByPalletCode($event)" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search.." name="search2" [(ngModel)]="palletCode" required>
+      <button type="submit" [disabled]="!palletCode" data-bs-toggle="modal"
+        data-bs-target="#openSearchedPalletCodeModal">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+  </div>
+  <div class="col-md-2 mt-1">
+    <label class="control-label">BP Serial No.</label>
+
+    <!-- <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search.." name="search2" [(ngModel)]="serialNumber">
+      <button type="submit" [disabled]="!serialNumber"  data-bs-toggle="modal" data-bs-target="#openSearchedSerialNumberModal"><i class="fa fa-search" (click)="findPalletDetailsBySerialNumber()" ></i></button>
+    </form> -->
+    <form class="example" (submit)="findPalletDetailsBySerialNumber($event)" style="margin:auto;max-width:300px">
+      <input type="text" placeholder="Search.." name="search2" [(ngModel)]="serialNumber" required>
+      <button type="submit" [disabled]="!serialNumber" data-bs-toggle="modal"
+        data-bs-target="#openSearchedSerialNumberModal">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- <div class="Title-header">
+  <h4 class="title-name title-blink"><u>{{"Area " +this.selectAreaId + " : Floor "+selectedFloorId}}</u></h4>
+</div> -->
+
+<table>
+  <div class="col-lg-11 legend" style="box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;">
+    <tr>
+      <div class="stored-cell"></div>
+      <td class="legend-cells">BEV</td>
+      <div class="stored-cell1"></div>
+      <td class="legend-cells">S230</td>
+      <div class="empty-cell"></div>
+      <td class="legend-cells">Empty Cells</td>
+      <div class="lock-cell"><i class="fa fa-lock" aria-hidden="true" style="font-size:35px; color: red;"></i></div>
+      <td class="legend-cells">Lock Cells</td>
+      <div class="outfeed-cmd-cell"></div>
+      <td class="legend-cells">Manual Dispatch</td>
+      <div class="dead-cell"><i class="bi bi-x-square-fill" style="font-size: 30px;"></i></div>
+      <td class="legend-cells">Dead Cell</td>
+      <div class="freeAllocated-cell"></div>
+      <td class="legend-cells">Allocated Cell</td>
+      <div class="stored-cell empty"></div>
+      <td class="legend-cells">Empty Pallet</td>
+      <div class="stored-cell transfer"></div>
+      <td class="legend-cells">Empty cells for transfer mission</td>
+      <div class="stored-cell blinking-background"></div>
+      <td class="legend-cells">Alarm Cell</td>
+      <div class="stored-cell" style="background-color: #1af3d5;"></div>
+      <td class="legend-cells">Data Mismatch Cell</td>
+      <!-- <div class="equipment"><img src="assets/images/Equipment-image.jpg"
+          style="height:30px; width: 32px; margin-bottom: 10px;"></div>
+      <td class="legend-cells">Equipment</td> -->
+    </tr>
+  </div>
+</table>
+
+<div class="wrapper">
+  <div class="left-icon"><img src="assets/images/left-side-icon.png" class="left-icon"
+      style="background-color: rgb(247, 249, 252);">
+    <img src="assets/images/Checkboxes-with-Red-Arrows-left-removebg-preview.png" alt="not Found" class="leftside-deep">
+  </div>
+  <div class="row" style="margin-top: 70px;">
+    <div class="col-1 lc-conveyor">
+      <table style="margin-top: 27px;">
+        <tr>
+          <td class="laodingTitle">
+            <div class="title conveyorTitle ">Loading <br>conveyor<br><br><br></div>
+          </td>
+          <!-- <img src="assets/images/con_img (1).png" style="height:45px; width:50%; margin-top: 14px; margin-right: -39px; border: 2px solid rgb(140, 159, 185);">
+        <span style="content: \279E; margin-top: 300px; margin-left: -80px; font-size: 40px; ">&#10142;</span> -->
+        </tr>
+        <td class="conveyor">
+          <span class="con-bar">&#10142;</span>
+          <img src="assets/images/con_img (1).png" class="loadingImage">
+        </td>
+      </table>
+    </div>
+    <div class="col-md-11  area1-floor1-left-side">
+      <table class="arealeft">
+        <tr>
+          <td *ngFor="let columnCount of [1,2,3,4,5,6,7,8,9,10,11,12]; index as i">
+            <div class="position-number">
+
+              <div class="number-col col-10 col-md-10 col-sm-10">{{columnCount}}</div>
+
+            </div>
+          </td>
+
+        </tr>
+
+        <!-- A1L1 -->
+        <tr class="grid" style=" border: 2px solid rgb(107, 131, 165);">
+
+          <td class="positions" *ngFor="let rackColumnCount of masterRackPositionListLSIDE;let i = index"
+            style=" border: 2px solid rgb(107, 131, 165); border-collapse: collapse; ">
+
+            <!-- using above rackColumnCount position array to iterate-->
+            <div *ngFor="let posColumnCount of rackColumnCount.position;let j=index">
+              <!-- style="border-bottom: 1px solid  rgb(107, 131, 165); margin-bottom: -2px; margin-left: 0; margin-right: 0;" -->
+
+              <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==0 && posColumnCount.isMaterialLoaded==1 && posColumnCount.productName=='BEV' && posColumnCount.isAlarmRack==0 && posColumnCount.positionIsAllocated!=2;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(80, 192, 80); ">
+
+              </div>
+
+
+
+              <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==0 && posColumnCount.isMaterialLoaded==1 && posColumnCount.productName=='S230' && posColumnCount.isAlarmRack==0 && posColumnCount.positionIsAllocated!=2;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color:rgb(249, 129, 42);">
+
+              </div>
+
+
+              <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==0 && posColumnCount.isMaterialLoaded==0 && posColumnCount.isAlarmRack==0 && posColumnCount.positionIsAllocated!=2;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(240, 61, 234);">
+              </div>
+
+              <!-- <div
+            *ngIf="posColumnCount.positionIsActive == 1 && posColumnCount.emptyPalletPosition == 0 && posColumnCount.isManualDispatch == 0"
+            class="palletPositions"
+            [ngStyle]="{
+              'background-color': getColorForProductVariant(getProductVariantName(posColumnCount.positionId))
+            }"
+            id="palletPosition-{{ posColumnCount.positionId }}">
+          </div> -->
+
+              <!-- <div
+              *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==0 && posColumnCount.productVariantName=='G-MT-W501-CAFE II';"
+              class="palletPositions"
+              (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,false)"
+              data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+              style="background-color: rgb(80, 192, 80); ">
+
+            </div> -->
+
+              <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==1 && posColumnCount.isManualDispatch==0 && posColumnCount.positionIsAllocated==0 && posColumnCount.isAlarmRack==0;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal" style="background-color: white;">
+              </div>
+
+
+              <!-- <div
+            *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==0 && posColumnCount.isMaterialLoaded==0;"
+            class="palletPositions"
+            (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true)"
+            data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+            style="background-color: rgb(244, 17, 236);">
+  
+          </div>
+            <div
+              *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==1 && posColumnCount.isManualDispatch==0 ;"
+              class="col-2 palletPositions"
+              (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true)"
+              data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal" style="background-color: white;">
+            </div> -->
+
+              <!-- <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==1;"
+                class="col-2 palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(10, 134, 192);">
+              </div> -->
+              <div
+                *ngIf="posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==0 && posColumnCount.isManualDispatch==1 && posColumnCount.isAlarmRack==0 && posColumnCount.positionIsAllocated!=2;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true,true,true,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(10, 134, 192);">
+              </div>
+
+
+              <!-- <div *ngIf="posColumnCount.positionIsActive==0;"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,true,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"><i class="fa fa-lock"
+                  aria-hidden="true" style="font-size:35px; color: red;"></i>
+              </div> -->
+              <div
+                *ngIf="posColumnCount.positionIsActive==0 && posColumnCount.isAlarmRack==0 && posColumnCount.positionIsAllocated!=2;"
+                class="palletPositions1"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,true,false,true,true,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <i class="fa fa-lock" aria-hidden="true" style="font-size:25px; color: red;  padding-bottom: 0;">
+                </i>
+              </div>
+
+
+
+              <div
+                *ngIf="posColumnCount.positionIsDeleted==1 && posColumnCount.positionIsActive==1 && posColumnCount.emptyPalletPosition==1 && posColumnCount.isManualDispatch==1 && posColumnCount.positionIsAllocated!=2;"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,true,false,false,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"><i class="bi bi-x-square-fill deadcell"
+                  style="font-size: 28px;"></i>
+              </div>
+
+
+              <div
+                *ngIf="posColumnCount.emptyPalletPosition==1 && posColumnCount.positionIsAllocated==1 && posColumnCount.isManualDispatch==0 && posColumnCount.positionIsActive==1 && posColumnCount.isAlarmRack==0;"
+                class="col-2" class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,false,false,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="font-size: 27px; background-color:#FFD966">
+              </div>
+
+              <div
+                *ngIf="posColumnCount.positionIsActive==2 && posColumnCount.emptyPalletPosition==1 && posColumnCount.isManualDispatch==0 && posColumnCount.positionIsAllocated==0 && posColumnCount.isAlarmRack==0;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(163, 154, 154);">
+              </div>
+
+
+              <!-- <div *ngIf="posColumnCount.isAlarmRack==1;" class="palletPositions blinking-background"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId,posColumnCount.positionName,false,true,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal">
+              </div> -->
+
+              <div *ngIf="posColumnCount.isAlarmRack == 1" class="palletPositions blinking-background"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId, posColumnCount.positionName, false, true, true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal">
+              </div>
+
+
+              <div *ngIf="posColumnCount.positionIsAllocated == 2" class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(posColumnCount.positionId, posColumnCount.positionName, false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal" style="background-color: #1af3d5;">
+              </div>
+              <!-- Audio element for alarm rack -->
+              <!-- <audio *ngIf="posColumnCount.isAlarmRack == 1" #backgroundMusic[i] loop>
+                <source src="assets/audio/https___www.tones7.com_media_Fire_Truck_Siren.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio> -->
+
+            </div>
+
+          </td>
+        </tr>
+
+
+      </table>
+    </div>
+    <div class="equipment">
+
+      <div class="equipment-img"><img src="assets/images/Equipment-image.jpg"></div>
+
+      <div class="ioc">
+
+        <span>&#8680;</span>
+      </div>
+
+
+      <div class="Title-header1">
+        <h4 class="title-name title-blink">{{"Area "
+          +this.selectAreaId + " : Floor "+selectedFloorId}}</h4>
+      </div>
+
+      <div class="ioc1">
+        <span>&#8678;</span>
+      </div>
+
+      <!-- <div class="Title-header2" >
+        <h4 class="title-name title-blink">{{"Area "
+          +this.selectAreaId + " : Floor "+selectedFloorId}}</h4>
+      </div> -->
+      <!-- <td class="legend-cells">Equipment</td> -->
+    </div>
+
+
+
+    <table class="floor-section col-10" style="margin-top: 32px; border:2px solid rgb(107, 131, 165);">
+      <tr class="grid">
+        <td *ngFor="let columnCount of stackerPositionList;index as i">
+          <div class="test">
+            <div class="stacker-position">
+              <div *ngIf="columnCount.stackerIsPresent==1;"><img src="assets/images/Equipment-image.jpg"
+                  style="height: 34px; width: 35px;padding-bottom: 4px;">
+
+
+
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="col-1 col-md-1 col-sm-1 lc-conveyor" style="padding-top:10px; margin-right: 280px; ">
+      <table>
+        <td class="conveyor">
+          <div style="margin-top: -72px; margin-right: -40px;"><span class="con-bar1">&#10142;</span></div>
+
+          <img src="assets/images/con_img (1).png" class="unloadingImage">
+        </td>
+        <tr>
+          <td>
+            <div class="title conveyorTitle">Unloading<br>conveyor</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- A1R1 -->
+    <div class="col-11 area1-floor1-right-side">
+      <table class="areaRight">
+        <tr class="grid" style=" border: 2px solid rgb(107, 131, 165); width: 20px;">
+          <td class="positions" *ngFor="let rackColumnCount of masterRackPositionListRSIDE;let i = index"
+            style=" border: 2px solid rgb(107, 131, 165); border-collapse: collapse;">
+            <div *ngFor="let columnCount of rackColumnCount.position.slice().reverse();let j=index">
+              <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==0 && columnCount.isMaterialLoaded==1 && columnCount.productName=='BEV' && columnCount.isAlarmRack==0 && columnCount.positionIsAllocated!=2; "
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(80, 192, 80); ">
+
+              </div>
+
+
+
+              <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==0 && columnCount.isMaterialLoaded==1 && columnCount.productName=='S230' && columnCount.isAlarmRack==0 && columnCount.positionIsAllocated!=2; "
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color:rgb(249, 129, 42);">
+              </div>
+              <!-- <div
+              *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==0"
+              class="palletPositions"
+              (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId, columnCount.positionName, false, false, false)"
+              data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+              [ngStyle]="{
+                'background-color': getColorForProductVariant(getProductVariantName(columnCount.positionId))
+              }">
+            </div> -->
+              <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==0 && columnCount.isMaterialLoaded==0 && columnCount.isAlarmRack==0 && columnCount.positionIsAllocated!=2;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(240, 61, 234);">
+              </div>
+
+
+              <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==1 && columnCount.isManualDispatch==0 && columnCount.positionIsAllocated==0 && columnCount.isAlarmRack==0;"
+                class="col-2 palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,true,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal" style="background-color: white;">
+              </div>
+
+              <!-- <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==1;"
+                class=" col-2 palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(10, 134, 192);">
+              </div> -->
+              <div
+                *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==0 && columnCount.isManualDispatch==1 && columnCount.isAlarmRack==0 && columnCount.positionIsAllocated!=2"
+                class="col-2 palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,true,true,true,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(10, 134, 192);">
+              </div>
+
+
+              <!-- <div *ngIf="columnCount.positionIsActive==0;"
+              
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,true,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"><i class="fa fa-lock"
+                  aria-hidden="true" style="font-size:33px; color: red; margin-bottom: 0; padding-bottom: 0;"></i>
+              </div> -->
+              <div
+                *ngIf="columnCount.positionIsActive==0 && columnCount.isAlarmRack==0 && columnCount.positionIsAllocated!=2;"
+                class="palletPositions1"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,true,false,true,true,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <i class="fa fa-lock" aria-hidden="true" style="font-size:25px; color: red;  padding-bottom: 0;">
+                </i>
+              </div>
+
+
+              <div
+                *ngIf="columnCount.positionIsDeleted==1 && columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==1 && columnCount.isManualDispatch==1&& columnCount.positionIsAllocated!=2;"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,true,false,false,false,true)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal">
+                <i class="bi bi-x-square-fill" aria-hidden="true" style="font-size: 28px;"></i>
+              </div>
+
+
+              <div
+                *ngIf="columnCount.emptyPalletPosition==1 && columnCount.positionIsAllocated==1 && columnCount.isManualDispatch==0 && columnCount.positionIsActive==1 && columnCount.isAlarmRack==0"
+                class="col-2 palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,false,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="font-size: 27px; background-color:#FFD966">
+              </div>
+
+              <div
+                *ngIf="columnCount.positionIsActive==2 && columnCount.emptyPalletPosition==1 && columnCount.isManualDispatch==0 && columnCount.positionIsAllocated==0 && columnCount.isAlarmRack==0 ;"
+                class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,true,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="background-color: rgb(163, 154, 154);">
+              </div>
+
+              <div *ngIf="columnCount.isAlarmRack == 1" class="palletPositions blinking-background"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId, columnCount.positionName, false, true, true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal">
+              </div>
+
+              <div *ngIf="columnCount.positionIsAllocated == 2" class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId, columnCount.positionName, false,false,true,true,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal" style="background-color: #1af3d5;">
+              </div>
+
+              <!-- <div
+              *ngIf="columnCount.positionIsActive==1 && columnCount.emptyPalletPosition==1 && columnCount.isManualDispatch==1;"
+              class="col-2"
+              (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,true,true,true)"
+              data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"><i class="bi bi-x-square-fill"
+                aria-hidden="true" style="font-size: 35px;"></i>
+            </div> -->
+              <!-- <div
+                *ngIf="columnCount.emptyPalletPosition==1 && columnCount.positionIsAllocated==1 && columnCount.isManualDispatch==0 && columnCount.positionIsActive==1"
+                class="col-2" class="palletPositions"
+                (click)="fetchCurrentPalletStockDetailsByPositionId(columnCount.positionId,columnCount.positionName,false,false,false)"
+                data-bs-toggle="modal" data-bs-target="#openSelectedPalletCodeModal"
+                style="font-size: 27px; background-color:#FFD966">
+              </div> -->
+
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td *ngFor="let columnCount of [1,2,3,4,5,6,7,8,9,10,11,12]; index as i">
+            <div class="position-number">
+
+              <div class="number-col col-10 col-md-10 col-sm-10">{{columnCount}}</div>
+
+            </div>
+          </td>
+
+        </tr>
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <div class="right-icon"><img src="assets/images/right-side-icon.jpg" class="right-icon"
+      style="background-color: rgb(229, 235, 245);">
+    <img src="assets/images/Checkboxes-with-Red-Arrows.png" alt="not Found" class="rightside-deep">
+
+  </div>
+
+  <!-- open Modal -->
+  <!-- Dispatch Current stock Modal  -->
+
+  <div class="modal" id="openSelectedPalletCodeModal" data-bs-focus="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header modal-title-style ">
+          <tr>
+            <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+            </h4>
+          </tr>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+
+
+            <div class="col-lg-2 inputfield">
+              <p>Pallet Code :</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displayPalletCodeId" name="displayPalletCodeName" [(ngModel)]="palletCode"
+                readonly="true" style="width: 180px;">
+
+            </div>
+
+            <div class="col-lg-2 inputfield">
+              <p>User Name :</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displayUserNameId" name="displayUserName" [(ngModel)]="userName" readonly="true"
+                style="width: 180px;">
+
+            </div>
+
+
+          </div>
+
+          <div class="container">
+
+            <h5>Pallet Details:</h5>
+
+            <table class="table-responsive-sm  palletDetails table-bordered table stripe" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Part No</th>
+                  <th>Model</th>
+                  <th>BP Serial No</th>
+                  <th>Quantity</th>
+                  <th>Quality Status</th>
+                  <th>Load Date Time</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let currentStockInstance of currentStockDetailsList index as i;">
+                  <td>{{i+1}}</td>
+                  <td>{{currentStockInstance.productVariantCode}} </td>
+                  <td>{{currentStockInstance.productName}}</td>
+                  <td>{{currentStockInstance.serialNumber}}</td>
+                  <td>
+                    {{currentStockInstance.quantity}}
+                  </td>
+
+                  <!-- Inside your modal body -->
+                  <td>{{currentStockInstance.qualityStatus}}</td>
+
+
+
+                  <td>{{currentStockInstance.loadDatetime}}</td>
+
+                  <!-- Edit Current pallet stock data -->
+                  <button type="button" class="btn btn-warning btn-sm edit-button" style="margin-bottom: 5px;"
+                    [disabled]="isMonitor()" (click)="editCurrentStockDetailsRow(currentStockInstance)"
+                    data-bs-toggle="modal" data-bs-target="#EditDataModalId">
+                    <i class="bi bi-pencil-square"></i></button>
+                  <!-- Delete Current pallet stock data -->
+                  <!-- <button class="btn btn-sm btn-danger  delete-button"
+                  (click)="deleteCurrentStockDetailsRow(currentStockInstance)" type="button" data-bs-toggle="modal"
+                  data-bs-target="#deleteDataModalId"><i class="bi bi-trash3" style="color: black;"></i></button> -->
+                </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <p *ngIf="isPositionIsLock==true ||  isPositionIsEmpty==true; else positionIsNotActiveMD">
+
+              <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+                data-bs-target="#confirmDispatchStockModalId" [disabled]="true ||isMonitor()"
+                style="margin-top: 15px; margin-right: 5px;">Manual Dispatch</button>
+
+            </p>
+            <ng-template #positionIsNotActiveMD>
+
+              <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+                data-bs-target="#confirmDispatchStockModalId" [disabled]="false ||isMonitor()">Manual
+                Dispatch</button>
+
+            </ng-template>
+
+
+            <!-- <div class="modal-footer">
+            <p *ngIf="isPositionIsLock==true || isPositionIsEmpty==true; else positionIsNotActiveMD">
+              <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+                data-bs-target="#confirmDispatchStockModalId" [disabled]="true">Manual Dispatch</button>
+            </p>
+            <ng-template #positionIsNotActiveMD>
+              <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+                (click)="checkFloorIsActiveInactive(selectedFloorName,dispatchCurrentStockDetailsInstance)"
+                data-bs-target="#confirmDispatchStockModalId" [disabled]="false">Manual Dispatch</button>
+  
+            </ng-template> -->
+
+
+
+
+
+            <span *ngIf="dealLockCellTrue==true;">
+              <p *ngIf="isPositionIsLock==true ; else positionIsNotActive">
+<!-- 
+                <button type="button" class="btn btn-danger " data-bs-toggle="modal" [disabled]="isMonitor()"
+                  data-bs-target="#unlockPositionModalId"
+                  style="margin-top: 15px; margin-right: 4px; margin-left: 2px;">UnLock Position </button> -->
+
+                      <button type="button" class="btn btn-danger " [disabled]="isMonitor()"
+               (click)="handleUnlockClick(binLocation)"
+                style="margin-top: 15px; margin-right: 4px; margin-left: 2px;">UnLock Position </button>
+              </p>
+              <ng-template #positionIsNotActive>
+                <!-- <button type="button" class="btn btn-success " data-bs-toggle="modal"
+                data-bs-target="#lockPositionModalId">
+                Lock Position
+              </button> -->
+                <span *ngIf="disabledeletebuttons==false">
+                  <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+                    [disabled]="isMonitor()" data-bs-target="#deleteDataModalId">Delete Data</button>
+                  <button type="button" class="btn btn-success " data-bs-toggle="modal" [disabled]="isMonitor()"
+                    data-bs-target="#lockPositionModalId" style="margin-left: 5px;">
+                    Lock Position
+                  </button>
+                </span>
+                <span *ngIf=" disabledeletebuttons==true">
+                  <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal" disabled="true"
+                    [disabled]="isMonitor()" data-bs-target="#deleteDataModalId">Delete Data</button>
+                  <button type="button" class="btn btn-success " data-bs-toggle="modal" disabled="true"
+                    [disabled]="isMonitor()" style="margin-left: 5px;" data-bs-target="#lockPositionModalId">
+                    Lock Position
+                  </button>
+                </span>
+              </ng-template>
+            </span>
+
+
+            <span *ngIf="dealLockCellTrue==false">
+              <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal" disabled="true"
+                data-bs-target="#deleteDataModalId" [disabled]="isMonitor()">Delete Data</button>
+              <button type="button" class="btn btn-success " data-bs-toggle="modal" disabled="true"
+                [disabled]="isMonitor()" style="margin-left: 5px;" data-bs-target="#lockPositionModalId">
+                Lock Position
+              </button>
+            </span>
+
+
+            <p *ngIf="isPositionIsEmpty==true; else positionIsFull">
+              <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#fillDataModalId"
+                [disabled]="false ||isMonitor()" style="margin-top: 10px;">Fill Data</button>
+            </p>
+
+            <ng-template #positionIsFull>
+              <button class="btn btn-success" disabled="true" [disabled]="isMonitor()">Fill Data</button>
+            </ng-template>
+
+
+            <!-- <ng-template #disablebutton>
+            <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal" disabled="true"
+              data-bs-target="#deleteDataModalId">Delete Data</button>
+              <button type="button" class="btn btn-success " data-bs-toggle="modal" disabled="true"
+                data-bs-target="#lockPositionModalId">
+                Lock Position
+              </button>
+          </ng-template> -->
+
+            <!-- <span *ngIf="dealLockCellTrue==true;else disablebutton">
+            <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal"
+              data-bs-target="#deleteDataModalId">Delete Data</button>
+          </span>
+          <ng-template #disablebutton>
+            <button type="button" class="btn btn-success" type="submit" data-bs-toggle="modal" disabled="true"
+              data-bs-target="#deleteDataModalId">Delete Data</button>
+              <button type="button" class="btn btn-success " data-bs-toggle="modal" disabled="true"
+                data-bs-target="#lockPositionModalId">
+                Lock Position
+              </button>
+          </ng-template> -->
+            <p
+              *ngIf="isPositionIsLock==true || isPositionIsEmpty==true || positionIsAllocated==true; else positionIsNotAllocatedMD">
+
+              <button type="button" class="btn btn-warning" type="submit" data-bs-toggle="modal" id="btn1"
+                data-bs-target="#freeAllocatedPositionModalId" [disabled]="true ||isMonitor()"
+                style="margin-top: 10px; margin-left: 3px; margin-right: 3px;">Free Allocated</button>
+
+            </p>
+            <ng-template #positionIsNotAllocatedMD>
+
+              <button type="button" class="btn btn-warning" type="submit" data-bs-toggle="modal" id="btn2"
+                data-bs-target="#freeAllocatedPositionModalId" [disabled]="false ||isMonitor()">Free Allocated</button>
+            </ng-template>
+
+
+
+
+
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- free allocated position -->
+  <div class="modal" id="freeAllocatedPositionModalId" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!--  Header -->
+        <div class="modal-header modal-title-style">
+
+          <h4 class="modal-title " style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+          </h4>
+        </div>
+
+
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="textdesign"> Are you sure you want to free allocated {{binLocation}}?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" data-bs-dismiss="modal" type="button"
+            (click)="freeAllocatedPosition()">Remove</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- manual dispatch -->
+
+  <div class="modal" id="confirmDispatchStockModalId" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!--  Header -->
+        <div class="modal-header modal-title-style">
+          <h4 class="modal-title " style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+          </h4>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="textdesign">Are you sure you want to manually dispatch
+            {{palletCode}} pallet ?</p>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" data-bs-dismiss="modal" type="button"
+            (click)="addCurrentStockDetailsInManualOutFeed(this.currentStockDetailsList[0])">Yes</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">No</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- UnLock Position -->
+
+  <div class="modal" id="unlockPositionModalId" data-bs-focus="false" #unlockPositionModalId>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!--  Header -->
+        <div class="modal-header modal-title-style">
+
+          <h4 class="modal-title " style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+          </h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+          <label for="masterReasonDetailsTableList" class="required label-text">Mention the reason </label><br><br>
+
+
+          <select id="lockReason" name="lockreason" placeholder="please mention reason"
+            [(ngModel)]="selectedAddReasonName" #unlockPositionReasonRef="ngModel"
+            (change)="selectReasonChangeHandler(unlockPositionReasonRef.value)" required
+            style="width: 450px; height: 50px;">
+            <option *ngFor="let masterReasonDetails of masterReasonDetailsTableList"
+              [ngValue]="masterReasonDetails.reason">
+              {{masterReasonDetails.reason}}</option>
+          </select>
+          <br> <br>
+          <div class="col-lg-3">
+            <p class="required label-text1">Comment</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="commentUnlockId" name="commentUnlockName" required [(ngModel)]="comment"
+              #commentUnlockRef="ngModel" style="width: 450px;">
+
+            <div *ngIf="commentUnlockRef.invalid && (commentUnlockRef.dirty || commentUnlockRef.touched)" class="error"
+              style="margin-right: -140px;">
+              <div *ngIf="commentUnlockRef.errors?.['required']">
+                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Comment
+
+                </p>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="modal-footer">
+           <button class="btn btn-success" type="button"
+  (click)="unLockSelectedPosition(unlockPositionReasonRef.value)"
+  [disabled]="!selectedAddReasonName || !comment">
+  Submit
+</button>
+
+            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          </div>
+          <!-- </form> -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- Lock Position -->
+
+  <div class="modal" id="lockPositionModalId">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!--  Header -->
+        <div class="modal-header modal-title-style">
+          <h4 class="modal-title " style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+          </h4>
+        </div>
+
+        <div class="modal-body">
+          <label for="masterReasonDetailsTableList" class="required label-text">Mention the reason </label><br><br>
+
+
+          <select id="lockReason" name="lockreason" placeholder="please mention reason"
+            [(ngModel)]="selectedAddReasonName" #lockPositionIdReasonRef="ngModel"
+            (change)="selectReasonChangeHandler(lockPositionIdReasonRef.value)" required
+            style="width: 450px; height: 50px;">
+            <option *ngFor="let masterReasonDetails of masterReasonDetailsTableList"
+              [ngValue]="masterReasonDetails.reason">
+              {{masterReasonDetails.reason}}</option>
+          </select>
+
+          <br> <br>
+          <div class="col-lg-3">
+            <p class="required label-text1">Comment</p>
+          </div>
+          <div class="col-lg-3">
+            <input type="text" id="commentId" name="commentName" required [(ngModel)]="comment" #commentRef="ngModel"
+              style="width: 450px;">
+
+            <div *ngIf="commentRef.invalid && (commentRef.dirty || commentRef.touched)" class="error"
+              style="margin-right: -140px;">
+              <div *ngIf="commentRef.errors?.['required']">
+                <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Comment
+
+                </p>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="modal-footer">
+            <button class="btn btn-success" data-bs-dismiss="modal" type="button"
+              (click)="lockSelectedPosition(lockPositionIdReasonRef.value)"
+              [disabled]="!selectedAddReasonName || !comment">Submit</button>
+
+            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Edit Product Current Pallet stock data Modal -->
+  <div class="modal" id="EditDataModalId">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header modal-title-style">
+          <h4 class="modal-title" style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;"><i class="bi bi-pencil-square"></i> Bin Location: {{binLocation}}</h4>
+
+        </div>
+        <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+        <div class="modal-body">
+          <div class="row">
+            <form #updatecurrentPalletStockModalForm="ngForm"
+              (ngSubmit)="updateCurrentStockDetailsData(editCurrentStockDetailsForSelectedIdInstance)" novalidate>
+              <div class="row">
+                <div class="col-5">
+                  <p class="required label-text1">Pallet Code</p>
+                </div>
+                <div class="col-7">
+                  <input type="text" id="editPalletCodeId" name="editPalletCodeName" required readonly="true"
+                    disabled="true" [(ngModel)]="palletCode" #editPalletCodeNameRef="ngModel">
+                  <div
+                    *ngIf="editPalletCodeNameRef.invalid && (editPalletCodeNameRef.dirty || editPalletCodeNameRef.touched)"
+                    class="error">
+                    <div *ngIf="editPalletCodeNameRef.errors?.['required']">
+                      <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Pallet Code
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5">
+                  <p class="required label-text1">Part No</p>
+                </div>
+                <div class="col-7">
+                  <input type="text" id="editProductVariantCodeId" name="editProductVariantCodeName" required
+                    [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.productVariantCode"
+                    #editProductVariantCodeNameRef="ngModel">
+                  <div
+                    *ngIf="editProductVariantCodeNameRef.invalid && (editProductVariantCodeNameRef.dirty || editProductVariantCodeNameRef.touched)"
+                    class="error">
+                    <div *ngIf="editProductVariantCodeNameRef.errors?.['required']">
+                      <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Material
+                        Code
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-5">
+                  <p class="required label-text1">BP Serial Number</p>
+                </div>
+                <div class="col-7">
+                  <input type="text" id="editSerialNumberId" name="editSerialNumberName" required
+                    [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.serialNumber"
+                    #editSerialNumberRef="ngModel">
+                  <div *ngIf="editSerialNumberRef.invalid && (editSerialNumberRef.dirty || editSerialNumberRef.touched)"
+                    class="error">
+                    <div *ngIf="editSerialNumberRef.errors?.['required']">
+                      <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter BP Serial Number
+
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-5">
+                  <p class="required label-text1">Quantity</p>
+                </div>
+                <div class="col-7">
+                  <input type="number" [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.quantity"
+                    name="editQuantity" id="editQuantity" required #editQuantity="ngModel">
+                  <div *ngIf="editQuantity.invalid && (editQuantity.dirty || editQuantity.touched)" class="error">
+                    <div *ngIf="editQuantity.errors?.['required']">
+                      <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Enter Quantity </p>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- <div class="row">
+              <div class="col-5">
+                <p class="required">Quality Status</p>
+              </div>
+              <div class="col-7">
+                <input type="text" [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.qualityStatus"
+                  name="editQualityStatus" id="editQualityStatus" required #editQualityStatus="ngModel">
+                <div *ngIf="editQuantity.invalid && (editQuantity.dirty || editQuantity.touched)" class="error">
+                  <div *ngIf="editQualityStatus.errors?.['required']">
+                    <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Enter Quality Status </p>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+              <!-- <div class="row">
+            <div class="col-5">
+                <div class="col-5">
+                    <div style="display: flex; align-items: center;">
+                        <p class="required" style="margin-right: 10px;">Quality Status</p>
+                        <div class="col-4" style="width: 175px; border-color: rgb(82, 79, 79); height: 5px; margin-left: 270px; margin-top: -35px;">
+                            <select name="editQualityStatus" id="editQualityStatus" #editQualityStatus="ngModel"
+                                    [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.qualityStatus"
+                                    (change)="selectQualityStatusChangeHandler(editQualityStatus.value)"
+                                    class="form-select">
+                                <option value="" disabled selected></option>
+                                <option value="OK">Ok</option>
+                                <option value="OK">NOK</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+              <!-- Quality Status -->
+
+              <div class="row">
+                <div class="col-5">
+                  <div class="col-5">
+                    <div style="display: flex; align-items: center;">
+                      <p class="required label-text1" style="margin-right: -5px;">Quality Status</p>
+                      <div class="col-4"
+                        style="width: 170px; border: 1px solid black; border-radius: 1px; margin-left: 270px;">
+                        <select name="editQualityStatus" id="editQualityStatus" #editQualityStatus="ngModel" required
+                          [(ngModel)]="editCurrentStockDetailsForSelectedIdInstance.qualityStatus" class="form-select"
+                          required>
+                          <option value="" disabled selected></option>
+                          <option value="OK">OK</option>
+                          <option value="NOK">NOK</option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div *ngIf="editQualityStatus.invalid && (editQualityStatus.dirty || editQualityStatus.touched)"
+                      class="error">
+                      <div *ngIf="editQualityStatus.errors?.['required']">
+                        <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please select Quality
+                          Status
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" type="submit"
+                  [disabled]="!updatecurrentPalletStockModalForm.valid">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <!-- Delete Data -->
+  <div class="modal" id="deleteDataModalId" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!--  Header -->
+        <div class="modal-header modal-title-style">
+
+          <h4 class="modal-title " style="font-size: 1.5rem;
+        font-family: ibm-plex-sans-regular;
+        font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+          </h4>
+        </div>
+
+
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="textdesign"> Are you sure you want to delete {{palletCode}} pallet?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" data-bs-dismiss="modal" type="button"
+            (click)="deleteCurrentStockDetailsPositionId(dispatchCurrentStockDetailsInstance)">Delete</button>
+          <!-- (click)="currentStockManualDispatch()" -->
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal" id="fillDataModalId" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header modal-title-style">
+          <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}</h4>
+        </div>
+
+
+        <div class="modal-body">
+
+          <form #updatecurrentStockModalForm="ngForm" novalidate>
+            <div class="row">
+              <div class="col-lg-3">
+                <p class="required label-text1">Pallet Code</p>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" id="displayPalletCodeId" name="displayPalletCodeName" required
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.palletCode" #displayPalletCodeNameRef="ngModel"
+                  (ngModelChange)="onPalletCodeChange()" style="width: 180px;">
+                <i class="bi bi-check-circle input-icon" [ngClass]="{'text-success': isValidated}"
+                  (click)="validatePalletCode(dispatchCurrentStockDetailsInstance)"></i>
+
+                <div
+                  *ngIf="displayPalletCodeNameRef.invalid && (displayPalletCodeNameRef.dirty || displayPalletCodeNameRef.touched)"
+                  class="error">
+                  <div *ngIf="displayPalletCodeNameRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Pallet Code
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+              </div>
+
+              <div class="col-lg-3">
+                <p class="required label-text1">Part No</p>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" id="displayProductVariantNameId" name="displayProductVariantName" required
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.productVariantCode"
+                  #displayProductVriantCodeRef="ngModel" (ngModelChange)="checkProductVariantAndQuantity()"
+                  style="width: 180px;">
+
+                <div
+                  *ngIf="displayProductVriantCodeRef.invalid && (displayProductVriantCodeRef.dirty || displayProductVriantCodeRef.touched)"
+                  class="error">
+                  <div *ngIf="displayProductVriantCodeRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Product Variant
+                      Code
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3">
+                <p class="required label-text1">Batch Number</p>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" id="displayBatchNumberId" name="displayBatchNumberName" required
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.batchNumber" #displayBatchNumberNameRef="ngModel"
+                  style="width: 180px;">
+
+                <div
+                  *ngIf="displayBatchNumberNameRef.invalid && (displayBatchNumberNameRef.dirty || displayBatchNumberNameRef.touched)"
+                  class="error">
+                  <div *ngIf="displayBatchNumberNameRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Batch Number
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-lg-3">
+                <p class="required label-text1">BP Serial Number</p>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" id="displaySerialNumberNameRefNumberId" name="displaySerialNumberNameRef" required
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.serialNumber" #displaySerialNumberNameRef="ngModel"
+                  style="width: 180px;">
+
+                <div
+                  *ngIf="displaySerialNumberNameRef.invalid && (displaySerialNumberNameRef.dirty || displaySerialNumberNameRef.touched)"
+                  class="error">
+                  <div *ngIf="displaySerialNumberNameRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter BP Serial Number
+                      Number
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <p class="required label-text1">Quantity</p>
+              </div>
+              <!-- <div class="col-lg-3">
+              <input type="text" id="displayQuantityId" name="displayQuantityName" required
+                [(ngModel)]="dispatchCurrentStockDetailsInstance.quantity" #displayQuantityNameRef="ngModel"
+                style="width: 180px;">
+
+              <div
+                *ngIf="displayQuantityNameRef.invalid && (displayQuantityNameRef.dirty || displayQuantityNameRef.touched)"
+                class="error">
+                <div *ngIf="displayQuantityNameRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Quantity
+                  </p>
+                </div>
+              </div>
+
+
+            </div> -->
+              <div class="col-lg-3">
+                <input type="number" id="displayQuantityId" name="displayQuantityName" required max="1"
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.quantity" #displayQuantityNameRef="ngModel"
+                  (ngModelChange)="checkProductVariantAndQuantity()" style="width: 180px;" />
+
+                <div
+                  *ngIf="displayQuantityNameRef.invalid && (displayQuantityNameRef.dirty || displayQuantityNameRef.touched)"
+                  class="error">
+                  <div *ngIf="displayQuantityNameRef.errors?.['required']">
+                    <p class="text-danger">
+                      <i class="bi bi-exclamation-circle-fill"></i>Please Enter Quantity
+                    </p>
+                  </div>
+
+                  <div *ngIf="displayQuantityNameRef.errors?.['max']">
+                    <p class="text-danger">
+                      <i class="bi bi-exclamation-circle-fill"></i>Quantity cannot be more than 1
+                    </p>
+                  </div>
+
+                  <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-lg-3">
+                <p class="required label-text1">Product Name</p>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" id="displayProductId" name="displayProductName" required
+                  [(ngModel)]="dispatchCurrentStockDetailsInstance.productName" #displayProductNameRef="ngModel"
+                  pattern="[A-Z0-9 ]*" style="width: 180px;" (ngModelChange)="onProductNameChange()">
+                <i class="bi bi-check-circle input-icon" [ngClass]="{'text-success': isproductNameValidated}"
+                  (click)="validateProductName(dispatchCurrentStockDetailsInstance)"></i>
+                <div
+                  *ngIf="displayProductNameRef.invalid && (displayProductNameRef.dirty || displayProductNameRef.touched)"
+                  class="error">
+                  <!-- Required Error -->
+                  <div *ngIf="displayProductNameRef.errors?.['required']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Product Name</p>
+                  </div>
+                  <!-- Pattern Error -->
+                  <div *ngIf="displayProductNameRef.errors?.['pattern']">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Only capital letters and numbers
+                      are allowed</p>
+                  </div>
+
+                  <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-lg-3">
+                <p class="required label-text1">Quality Status </p>
+              </div>
+              <div class="col-lg-3" style="padding-bottom: 20px;">
+                <div class="col-4" style="width: 179px; border: 1px solid black; border-radius: 1px; ">
+                  <select name="addQualityStatus" id="addQualityStatus" #addQualityStatus="ngModel" required
+                    [(ngModel)]="dispatchCurrentStockDetailsInstance.qualityStatus" class="form-select" required>
+                    <option value="" disabled selected></option>
+                    <option value="OK">OK</option>
+                    <option value="NOK">NOK</option>
+                  </select>
+
+                </div>
+
+
+                <div *ngIf="addQualityStatus.invalid && (addQualityStatus.dirty || addQualityStatus.touched)"
+                  class="error">
+                  <div *ngIf="addQualityStatus.errors?.['required']">
+                    <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please select Quality Status
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+
+
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                [disabled]="!updatecurrentStockModalForm.valid || !isValidated || !isproductNameValidated || checkProductVariantAndQuantity()"
+                (click)="updateCurrentStockDetailsByPosition(dispatchCurrentStockDetailsInstance)">
+                Submit
+              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmationModel" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-style">
+          <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+
+        </div>
+        <div class="modal-body" style="background-color: red;">
+
+          <p class="textdesign1">{{ responseData?.message }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal AudioPopup" id="confirmationModel1" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-style">
+          <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+
+        </div>
+        <div class="modal-body" style="background-color: red;">
+
+          <p class="textdesign1">{{ responseDataforAudio?.message }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="openSearchedPalletCodeModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header modal-title-style ">
+          <tr>
+            <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">Bin Location: {{binLocation}}
+
+            </h4>
+          </tr>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+
+
+            <div class="col-lg-2 inputfield">
+              <p>Pallet Code :</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displayPalletCodeId" name="displayPalletCodeName" [(ngModel)]="palletCode"
+                readonly="true" style="width: 180px;">
+
+            </div>
+
+            <div class="col-lg-2 inputfield">
+              <p>User Name :</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displayUserNameId" name="displayUserName" [(ngModel)]="userName" readonly="true"
+                style="width: 180px;">
+
+            </div>
+
+
+          </div>
+
+          <div class="container">
+
+            <h5>Pallet Details:</h5>
+
+            <table class="table-responsive-sm  palletDetails table-bordered table stripe" style="width: 100%;"
+              id="palletCodeListFromCurrentStock">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Part No</th>
+                  <th>Model</th>
+                  <th>BP Serial No</th>
+                  <th>Quantity</th>
+                  <th>Quality Status</th>
+                  <th>Load Date Time</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let searchPallet of palletCodeList index as i;">
+                  <td>{{i+1}}</td>
+                  <td>{{searchPallet.productVariantCode}} </td>
+                  <td>{{searchPallet.productName}}</td>
+                  <td>{{searchPallet.serialNumber}}</td>
+                  <td>
+                    {{searchPallet.quantity}}
+                  </td>
+                  <td>{{searchPallet.qualityStatus}}</td>
+                  <td>{{searchPallet.loadDatetime}}</td>
+
+
+                </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal" id="openSearchedSerialNumberModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header modal-title-style">
+          <h4 class="modal-title" style="font-size: 1.5rem;
+          font-family: ibm-plex-sans-regular;
+          font-weight: bold; margin-top: 10px;">
+            Bin Location: {{binLocation}}
+          </h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-2 inputfield">
+              <p>BP Serial Number:</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displaySerialNoId" name="displayPalletCodeName" [(ngModel)]="serialNumber"
+                readonly="true" style="width: 180px;">
+            </div>
+
+            <div class="col-lg-2 inputfield">
+              <p>User Name :</p>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" id="displayUserNameId" name="displayUserName" [(ngModel)]="userName" readonly="true"
+                style="width: 180px;">
+            </div>
+          </div>
+
+          <div class="container">
+            <h5>Pallet Details:</h5>
+            <table class="table-responsive-sm palletDetails table-bordered table stripe" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Part No</th>
+                  <th>Model</th>
+                  <th>Pallet Code</th>
+                  <th>Quantity</th>
+                  <th>Quality Status</th>
+                  <th>Load Date Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let searchSerialNo of serialNumberList; index as i">
+                  <td>{{i + 1}}</td>
+                  <td>{{searchSerialNo.productVariantCode}}</td>
+                  <td>{{searchSerialNo.productName}}</td>
+                  <td>{{searchSerialNo.palletCode}}</td>
+                  <td>{{searchSerialNo.quantity}}</td>
+                  <td>{{searchSerialNo.qualityStatus}}</td>
+                  <td>{{searchSerialNo.loadDatetime}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="modal first-popup" id="confirmationModel2" tabindex="-1" role="dialog" data-bs-keyboard="false"
+  data-bs-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-style" style="background-color: white;">
+        <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+      </div>
+      <div class="modal-body" style="background-color: red;">
+        <p class="textdesign1">{{ responseData2?.message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" (click)="onAddMockDrillMission('Area-1')" [disabled]="isMonitor()">Generate Mockdrill
+          Mission</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal second-popup" id="confirmationModel3" tabindex="-1" role="dialog" data-bs-keyboard="false"
+  data-bs-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-style" style="background-color: white;">
+        <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+      </div>
+      <div class="modal-body" style="background-color: red;">
+        <p class="textdesign1">{{ responseData3?.message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" (click)="onAddMockDrillMissionForArea2('Area-2')" [disabled]="isMonitor()">Generate
+          Mockdrill Mission</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="modal fade" id="unlockConfirmModal" data-bs-focus="false" #unlockModal>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Unlock Confirmation</h5>
+      </div>
+
+      <div class="modal-body">
+        {{ lockMessage }}
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button class="btn btn-danger" (click)="proceedToReasonModal()">
+          Yes
+        </button>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="confirmationModel77" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+              
+                <p class="textdesign1">{{ responseDataMismatchCell?.message }}</p>
+
+               
+                <ul class="text-white">
+                    <li *ngFor="let cell of responseDataMismatchCell?.data">
+                        {{ cell }}
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>

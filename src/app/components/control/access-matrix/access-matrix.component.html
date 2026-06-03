@@ -1,0 +1,41 @@
+<!-- MASTER HEADER SECTION -->
+<div class="row heading-name-area">
+    <div class="col-sm-8 col-md-9 col-lg-10">
+        <h5 class="main-heading"><u>Access Matrix</u></h5>
+    </div>
+</div>
+
+<!-- TABLE SECTION -->
+<div class="row table-area ">
+    <div class="col shadow-border p-3 mb-5 rounded">
+        <div id="table">
+            <table datatable [dtOptions]="accesmatrixDtOptions" id="prodId"
+                class="table-responsive-sm table-hover table-bordered table stripe ">
+                <thead>
+                    <tr>
+                        <th class="th-sm" rowspan="2">Sr No</th>
+                        <th class="th-sm" rowspan="2" style="font-size: 1.2rem;">Field</th>
+                        <th class="th-sm" colspan="3" style="text-align: center;">Access</th>
+                    </tr>
+                    <tr>
+                        <th class="th-sm" style="text-align: center;">Admin</th>
+                        <th class="th-sm" style="text-align: center;">Operator</th>
+                        <th class="th-sm" style="text-align: center;">Supervisor</th>
+                        <th class="th-sm" style="text-align: center;">Monitor</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let access of accessMatrixList; index as i">
+                        <td>{{i+1}}</td>
+                        <td class="field-text">{{access.field}}</td>
+                        <td class="box"><input type="checkbox" class="checkbox" [(ngModel)]="access.admin"(change)="updateNumericValue(access)" [ngClass]="{'cross-checkbox': access.admin === 0}" [disabled]="access.field ==='Access_Matrix' ||isMonitor() " > </td>
+                        <td><input type="checkbox" class="checkbox" [(ngModel)]="access.operator" (change)="updateNumericValue(access)" [ngClass]="{'cross-checkbox': access.operator === 0}" [disabled]="isMonitor()"></td>
+                        <td><input type="checkbox" class="checkbox" [(ngModel)]="access.supervisor"  [(ngModel)]="access.supervisor" (change)="updateNumericValue(access)"  [ngClass]="{'cross-checkbox': access.supervisor === 0}" [disabled]="isMonitor()"></td>
+                        <td><input type="checkbox" class="checkbox" [(ngModel)]="access.monitor"  [(ngModel)]="access.monitor" (change)="updateNumericValue(access)"  [ngClass]="{'cross-checkbox': access.monitor === 0}" [disabled]="isMonitor()"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

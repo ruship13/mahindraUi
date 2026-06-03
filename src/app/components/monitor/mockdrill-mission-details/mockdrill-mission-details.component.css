@@ -1,0 +1,159 @@
+.main-heading {
+    text-align: center;
+    margin-left: 20%;
+    font-size: 1.7rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+    text-underline-position: under;
+}
+
+.button {
+    background-color: rgb(51, 121, 190);
+    color: white;
+    width: 180px;
+    height: 50px;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.button:hover {
+    color: #000000;
+    background-color: rgb(144, 232, 238);
+}
+
+.fetch-button {
+    background-color: #36d666;
+    color: white;
+    border-radius: 12px;
+    width: 180px;
+    height: 50px;
+    opacity: 1;
+    outline: 0 transparent;
+    touch-action: manipulation;
+    font-size: 20px;
+}
+
+.fetch-button:hover {
+    color: #000000;
+    background-color: lightgreen;
+}
+
+
+.buttons {
+    display: flex;  
+    justify-content: space-between;  
+    gap: 10px;  
+    align-items: center;  
+}
+
+.pdfbtn:hover,
+.pdfbtn:active {
+  background-color: #ff0000 !important;
+  color: white !important;
+}
+
+.pdfbtn:hover mat-icon {
+  background-color: #ff0000 !important;
+  color: white !important;
+}
+
+
+
+td {
+    white-space: nowrap;
+}
+/* Table */
+.table-area {
+    margin-top: 2rem;
+    background-color: #FBFCFC;
+    /* border: 3px solid red; */
+}
+
+.table {
+    font-size: 0.9rem;
+    /* background-color: #FBFCFC; */
+    background-color: white;
+    /* margin-top: 1rem; */
+}
+
+table.table-bordered>thead>tr>th {
+    border-bottom: 2px solid #4472C4;
+}
+
+
+.stripe {
+    border: 1px solid #B4C7E7;
+}
+
+tr:hover td {
+    background-color: #e2e9f1;
+}
+
+th,
+td {
+
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+    background-color: #DAE3F3;
+}
+
+.main-heading {
+    text-align: center;
+    margin-left: 20%;
+    font-size: 1.7rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+    /* color: #333F50; */
+}
+.textdesign {
+    text-align: center;
+    /* margin-left: 26%; */
+    font-size: 1.2rem;
+    font-family: Calibri;
+    font-weight: bold;
+}
+
+.textdesign1 {
+    text-align: center;
+    /* margin-left: 26%; */
+    font-size: 1.2rem;
+    font-family: Calibri;
+    font-weight: bold;
+    color: white;
+}
+
+.modal-title.confText {
+    text-align: center;
+    margin-left: 42%;
+    font-size: 1.3rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+    color: black;
+
+}
+
+.modal-title.confText1 {
+    text-align: center;
+    margin-left: 27%;
+    font-size: 1.3rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+    color: white;
+
+}
+
+.modal.first-popup{
+    margin-left: -600px;
+}
+
+.modal.second-popup{
+    margin-left: 600px;
+}
+
+
+
+

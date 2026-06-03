@@ -1,0 +1,329 @@
+<div class="col-sm-10 ">
+    <h4 class="main-heading"><u>PLC-IT Data Mismatch Details</u></h4>
+</div>
+<div class="row" style="margin-left:-20px;">
+
+
+    <div>
+        <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#dataMismatchReportFilter"
+            style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+            Filter
+        </button>
+        <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+            style="background-color: white; border-color: red; color: red;">
+            <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png" alt="pdf">
+            <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+            Download
+        </button>
+
+        <button class="btn btn-outline-success float-end mx-1" (click)="generateMannualRetrivalExcelReport()">
+            <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png" alt="excel">
+            Download
+        </button>
+
+
+
+    </div>
+</div>
+
+
+
+<div class="collapse" id="dataMismatchReportFilter">
+    <form #alarmFilterForm="ngForm" name="alarmFilterForm" (ngSubmit)="fetchDataMismatchDetailsByAllFilters()">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">Start Date</label>
+                <input type="datetime-local" id="startdatepicker" name="alarmMissionStartDateTime"
+                    [(ngModel)]="plcItDataMismatchStartCdatetime" class="form-control" (input)="dateTimeValidation()">
+                <div *ngIf="plcItDataMismatchStartCdatetime>plcItDataMismatchEndCdatetime" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                        than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">End Date</label>
+                <input type="datetime-local" id="enddatepicker" name="alarmMissionEndDateTime"
+                    [(ngModel)]="plcItDataMismatchEndCdatetime" [disabled]="disableDateTime" class="form-control"
+                    (input)="dateTimeValidation()">
+                <div *ngIf="plcItDataMismatchStartCdatetime>plcItDataMismatchEndCdatetime" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less
+                        than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mt-1">
+                <h5 class="mt-4 "></h5>
+                <button class="btn btn-success " type="submit" [disabled]="disableSearchButton"><i
+                        class="fa fa-search"></i>Search</button>
+                <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+                    (click)="fetchAllMismatchDetails()"><i class="fa fa-eraser"></i>
+                    Reset</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+
+<div class="row table-area"
+    style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; padding-top: 5px; ">
+    <div class="col">
+
+
+        <div id="table">
+            <table datatable [dtOptions]="plcItDataMismatchReportDtOptions" id="dataMismatchDetailsId"
+                class="table-responsive-sm table-bordered stripe">
+                <thead>
+
+                    <tr>
+                        <th class="th-sm">Sr No</th>
+                        <th class="th-sm">Pallet Code</th>
+                        <th class="th-sm">Position Id</th>
+                        <th class="th-sm">Position Name</th>
+
+                        <th class="th-sm">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dataMismatch of ItPlcDataMismatchDetails; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{dataMismatch.palletCode}}</td>
+                        <td>{{dataMismatch.positionId}}</td>
+                        <td>{{dataMismatch.positionName }}</td>
+
+                        <td> <button type="button" class="btn info fetch-button1" data-bs-toggle="modal"
+                                [disabled]="dataMismatch.isDataUpdated !==0" data-bs-target="#fillDataModalId"
+                                (click)="onRowSelect(dataMismatch)" [disabled]="isMonitor()">
+                                Update</button>
+
+                            <!-- <button type="button" class="btn info fetch-button2"
+                           >
+                            Delete</button> -->
+
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="fillDataModalId" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style">
+                <h4 class="modal-title" style="font-size: 1.5rem;
+            font-family: ibm-plex-sans-regular;
+            font-weight: bold; margin-top: 10px;">Bin Location : {{selectedDataMismatch?.positionName || 'Not
+                    Selected'}} </h4>
+            </div>
+
+
+            <div class="modal-body">
+
+                <form #updatecurrentStockModalForm="ngForm" novalidate>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Pallet Code</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="displayPalletCodeId" name="displayPalletCodeName" required
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.palletCode"
+                                #displayPalletCodeNameRef="ngModel" (ngModelChange)="onPalletCodeChange()"
+                                style="width: 180px;">
+                            <i class="bi bi-check-circle input-icon" [ngClass]="{'text-success': isValidated}"
+                                (click)="validatePalletCode(dispatchCurrentStockDetailsInstance)"></i>
+
+                            <div *ngIf="displayPalletCodeNameRef.invalid && (displayPalletCodeNameRef.dirty || displayPalletCodeNameRef.touched)"
+                                class="error">
+                                <div *ngIf="displayPalletCodeNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Pallet Code
+                                    </p>
+                                </div>
+                            </div>
+                            <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Part No</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="displayProductVariantNameId" name="displayProductVariantName"
+                                required [(ngModel)]="dispatchCurrentStockDetailsInstance.productVariantCode"
+                                #displayProductVriantCodeRef="ngModel"
+                                (ngModelChange)="checkProductVariantAndQuantity()" style="width: 180px;">
+
+                            <div *ngIf="displayProductVriantCodeRef.invalid && (displayProductVriantCodeRef.dirty || displayProductVriantCodeRef.touched)"
+                                class="error">
+                                <div *ngIf="displayProductVriantCodeRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Product Variant
+                                        Code
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Batch Number</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="displayBatchNumberId" name="displayBatchNumberName" required
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.batchNumber"
+                                #displayBatchNumberNameRef="ngModel" style="width: 180px;">
+
+                            <div *ngIf="displayBatchNumberNameRef.invalid && (displayBatchNumberNameRef.dirty || displayBatchNumberNameRef.touched)"
+                                class="error">
+                                <div *ngIf="displayBatchNumberNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Batch Number
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <p class="required label-text1">BP Serial Number</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="displaySerialNumberId" name="displayBatchSerialNumberr" required
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.serialNumber"
+                                #displaySerialNumberNameRef="ngModel" style="width: 180px;">
+
+                            <div *ngIf="displaySerialNumberNameRef.invalid && (displaySerialNumberNameRef.dirty || displaySerialNumberNameRef.touched)"
+                                class="error">
+                                <div *ngIf="displaySerialNumberNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        BP Serial Number
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Quantity</p>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <input type="number" id="displayQuantityId" name="displayQuantityName" required max="1"
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.quantity"
+                                #displayQuantityNameRef="ngModel" (ngModelChange)="checkProductVariantAndQuantity()"
+                                style="width: 180px;" />
+
+                            <div *ngIf="displayQuantityNameRef.invalid && (displayQuantityNameRef.dirty || displayQuantityNameRef.touched)"
+                                class="error">
+                                <div *ngIf="displayQuantityNameRef.errors?.['required']">
+                                    <p class="text-danger">
+                                        <i class="bi bi-exclamation-circle-fill"></i>Please Enter Quantity
+                                    </p>
+                                </div>
+
+                                <div *ngIf="displayQuantityNameRef.errors?.['max']">
+                                    <p class="text-danger">
+                                        <i class="bi bi-exclamation-circle-fill"></i>Quantity cannot be more than 1
+                                    </p>
+                                </div>
+
+                                <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Product Name</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="displayProductId" name="displayProductName" required
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.productName"
+                                #displayProductNameRef="ngModel" pattern="[A-Z0-9 ]*" style="width: 180px;"
+                                (ngModelChange)="onProductNameChange()">
+                            <i class="bi bi-check-circle input-icon"
+                                [ngClass]="{'text-success': isproductNameValidated}"
+                                (click)="validateProductName(dispatchCurrentStockDetailsInstance)"></i>
+                            <div *ngIf="displayProductNameRef.invalid && (displayProductNameRef.dirty || displayProductNameRef.touched)"
+                                class="error">
+                                <!-- Required Error -->
+                                <div *ngIf="displayProductNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Product Name</p>
+                                </div>
+                                <!-- Pattern Error -->
+                                <div *ngIf="displayProductNameRef.errors?.['pattern']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Only capital
+                                        letters and numbers
+                                        are allowed</p>
+                                </div>
+
+                                <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-lg-3">
+                            <p class="required label-text1">Quality Status </p>
+                        </div>
+                        <div class="col-lg-3" style="padding-bottom: 20px;">
+                            <div class="col-4" style="width: 179px; border: 1px solid black; border-radius: 1px; ">
+                                <select name="addQualityStatus" id="addQualityStatus" #addQualityStatus="ngModel"
+                                    required [(ngModel)]="dispatchCurrentStockDetailsInstance.qualityStatus"
+                                    class="form-select" required>
+                                    <option value="" disabled selected></option>
+                                    <option value="OK">OK</option>
+                                    <option value="NOK">NOK</option>
+                                </select>
+
+                            </div>
+
+
+                            <div *ngIf="addQualityStatus.invalid && (addQualityStatus.dirty || addQualityStatus.touched)"
+                                class="error">
+                                <div *ngIf="addQualityStatus.errors?.['required']">
+                                    <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please select
+                                        Quality Status
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+
+
+                    </div>
+
+
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                            [disabled]="!updatecurrentStockModalForm.valid || !isValidated || !isproductNameValidated || checkProductVariantAndQuantity() "
+                            (click)="updateCurrentStockDetailsByPosition(dispatchCurrentStockDetailsInstance)">
+                            Submit
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+.container-fluid {
+  background-color: #FBFCFC;
+}
+
+.button-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 110px;
+}
+.modal-title {
+  font-weight: bold;
+  color: white;
+  margin-top: 10px;
+  font-family: ibm-plex-sans-regular;
+  font-size: 1.3rem;
+  margin-left: 20px;
+}
+.popupidit{
+  margin-left: -20px;
+  font-size: 30px;
+  margin-right: 25px;
+}
+.required::after{
+  content: '*';
+  color: red;
+}
+.shadow-border {
+  /* border-right: 5px solid rgb(173, 172, 172);
+    border-bottom: 5px solid rgb(173, 172, 172); */
+  /* border-right: 5px solid rgb(241, 239, 239);
+    border-bottom: 5px solid rgb(228, 226, 226); 
+    border-left: 5px solid rgb(247, 244, 244);  */
+  /* box-shadow: 0 3px 10px 2px rgb(0 0 0 / 0.2); */
+  box-shadow: 0px 3px 10px 4px rgb(0 0 0 / 0.2);
+
+
+}
+
+.heading-name-area {
+  margin-top: 1rem;
+  /* background-color: aqua;
+   border: 1px solid red; */
+}
+th,
+td {
+    white-space: nowrap;
+}
+/* Table */
+.table-area {
+  margin-top: 1.5rem;
+  /* border: 3px solid red; */
+  background-color: #FBFCFC;
+}
+
+.table {
+  font-size: 0.8rem;
+  background-color: white;
+  /* margin-top: 1rem; */
+}
+
+#table {
+  /* margin-top: 1rem; */
+}
+
+.table {
+  font-size: 0.9rem;
+  /* background-color: #FBFCFC; */
+  background-color: white;
+  /* margin-top: 1rem; */
+}
+
+table.table-bordered>thead>tr>th {
+  border-bottom: 2px solid #4472C4;
+}
+
+
+.stripe {
+  border: 1px solid #B4C7E7;
+}
+
+th,
+td {
+
+  border-bottom: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+  background-color: #DAE3F3;
+}
+
+.main-heading {
+  text-align: center;
+  margin-left: 60%;
+  font-size: 1.6rem;
+  font-family: ibm-plex-sans-regular;
+  font-weight: bold;
+  text-underline-position: under;
+}
+
+
+/* ------------------------Responsive ------------------------------------------- */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  .container-fluid {
+    /* background-color: green; */
+  }
+
+  .table-area {
+    height: 450px;
+    width: 350px;
+    overflow: auto;
+  }
+
+  .heading-name-area {
+    margin-top: 1rem;
+    /* background-color: aqua;
+         border: 1px solid red; */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 0%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 576px) and (max-width: 786px) {
+  .container-fluid {
+    /* background-color: rgb(133, 64, 129); */
+  }
+
+  .heading-name-area {
+    margin-top: 1rem;
+    /* background-color: aqua;
+         border: 1px solid red; */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 10%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+
+  .table-area {
+    height: 350px;
+    width: 650px;
+    overflow: auto;
+  }
+
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 786px) and (max-width: 992px) {
+  .container-fluid {
+    /* background-color: rgb(31, 27, 85); */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 10%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+
+
+
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .container-fluid {
+    /* background-color: dodgerblue; */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 30%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .container-fluid {
+    /* background-color: rgb(114, 190, 155); */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 40%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .container-fluid {
+    /* background-color: rgb(245, 245, 12); */
+  }
+
+  .main-heading {
+    text-align: center;
+    margin-left: 60%;
+    font-size: 1.6rem;
+    font-family: ibm-plex-sans-regular;
+    font-weight: bold;
+  }
+}

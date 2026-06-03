@@ -1,0 +1,178 @@
+<!-- <div class="row hr" >
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+            </div>
+            <div class="col-lg-3 mb-5 mb-lg-0">
+                <div class="card" 
+                    style="background-color: #FBFBFB; box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; ">
+                    <div data-placement="top" class="heading">
+                        <i class="bi bi-person-circle"></i>
+                        <h4 class="header-style">User Login</h4>
+                    </div>
+                    <form #userloginForm="ngForm" (ngSubmit)="login()">
+                        <div class="input-icons container-style">
+                            <i class="fa fa-user icon icon-style"></i>
+                            <input class="input-field" type="text" [(ngModel)]="userName" name="userName"
+                                #userNameRef="ngModel" required placeholder="Username" (keyup)="checkCapsLock($event)">
+                        </div>
+                        <div class="input-icons container-style">
+                            <i class="fa fa-key icon icon-style"></i>
+                            <input class="input-field" type="password" [(ngModel)]="password" name="password"
+                                #userPassword="ngModel" required placeholder="Password"
+                                (keyup)="checkCapsLock($event)">
+                        </div>
+                        <p *ngIf="capsLockOn" class="alert" role="alert">
+                            <i class="bi bi-exclamation-triangle"></i> Caps Lock is ON!
+                        </p>
+                        <div class="button-style">
+                            <button type="submit" [disabled]="!userloginForm.valid" value="submit"
+                                class="btn btn-primary button"><i class="bi bi-box-arrow-in-right"></i> Submit</button>
+                        </div>
+                        <div class="forgot-text" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                            <b><u>Forgot Password?</u></b>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row hr">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <!-- <img class="mahindra-rise" src="assets/images/M&M-images.png" alt="mahindra-rise"> -->
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-5 mb-lg-0"> 
+                <div class="card" 
+                    style="background-color: rgb(218, 218, 218); box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;">
+                    <div data-placement="top" class="heading">
+                        <i class="bi bi-person-circle"></i>
+                        <h4 class="header-style">User Login</h4>
+                    </div>
+                    <form #userloginForm="ngForm" (ngSubmit)="login()">
+                        <div class="input-icons container-style">
+                            <i class="fa fa-user icon icon-style"></i>
+                            <input class="input-field" type="text" [(ngModel)]="userName" name="userName"
+                                #userNameRef="ngModel" required placeholder="Username" (keyup)="checkCapsLock($event)">
+                        </div>
+                        <div class="input-icons container-style">
+                            <i class="fa fa-key icon icon-style"></i>
+                            <input class="input-field" type="password" [(ngModel)]="password" name="password"
+                                #userPassword="ngModel" required placeholder="Password"
+                                (keyup)="checkCapsLock($event)">
+                        </div>
+                        <p *ngIf="capsLockOn" class="alert" role="alert">
+                            <i class="bi bi-exclamation-triangle"></i> Caps Lock is ON!
+                        </p>
+                        <div class="button-style">
+                            <button type="submit" [disabled]="!userloginForm.valid" value="submit"
+                                class="btn btn-primary button"><i class="bi bi-box-arrow-in-right"></i> Submit</button>
+                        </div>
+                        <div class="forgot-text" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                            <b><u>Forgot Password?</u></b>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="lock"><img class="lock-logo" src="/assets/images/forgot-password.png" alt="lock-logo"></div>
+                <h1><b>Forgot Password</b></h1>
+                <h4>Enter your email and we'll send you a token to reset your password.</h4>
+
+                <div class="input-icons container-style" style="margin-top: -20px;">
+                    <i id="boot-icon" class="bi bi-envelope email-icon"></i>
+                    <!-- Remove 'this.otpEntity.' from ngModel -->
+                    <input class="input-fields" type="text" [(ngModel)]="this.otpEntity.email" name="Email" required
+                        placeholder="Email" (keyup)="checkCapsLock($event)">
+
+                </div>
+                <div *ngIf="capsLockOn" class="alert alert-danger" role="alert">
+                    Caps Lock is ON!
+                </div>
+
+                <button type="button" class="btn btn-primary forgot-btn" (click)="sendOtp()">Send OTP</button>
+                <button type="button" class="btn btn-secondary cancle-btn1" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="OtpVerificationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="lock"><img class="lock-logo" src="/assets/images/forgot-password.png" alt="lock-logo"></div>
+                <h1><b>Forgot Password</b></h1>
+                <h4 style="margin-left: -5px;">Check your Email for the OTP</h4>
+                <div class="input-icons container-style" style="margin-top: -20px;">
+                    <i id="boot-icon" class="bi bi-envelope email-icon"></i>
+                    <input class="input-fields" type="text" [(ngModel)]="this.otpEntity.otp" name="OTP" required
+                        placeholder="One Time Password" (keyup)="checkCapsLock($event)">
+                </div>
+                <div *ngIf="capsLockOn" class="alert alert-danger" role="alert">
+                    Caps Lock is ON!
+                </div>
+                <button type="button" class="btn btn-info Otp-btn" (click)="verifyOtp()">Verify OTP</button>
+                <button type="button" class="btn btn-secondary cancle-btn1" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="NewPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="lock"><img class="lock-logo" src="/assets/images/forgot-password.png" alt="lock-logo">
+                </div>
+                <h1><b>Forgot Password</b></h1>
+                <h4 style="margin-left: -5px;">Password Validation</h4>
+
+                <div class="input-icons container-style" style="margin-top: -20px;">
+
+                    <input class="input-fields" [type]="changetype?'password':'text'" name="Create Password"
+                        [(ngModel)]="newPassword1" required placeholder="Create Password"
+                        (keyup)="checkCapsLock($event)">
+                    <!-- <i class="bi bi-eye-slash eye-icon" id="togglePassword"></i> -->
+                    <span class="eye-icon" (click)="viewpass()"><i
+                            [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'"></i></span>
+                </div>
+                <div class="input-icons container-style" style="margin-top: -20px;">
+
+                    <input class="input-fields" [type]="changetype?'password':'text'" name="Confirm Password"
+                        [(ngModel)]="newPassword2" required placeholder="Confirm Password"
+                        (keyup)="checkCapsLock($event)">
+                    <span class="eye-icon" (click)="viewpass()"><i
+                            [ngClass]="visible?'fa fa-eye':'fa fa-eye-slash'"></i></span>
+                </div>
+                <div *ngIf="capsLockOn" class="alert alert-danger" role="alert">
+                    Caps Lock is ON!
+                </div>
+                <button type="button" class="btn btn-success password-btn" (click)="changePassword()">Submit</button>
+                <button type="button" class="btn btn-secondary cancle-btn1" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

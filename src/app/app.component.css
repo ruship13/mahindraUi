@@ -1,0 +1,984 @@
+/* Page Height */
+
+#header-area {
+
+  height: 100%;
+
+}
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* dark transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.alert-box {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+  max-width: 400px;
+}
+
+.top-right-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 15px;
+  margin-right: 120px;
+  z-index: 1;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.top-right-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  /* Adjust as needed */
+  right: 20px;
+  /* Adjust as needed */
+  z-index: 1;
+}
+
+
+
+.mahindra-logo {
+  height: 60px;
+  width: 100px;
+  margin-top: 1px;
+  background-color: white;
+}
+
+.mahindra-logo1 {
+  height: 60px;
+  width: 100px;
+  margin-top: 12px;
+  margin-left: -10px;
+  background-color: white;
+}
+
+.background-image {
+  background-image: url("assets/images/mahindra.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
+}
+
+.header-height-style {
+  height: 80px;
+}
+
+.nav-icon-style {
+  font-size: 22px
+}
+
+.background-image {
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+section {
+  padding: 0%;
+}
+
+.navbar-brand {
+  width: "30px";
+  height: "100%";
+  font-size: 1.5rem;
+  margin: .5rem;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+#body-area {
+  height: 82vh;
+
+  overflow: auto;
+}
+
+#body-area-dashboard {
+
+  height: auto;
+  margin-top: 0.1rem;
+  overflow: auto;
+}
+
+.header-style {
+  font-family: ibm-plex-sans-regular;
+  color: white;
+  justify-content: center;
+
+}
+
+.active {
+  color: #3292a6;
+}
+
+#footer-area {
+  height: auto;
+  background-color: #333F50;
+  color: white;
+
+}
+
+.footer-contact-us {
+  font-family: Open Sans, Helvetica, Roboto, Arial, sans-serif;
+  text-align: right;
+  align-items: end;
+
+
+}
+
+.com-logo {
+  align-items: center;
+}
+
+.warehouse-header-style {
+  font-family: ibm-plex-sans-regular;
+  color: white;
+  justify-content: center;
+
+}
+
+/* DropDown Menu */
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  z-index: 1;
+
+}
+
+.nav-item dropdown {
+  text-align: left;
+
+}
+
+.dropdown-menu a {
+  float: none;
+  text-align: left;
+  align-items: flex-start;
+  overflow-wrap: break-word;
+
+}
+
+.dropdwon-item {
+  position: absolute;
+
+
+}
+
+/* Header */
+.navbar {
+
+
+  background: #fff;
+}
+
+.navbar-links {
+  height: 10%;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.project-logo {
+  width: 65px;
+  height: 55px;
+
+  padding-right: 1rem;
+}
+
+
+.navbar-nav>li {
+
+  padding-left: 10px;
+  padding-right: 20px;
+  vertical-align: middle;
+}
+
+.navbar .nav-item {
+  font-size: 1.2rem;
+
+}
+
+.navbar-nav ul {
+  padding-left: 0px;
+  vertical-align: middle;
+}
+
+.navbar-links ul a {
+  margin: 0;
+  /* <--- THIS IS WHAT REMOVES BLANK SPACE ABOVE/BELOW NAVBAR */
+}
+
+.nav-item :hover {
+
+  color: white;
+
+}
+
+.dropdown-item {
+  color: #333F50;
+  font-size: 1.2rem;
+
+  right: 0;
+}
+
+.dropdown-item:hover {
+  background-color: white;
+  color: white;
+}
+
+
+.transform {
+  background-color: #2F5597;
+}
+
+/* Footer */
+.ats-footer-logo {
+  width: "100";
+  height: "40";
+  padding-right: 3rem;
+  padding-left: 1rem;
+
+
+}
+
+.footer-company-name {
+  font-family: Open Sans, Helvetica, Roboto, Arial, sans-serif;
+
+}
+
+.footer-copyright-details {
+
+  padding-top: 0.5rem;
+  display: inline;
+}
+
+.companyname {
+  margin-top: 3%;
+}
+
+.aboutusicon {
+  padding-left: 30%;
+}
+
+.mapicon {
+  padding-right: 1px;
+}
+
+.address {
+  padding-left: 1px;
+
+}
+
+.envelope {
+  padding-right: 5%;
+}
+
+.link-secondary {
+  color: white !important;
+}
+
+/* ---------------------------Responsive------------------------------------- */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  .col-6 {
+    width: 1;
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .project-logo {
+    width: 95px;
+    height: 65px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+
+  }
+
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: 1px;
+    background-color: white;
+  }
+
+  .project-name {
+    font-size: 1.0rem;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+    justify-content: center;
+  }
+
+  /* Footer */
+  .ats-footer-logo {
+    width: 6rem;
+    height: 3.6rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+    font-size: 0.8rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 30%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+  .envelope {
+    padding-right: 13%;
+  }
+
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 576px) and (max-width: 786px) {
+
+
+
+  /* Header */
+  .project-name {
+    font-size: 1.4rem;
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+    justify-content: center;
+  }
+
+  /* Footer */
+  .ats-footer-logo {
+    width: 6.5rem;
+    height: 4rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 5rem;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 30%;
+
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 1366px) {
+
+
+  /* Header */
+  .project-name {
+    font-size: 1.4rem;
+
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .nav-icon-style {
+    font-size: 15px
+  }
+
+  .navbar .navbar-nav {
+    padding-left: 2rem;
+
+  }
+
+  .navbar-nav ul {
+    padding-left: 0px;
+    vertical-align: middle;
+    margin-left: 6%;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .companyname {
+    margin-left: 42%;
+  }
+
+  .ats-footer-logo {
+    width: 6rem;
+    height: 4rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 12rem;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 1%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+  .material-icons {
+    margin-left: 8px;
+  }
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: 1px;
+    background-color: white;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 786px) and (max-width: 1024px) {
+
+  /* Header */
+  .project-name {
+    font-size: 1.0rem;
+
+  }
+
+  .project-logo {
+    width: 75px;
+    height: 55px;
+    padding-right: 1rem;
+  }
+.mahindra-logo {
+  height: 60px;
+  width: 100px;
+  margin-top: 1px;
+  background-color: white;
+}
+  .header-height-style {
+    height: auto;
+  }
+
+  .nav-icon-style {
+    font-size: 15px
+  }
+
+  .navbar .navbar-nav {
+    padding-left: 2rem;
+
+  }
+
+  .navbar-nav ul {
+    padding-left: 0px;
+    vertical-align: middle;
+    margin-left: 6%;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .companyname {
+    margin-left: 42%;
+  }
+
+  .ats-footer-logo {
+    width: 6rem;
+    height: 4rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 12rem;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 1%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+
+}
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 991px) and (max-width: 1220px) {
+
+  /* Header */
+  .project-name {
+    font-size: 1.0rem;
+
+  }
+
+  .project-logo {
+    width: 75px;
+    height: 55px;
+
+    padding-right: 1rem;
+  }
+
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: 1px;
+    background-color: white;
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .nav-icon-style {
+    font-size: 15px
+  }
+
+  .navbar .navbar-nav {
+    padding-left: 2rem;
+
+  }
+
+  .navbar-nav ul {
+    padding-left: 0px;
+    vertical-align: middle;
+    margin-left: 6%;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .companyname {
+    margin-left: 42%;
+  }
+
+  .ats-footer-logo {
+    width: 6rem;
+    height: 4rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 12rem;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 1%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+}
+
+
+
+
+@media (min-width: 991px) and (max-width: 1001px) {
+
+  /* Header */
+  .project-name {
+    font-size: 1.0rem;
+
+  }
+
+  .project-logo {
+    width: 75px;
+    height: 55px;
+
+    padding-right: 1rem;
+  }
+
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: 1px;
+    background-color: white;
+  }
+
+  .header-height-style {
+    height: auto;
+  }
+
+  .nav-icon-style {
+    font-size: 15px
+  }
+
+  .navbar .navbar-nav {
+    padding-left: 2rem;
+
+  }
+
+  .navbar-nav ul {
+    padding-left: 0px;
+    vertical-align: middle;
+    margin-left: 6%;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .companyname {
+    margin-left: 42%;
+  }
+
+  .ats-footer-logo {
+    width: 6rem;
+    height: 4rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 12rem;
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 1%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+
+}
+
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1221px) and (max-width: 1415px) {
+
+  /* Header */
+
+  .navbar .navbar-nav {
+    padding-left: 8rem;
+  }
+
+  .project-logo {
+    width: 100px;
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+
+  }
+
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: -15px;
+    background-color: white;
+  }
+
+  .project-name {
+    font-size: 1.5rem;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+    font-size: 72.5%;
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .ats-footer-logo {
+    width: 7.5rem;
+    height: 4.5rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: black;
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 25rem;
+    font-size: 1.1rem;
+    display: inline;
+
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 1%;
+  }
+
+  .mapicon {
+    padding-left: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+  .header-height-style {
+    height: auto;
+    height: 10vh;
+  }
+
+}
+
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+
+  .navbar .navbar-nav {
+    padding-left: 7rem;
+  }
+
+  .project-name {
+    font-size: 1.6rem;
+  }
+
+  .project-logo {
+    width: 100px;
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
+
+  .mahindra-logo {
+    height: 60px;
+    width: 100px;
+    margin-top: 1px;
+    background-color: white;
+  }
+
+  .header-style {
+    font-family: ibm-plex-sans-regular;
+    color: white;
+
+    justify-content: center;
+
+  }
+
+  /* Footer */
+  .ats-footer-logo {
+    width: 7.5rem;
+    height: 4.5rem;
+    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
+
+  }
+
+  .footer-copyright-details {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 0.8rem;
+    /* background-color: aqua; */
+    padding-top: 1rem;
+    padding-left: 35rem;
+    font-size: 1.1rem;
+    display: inline;
+
+  }
+
+  .companyname {
+    margin-top: 3%;
+  }
+
+  .aboutusicon {
+    padding-left: 30%;
+  }
+
+  .mapicon {
+    padding-right: 1px;
+  }
+
+  .address {
+    padding-left: 1px;
+  }
+
+
+}
+
+
+/* Display menu item list on mouse hover */
+
+.nav-item:hover .dropdown-menu {
+  display: block;
+  box-shadow: 0px 8px 16px 0px rgba(245, 241, 241, 0.2);
+
+}
+
+.dropdown-menu li a:hover {
+  background-color: #333F50
+}
+
+.float-end {
+  background-color: #333F50;
+
+}

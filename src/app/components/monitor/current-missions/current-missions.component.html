@@ -1,0 +1,472 @@
+<div class="row heading-name-area">
+  <!-- <div class="col-sm-8 col-md-9 col-lg-10">
+      <h4 class="float-left heading">Current Mission Details</h4>
+    </div> -->
+  <div class="col-sm-8 col-md-9 col-lg-10">
+    <!-- <h4 class="headertag"> <u>Master Material Details</u></h4> -->
+    <h5 class="main-heading"><u>Current Mission Details</u></h5>
+  </div>
+</div>
+<div class="row table-area">
+
+  <div class="col shadow-border p-3 mb-5 rounded" style="margin-right: 10px; border: 1px solid rgb(243, 238, 238);">
+    <div class="row heading-name-area">
+      <div class="col-sm-8 col-md-9 col-lg-10">
+        <h4 class="float-left heading">Infeed Mission Details</h4>
+      </div>
+    </div>
+    <div id="table">
+      <table class="table-responsive-sm   table-bordered table stripe">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Pallet Code</th>
+            <!-- <th>Area Name</th> -->
+            <th>BP Serial No.</th>
+            <!-- <th>Floor Name</th> -->
+            <th>Part No</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let infeedMissionRuntimeDetails of infeedMissionRuntimeDetailsList; index as i;">
+            <td>{{i+1}} </td>
+            <td>{{infeedMissionRuntimeDetails.palletCode}}</td>
+            <td>{{infeedMissionRuntimeDetails.serialNumber}}</td>
+            <td>{{infeedMissionRuntimeDetails.productVariantCode}}</td>
+            <td>{{infeedMissionRuntimeDetails.positionName}}</td>
+            <td>{{infeedMissionRuntimeDetails.infeedMissionStatus}} </td>
+
+            <td>
+              <!-- Open Edit equipment Details Modal -->
+              <button type="button" class="btn btn-warning btn-sm edit-button" [disabled]="isMonitor()"
+                (click)="editInfeedMissionRuntimeDetailsRow(infeedMissionRuntimeDetails)" data-bs-toggle="modal"
+                data-bs-target="#editInfeedMissionModal">
+                <i class="bi bi-pencil-square"></i></button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col shadow-border p-3 mb-5 rounded" style="margin-right: 10px; border: 1px solid rgb(243, 238, 238);">
+    <div class="row heading-name-area">
+      <div class="col-sm-8 col-md-9 col-lg-10">
+        <h4 class="float-left heading">Outfeed Mission Details</h4>
+      </div>
+    </div>
+    <div id="table">
+
+      <table class="table-responsive-sm   table-bordered table stripe">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Pallet Code</th>
+            <th>BP Serial No.</th>
+            <th>Part No.</th>
+            <th>MFG Date</th>
+            <th>Load DateTime</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let outfeedMissionRuntimeDetails of outfeedMissionRuntimeDetailsList; index as i;">
+            <td>{{i+1}} </td>
+            <td>{{outfeedMissionRuntimeDetails.palletCode}}</td>
+            <td>{{outfeedMissionRuntimeDetails.serialNumber}}</td>
+            <td>{{outfeedMissionRuntimeDetails.productVariantCode}}</td>
+            <td>{{outfeedMissionRuntimeDetails.mfgDate}}</td>
+            <td>{{outfeedMissionRuntimeDetails.loadDateTime}}</td>
+            <td>{{outfeedMissionRuntimeDetails.positionName}}</td>
+            <td>{{outfeedMissionRuntimeDetails.outfeedMissionStatus}} </td>
+           
+            <td>
+              <!-- Open Edit equipment Details Modal -->
+              <button type="button" class="btn btn-warning btn-sm edit-button" [disabled]="isMonitor()"
+                (click)="editOutfeedMissionRuntimeDetailsRow(outfeedMissionRuntimeDetails)" data-bs-toggle="modal"
+                data-bs-target="#editOutfeedMissionModal">
+                <i class="bi bi-pencil-square"></i></button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col shadow-border p-3 mb-5 rounded" style="border: 1px solid rgb(243, 238, 238);">
+    <div class="row heading-name-area">
+      <div class="col-sm-8 col-md-9 col-lg-10">
+        <h4 class="float-left heading">Transfer Pallet Mission Details</h4>
+      </div>
+    </div>
+    <div id="table">
+
+      <table class="table-responsive-sm   table-bordered table stripe">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Pallet Code</th>
+            <th>BP Serial No.</th>
+            <th>Part No.</th>
+            <th>Previous Position</th>
+            <th>Transfer Position</th>
+            <th>Load Date Time</th>
+            <th>Status</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transferPalletMissionRuntimeDetails of transferPalletRuntimeDetailsList; index as i;">
+            <td>{{i+1}} </td>
+            <td>{{transferPalletMissionRuntimeDetails.palletCode}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.serialNumber}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.productvariantCode}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.previousPositionName}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.transferPositionName}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.loadDateTime}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.transferMissionStatus}} </td>
+
+            <!-- <td>
+             
+              <button type="button" class="btn btn-warning btn-sm edit-button"
+                (click)="editTransferPalletMissionRuntimeDetailsRow(transferPalletMissionRuntimeDetails)"
+                data-bs-toggle="modal" data-bs-target="#editTransferPalletMissionModal">
+                <i class="bi bi-pencil-square"></i></button>
+
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="col shadow-border p-3 mb-5 rounded" style="border: 1px solid rgb(243, 238, 238);">
+    <div class="row heading-name-area">
+      <div class="col-sm-8 col-md-9 col-lg-10">
+        <h4 class="float-left heading">Temperature Mission Details</h4>
+      </div>
+    </div>
+    <div id="table">
+
+      <table class="table-responsive-sm   table-bordered table stripe">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Pallet Code</th>
+            <th>Position Name</th>
+            <th>Part Number</th>
+            <th>Status</th>
+            <!-- <th>Previous Position</th>
+            <th>Transfer Position</th>
+            <th>Status</th> -->
+           
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transferPalletMissionRuntimeDetails of temperatureAlarmMissionRuntimeDetailsModelList; index as i;">
+            <td>{{i+1}} </td>
+            <td>{{transferPalletMissionRuntimeDetails.palletCode}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.positionName}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.productVariantCode}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.alarmMissionStatus}}</td>
+            <!-- <td>{{transferPalletMissionRuntimeDetails.previousPositionName}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.transferPositionName}}</td>
+            <td>{{transferPalletMissionRuntimeDetails.transferMissionStatus}} </td> -->
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Infeed Mission Runtime Details Modal -->
+<div class="modal" id="editInfeedMissionModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header modal-title-style">
+        <h4 class="modal-title"><i class="bi bi-pencil-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Infeed Mission Details</h4>
+
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form #updateInfeedMissionRuntimeDetailsModalForm="ngForm"
+          (ngSubmit)="editInfeedMissionRuntimeDetails(editInfeedMissionRuntimeDetailsInstance)" novalidate>
+          <div class="row">
+            <div class="col-5">
+              <p class="modal-title-label required">Pallet Code</p>
+            </div>
+
+            <div class="col-7">
+              <input type="text" id="editPalletCodeId" name="editPalletCodeName" required readonly="true"
+                disabled="true" [(ngModel)]="editInfeedMissionRuntimeDetailsInstance.palletCode"
+                #editPalletCodeNameRef="ngModel">
+              <div
+                *ngIf="editPalletCodeNameRef.invalid && (editPalletCodeNameRef.dirty || editPalletCodeNameRef.touched)"
+                class="error">
+                <div *ngIf="editPalletCodeNameRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Pallet Code</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      
+
+          <div class="row">
+            <div class="col-5">
+              <p class="modal-title-label required">Status</p>
+            </div>
+            <div class="col-7">
+              <!-- Iterate through each item in infeedMissionRuntimeDetailsList -->
+              <select name="editInfeedMissionStatusName" id="editInfeedMissionStatusId"
+                #editInfeedMissionStatusRef="ngModel"
+                [(ngModel)]="editInfeedMissionRuntimeDetailsInstance.infeedMissionStatus"
+                (change)="selectEditInfeedMissionStatusChangeFromDropDownList(editInfeedMissionStatusRef.value)"
+                required>
+                <option value="" disabled selected>Select Status</option>
+
+                <ng-container *ngFor="let mission of infeedMissionRuntimeDetailsList">
+                  <ng-container
+                    *ngIf="mission.infeedMissionStatus === 'IN_PROGRESS' && mission.palletCode === editInfeedMissionRuntimeDetailsInstance.palletCode">
+                    <option value="COMPLETED">COMPLETED</option>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="mission.infeedMissionStatus === 'READY' && mission.palletCode === editInfeedMissionRuntimeDetailsInstance.palletCode">
+                    <option value="ABORT">ABORT</option>
+                  </ng-container>
+                </ng-container>
+              </select>
+
+              <div
+                *ngIf="editInfeedMissionStatusRef.invalid && (editInfeedMissionStatusRef.dirty || editInfeedMissionStatusRef.touched)"
+                class="error">
+                <div *ngIf="editInfeedMissionStatusRef.errors?.['required']">
+                  <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Select Product
+                    Name
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" type="submit"
+              [disabled]="!updateInfeedMissionRuntimeDetailsModalForm.valid">Update</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Outfeed Mission Runtime Details Modal -->
+<div class="modal" id="editOutfeedMissionModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header modal-title-style">
+        <h4 class="modal-title"><i class="bi bi-pencil-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Outfeed Mission Details</h4>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form #updateOutfeedMissionRuntimeDetailsModalForm="ngForm"
+          (ngSubmit)="editOutfeedMissionRuntimeDetails(editOutfeedMissionRuntimeDetailsInstance)" novalidate>
+          <div class="row">
+            <div class="col-5">
+              <p class="modal-title-label required">Pallet Code</p>
+            </div>
+
+            <div class="col-7">
+              <input type="text" id="editPalletCodeId" name="editPalletCodeName" required readonly="true"
+                disabled="true" [(ngModel)]="editOutfeedMissionRuntimeDetailsInstance.palletCode"
+                #editPalletCodeNameRef="ngModel">
+              <div
+                *ngIf="editPalletCodeNameRef.invalid && (editPalletCodeNameRef.dirty || editPalletCodeNameRef.touched)"
+                class="error">
+                <div *ngIf="editPalletCodeNameRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Pallet Code</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="row">
+            <div class="col-5">
+              <p  class="required">Status</p>
+            </div>
+            <div class="col-7">
+              <select name="editOutfeedMissionStatusName" id="editOutfeedMissionStatusId" 
+              #editOutfeedMissionStatusRef="ngModel"
+              [(ngModel)]="editOutfeedMissionRuntimeDetailsInstance.outfeedMissionStatus"
+                (change)="selectEditOutfeedMissionStatusChangeFromDropDownList(editOutfeedMissionStatusRef.value)" required>
+                <option value="READY">READY</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="ABORT">ABORT</option>
+              </select>
+              <div *ngIf="editOutfeedMissionStatusRef.invalid && (editOutfeedMissionStatusRef.dirty || editOutfeedMissionStatusRef.touched)"
+                class="error">
+                <div *ngIf="editOutfeedMissionStatusRef.errors?.['required']">
+                  <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Select Status
+                    Name
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-5">
+              <p class="modal-title-label required">Status</p>
+            </div>
+            <div class="col-7">
+              <select name="editOutfeedMissionStatusName" id="editOutfeedMissionStatusId"
+                #editOutfeedMissionStatusRef="ngModel"
+                [(ngModel)]="editOutfeedMissionRuntimeDetailsInstance.outfeedMissionStatus"
+                (change)="selectEditOutfeedMissionStatusChangeFromDropDownList(editOutfeedMissionStatusRef.value)"
+                required>
+                <option value="" disabled>Select Status</option>
+
+
+
+                <option *ngIf="editOutfeedMissionRuntimeDetailsInstance.outfeedMissionStatus !== 'READY'"
+                  value="COMPLETED">COMPLETED</option>
+                <option *ngIf="editOutfeedMissionRuntimeDetailsInstance.outfeedMissionStatus !== 'IN_PROGRESS'"
+                  value="ABORT">ABORT</option>
+              </select>
+
+              <div
+                *ngIf="editOutfeedMissionStatusRef.invalid && (editOutfeedMissionStatusRef.dirty || editOutfeedMissionStatusRef.touched)"
+                class="error">
+                <div *ngIf="editOutfeedMissionStatusRef.errors?.['required']">
+                  <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Select Status Name</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" type="submit"
+              [disabled]="!updateOutfeedMissionRuntimeDetailsModalForm.valid">Update</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<!-- Edit Transfer Pallet Mission Runtime Details Modal -->
+<div class="modal" id="editTransferPalletMissionModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header modal-title-style">
+        <h4 class="modal-title"><i class="bi bi-pencil-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Transfer Pallet Mission Details</h4>
+
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form #updateTransferPalletMissionRuntimeDetailsModalForm="ngForm"
+          (ngSubmit)="editTransferPalletMissionRuntimeDetails(editTransferPalletMissionRuntimeDetailsInstance)"
+          novalidate>
+          <div class="row">
+            <div class="col-5">
+              <p class="required">Pallet Code</p>
+            </div>
+
+            <div class="col-7">
+              <input type="text" id="editPalletCodeId" name="editPalletCodeName" required readonly="true"
+                disabled="true" [(ngModel)]="editTransferPalletMissionRuntimeDetailsInstance.palletCode"
+                #editPalletCodeNameRef="ngModel">
+              <div
+                *ngIf="editPalletCodeNameRef.invalid && (editPalletCodeNameRef.dirty || editPalletCodeNameRef.touched)"
+                class="error">
+                <div *ngIf="editPalletCodeNameRef.errors?.['required']">
+                  <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter Pallet Code</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="row">
+            <div class="col-5">
+              <p  class="required">Status</p>
+            </div>
+            <div class="col-7">
+              <select name="editTransferPalletMissionStatusName" id="editTransferPalletMissionStatusId" 
+              #editTransferPalletMissionStatusRef="ngModel"
+              [(ngModel)]="editTransferPalletMissionRuntimeDetailsInstance.transferMissionStatus"
+                (change)="selectEditTransferPalletMissionStatusChangeFromDropDownList(editTransferPalletMissionStatusRef.value)" required>
+                <option value="READY">READY</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="ABORT">ABORT</option>
+              </select>
+              <div *ngIf="editTransferPalletMissionStatusRef.invalid && (editTransferPalletMissionStatusRef.dirty || editTransferPalletMissionStatusRef.touched)"
+                class="error">
+                <div *ngIf="editTransferPalletMissionStatusRef.errors?.['required']">
+                  <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Select Status
+                    Name
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="row">
+            <div class="col-5">
+              <p class="required">Status</p>
+            </div>
+            <div class="col-7">
+              <select name="editTransferPalletMissionStatusName" id="editTransferPalletMissionStatusId"
+                #editTransferPalletMissionStatusRef="ngModel"
+                [(ngModel)]="editTransferPalletMissionRuntimeDetailsInstance.transferMissionStatus"
+                (change)="selectEditTransferPalletMissionStatusChangeFromDropDownList(editTransferPalletMissionStatusRef.value)"
+                required>
+                <option *ngIf="editTransferPalletMissionRuntimeDetailsInstance.transferMissionStatus !== 'READY'"
+                  value="COMPLETED">COMPLETED</option>
+                <option *ngIf="editTransferPalletMissionRuntimeDetailsInstance.transferMissionStatus !== 'IN_PROGRESS'"
+                  value="ABORT">ABORT</option>
+              </select>
+
+              <div
+                *ngIf="editTransferPalletMissionStatusRef.invalid && (editTransferPalletMissionStatusRef.dirty || editTransferPalletMissionStatusRef.touched)"
+                class="error">
+                <div *ngIf="editTransferPalletMissionStatusRef.errors?.['required']">
+                  <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please Select Status Name</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" type="submit"
+              [disabled]="!updateTransferPalletMissionRuntimeDetailsModalForm.valid">Update</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

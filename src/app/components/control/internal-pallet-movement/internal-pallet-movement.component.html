@@ -1,0 +1,174 @@
+<!-- HEADER SECTION -->
+<div class="row ">
+  <div class="col-sm-8 col-md-9 col-lg-10">
+    <h5 class="main-heading"><u>Internal Pallet Movement</u></h5>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-2">
+    <h5 class=" control-label-pallet-code" style="
+      margin-right: 5px;font-family: ibm-plex-sans-regular;
+      font-size: 1.2rem; ">Pallet Code :</h5>
+
+  </div>
+  <div class="col-md-2">
+    <input class="form-control pallet-code-input" type="text" id="palletCodeId" name="palletCodeName" size="20"
+    [(ngModel)]="palletCode">
+
+    
+  </div>
+  <div class="col-lg-3 ">
+    <button class="btn  btn-primary pallet-Code-button" type="button" 
+    
+    (click)="fetchPalletOrderDetailsfromCurrentPalletStockdetails()">Submit</button>
+
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-2">
+    <h5 class="control-label-pallet-code" style="
+      margin-right: 5px;font-family: ibm-plex-sans-regular;
+      font-size: 1.2rem; ">Pallet Code :</h5>
+  </div>
+  <div class="col-md-2">
+    <input class="form-control pallet-code-input" type="text" id="palletCodeId" name="palletCodeName" size="20"
+      [(ngModel)]="palletCode">
+  </div>
+  <div class="col-lg-3">
+    <button class="btn btn-primary pallet-Code-button" type="button" [disabled]="!palletCode"
+      (click)="fetchPalletOrderDetailsfromCurrentPalletStockdetails()">
+      Submit
+    </button>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="row ">
+  <div class="col-sm-2">
+    <h5 class="control-label-one" style="
+      margin-right: 5px;font-family: ibm-plex-sans-regular;
+      font-size: 1.2rem;" >Current Location :</h5>
+  </div>
+
+  
+  <div class="col-sm-2">
+    <input class="form-control Current-Location" type="text" id="currentLocationId" name="currentLocationName"
+          size="20" readonly="true" [(ngModel)]="positionName">
+     </div>
+
+  <div class="col-sm-3">
+    <h5 class="control-label-one destination-label" >Enter Destination Location :</h5>
+  </div>
+
+  <div class="col-md-2">
+    <input class="form-control destination-input" type="text" id="destinationId"
+    required   #destinationNameRef="ngModel"
+    name="destinationName" size="20"
+          [(ngModel)]="destinationName" >
+          <div *ngIf=" checkDestinationNameExist==false " class="error">
+            <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Destination is not available
+            </p>
+          </div> 
+         <div *ngIf="" class="error">
+            <div *ngIf="destinationNameRef.errors?.['required']">
+              <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Destination is not available
+              </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-1"></div>
+  <div class="col-2 ">
+    <button class="btn  btn-primary transfer-button" type="button"
+          (click)="fetchAllMasterPositionDetailsByPositionNameAndPositionIsAllocatedAndEmptyPalletPositionAndPositionIsActive()">Transfer</button>
+     </div>
+</div> -->
+<div class="row ">
+  <div class="col-sm-2">
+    <h5 class="control-label-one" style="
+      margin-right: 5px;font-family: ibm-plex-sans-regular;
+      font-size: 1.2rem;">Current Location :</h5>
+  </div>
+
+  <div class="col-sm-2">
+    <input class="form-control Current-Location" type="text" id="currentLocationId" name="currentLocationName" size="20"
+      readonly="true" [(ngModel)]="positionName">
+  </div>
+
+  <div class="col-sm-3">
+    <h5 class="control-label-one destination-label">Enter Destination Location :</h5>
+  </div>
+
+  <div class="col-md-2">
+    <input class="form-control destination-input" type="text" id="destinationId" required #destinationNameRef="ngModel"
+      name="destinationName" size="20" [(ngModel)]="destinationName">
+    <div *ngIf="checkDestinationNameExist==false" class="error">
+      <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Destination is not available</p>
+    </div>
+    <div *ngIf="destinationNameRef.touched && destinationNameRef.errors?.['required']" class="error">
+      <p class="text-danger" style="margin-left: 60px; margin-top: 10px;"><i class="bi bi-exclamation-circle-fill"></i>Destination is required</p>
+    </div>
+  </div>
+
+  <div class="col-1"></div>
+
+  <div class="col-2">
+    <button class="btn btn-primary transfer-button" type="button" [disabled]="!positionName || !destinationName ||isMonitor()"
+      (click)="fetchAllMasterPositionDetailsByPositionNameAndPositionIsAllocatedAndEmptyPalletPositionAndPositionIsActive()">
+      Transfer
+    </button>
+  </div>
+</div>
+
+
+
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="row table-area">
+      <div class="col shadow-border p-3 mb-5 rounded">
+        <div id="table">
+          <table datatable [dtOptions]="internalPalletMovementDtOptions" id="palletDetailsId"
+            class="table-responsive-sm   table-bordered table stripe">
+            <thead>
+              <tr>
+                <th class="th-sm">Sr No</th>
+                <th class="th-sm">Pallet Code</th>
+                <th class="th-sm">BP Serial No.</th>
+                <th class="th-sm">M&M Part No</th>
+                <th class="th-sm">Model</th>
+                <th class="th-sm">Quantity</th>
+                <th class="th-sm">Location</th>
+                <th class="th-sm">Area Name</th>
+                <th class="th-sm">Floor Name</th>
+                <th class="th-sm">Batch Number</th>
+                <th class="th-sm">Ageing Days</th>
+                <!-- <th class="th-sm">Is Alarm</th> -->
+                <th class="th-sm">Load Date Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let palletDetails of currentPalletStockDetailsTableList; index as i">
+                <td>{{i+1}}</td>
+                <td>{{palletDetails.palletCode}}</td>
+                <td>{{palletDetails.serialNumber}}</td>
+                <td>{{palletDetails.productVariantCode}}</td>
+                <td>{{palletDetails.productName}}</td>
+                <td>{{palletDetails.quantity}}</td>
+                <td>{{palletDetails.positionName}}</td>
+                <td>{{palletDetails.areaName}}</td>
+                <td>{{palletDetails.floorName}}</td>
+                <td>{{palletDetails.batchNumber}}</td>
+                <td>{{palletDetails.ageingDays}}</td>
+                <!-- <td>{{palletDetails.isAlarmRack}}</td> -->
+                <td>{{palletDetails.loadDatetime}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>

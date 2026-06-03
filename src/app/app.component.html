@@ -1,0 +1,621 @@
+<div class="container-fluid">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link  href="../assets/css/fontawesome.min.css" rel="stylesheet"/> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <div *ngIf="showYokogawaAlert && authService.currentUserValue!=null" class="alert-overlay">
+    <div class="alert-box">
+      <h2>Connection Error</h2>
+      <p>Yokogawa system is unreachable. Immediate attention required!</p>
+      <button class="btn btn-light mt-2" style="color: black; font-weight: bold;" (click)="showYokogawaAlert = false">OK</button>
+    </div>
+  </div>
+
+  <!--Header-->
+  <div class="row navigation-bar background-image" *ngIf="authService.currentUserValue===null">
+    <!-- <div class="col-5 md-1 float-end project-brand header-height-style">
+      <a class="navbar-brand ">
+        <img class="project-logo " src="assets/images/ats-logo-store.png" alt="project-logo">
+        <h3 class="d-inline align-middle project-name header-style">The Clever Warehouse-Battery ASRS</h3>
+        <h3 class="project-name header-style top-right-text">Mahindra & Mahindra Ltd</h3>
+        <img class="project-logo " src="assets/images/mahindra-logo.png" alt="project-logo">
+      </a>
+      
+    </div> -->
+    <div class="col-5 md-1 float-end project-brand header-height-style">
+      <a class="navbar-brand">
+        <img class="project-logo" src="assets/images/ats-logo-store.png" alt="project-logo">
+        <h3 class="d-inline align-middle project-name header-style">The Clever Warehouse-Battery Pack ASRS</h3>
+        <div class="top-right-container">
+          <h3 class="project-name header-style top-right-text">Mahindra & Mahindra Ltd</h3>
+          <img class="mahindra-logo" src="assets/images/M&M-images.png" alt="mahindra-logo">
+        </div>
+      </a>
+    </div>
+
+    <div class="col-7 float-end header-height-style">
+      <!-- <div class="container"> -->
+      <nav class="navbar navbar-expand-lg header-style float-end header-height-style" id="main-nav">
+        <button type="button" class="navbar-toggler   " data-bs-toggle="collapse"
+          style="margin-left: 75%; margin-right: 8px; width: 50px; height: 50px;" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon "></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-links box-body" id="navbarSupportedContent"
+          *ngIf="authService.currentUserValue!=null">
+          <ul class="navbar-nav me-auto mb-1 mb-lg-0">
+            <li class="nav-item header-right">
+              <a class="nav-link header-style" routerLink="/dashboard" tabindex="-1" aria-disabled="true"><i
+                  class="fa fa-bar-chart" style="font-size:22px"></i> Dashboard</a>
+
+            </li>
+            <li class="nav-item dropdown ">
+              <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa fa-th-large" aria-hidden="true"></i> Master
+              </a>
+              <ul class="dropdown-menu content-wrapper" aria-labelledby="navbarDropdown">
+
+                <!-- <li><a class="dropdown-item" routerLink="master/master-aging-days-details"><i class="fa fa-cube"
+                      aria-hidden="true"></i> Master Aging Days Details</a></li> -->
+                <li><a class="dropdown-item" routerLink="master/mst-product-details"><i class="fa fa-cube"
+                      aria-hidden="true"></i> Master ProductVariant Details</a></li>
+
+                <li><a class="dropdown-item" routerLink="master/master-product-details"><i class="fa fa-cubes"
+                      aria-hidden="true"></i> Master Product Details</a></li>
+                <!-- <li><a class="dropdown-item" routerLink="master/mst-product-variant"><i class="fa fa-cubes"
+                  aria-hidden="true"></i> Master Product Variant</a></li>
+            <li><a class="dropdown-item" routerLink="master/mst-equipment-details"><i class="bi bi-tools"></i>
+                Master Equipment</a></li> -->
+                <li><a class="dropdown-item" routerLink="master/mst-reason-details/"><i class="fa fa-clock-o"
+                      aria-hidden="true"></i> Master Reason</a></li>
+                <li><a class="dropdown-item" routerLink="master/mst-user-details/"><i class="fa fa-user-circle"
+                      aria-hidden="true"></i> Master User</a></li>
+
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa fa-cog" style="font-size:22px"></i>
+                Control
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" routerLink="control/loading-station-details/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i> Loading Station</a></li>
+                <li><a class="dropdown-item" routerLink="control/manage-location/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i> Unloading Station</a></li>
+                <!-- <li><a class="dropdown-item" routerLink="control/qr-code-generation/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i>QR Code Generation</a></li> -->
+                <li><a class="dropdown-item" routerLink="control/internal-pallet-movement/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i> Internal Pallet Movement</a></li>
+                <li><a class="dropdown-item" routerLink="control/manual-retrieval-order/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i> Generate Manual Retrieval Order</a></li>
+
+                <li><a class="dropdown-item" routerLink="control/access-matrix/"><i class="bi bi-person-x-fill"
+                      aria-hidden="true"></i> Access Matrix</a></li>
+                <li><a class="dropdown-item" routerLink="control/plc-it-datamismatch-details/"><i
+                      class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> PLC-IT Data Mismatch Details</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa fa-desktop" aria-hidden="true"></i>
+                Monitor
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <!-- <li><a class="dropdown-item" routerLink="monitor/equipment-sensors/"><i class="bi bi-upc"></i>
+                  Equipment
+                  Sensor</a></li> -->
+                <li><a class="dropdown-item" routerLink="monitor/layout/"><i class="fa fa-map-marker"
+                      aria-hidden="true"></i> 2d Layout</a></li>
+
+                <!-- <li><a class="dropdown-item" routerLink="monitor/stacker-live-faults/"><i class="bi bi-tools"></i>
+                    Stacker Live Faults</a></li> -->
+
+                <li><a class="dropdown-item" (click)="goToBatteryAlarm()"><i class="bi bi-tools"></i>
+                    Stacker Live Faults</a></li>
+
+                <li><a class="dropdown-item" routerLink="monitor/current-stock-details/">Current Stock Details</a></li>
+
+                <li><a class="dropdown-item" routerLink="monitor/current-missions/"><i class="bi bi-broadcast"
+                      aria-hidden="true"></i> Current Missions</a></li>
+
+                <li><a class="dropdown-item" routerLink="monitor/equipment-sensor-details/"><i class="bi bi-tools"
+                      aria-hidden="true"></i>Equipment Sensor Details</a>
+                </li>
+
+                <li><a class="dropdown-item" routerLink="monitor/yokogawa-temprature-details/"><i
+                      class="bi bi-cloud-sun-fill" aria-hidden="true"></i>YokoGawa Temperature Details</a>
+                </li>
+
+                <li><a class="dropdown-item" routerLink="monitor/mockdrill-mission-details/"><i
+                      class="bi bi-clipboard-check" aria-hidden="true"></i> Mock Drill Test details</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa fa-wpforms" style="font-size:22px"></i>
+                Reports
+              </a>
+              <ul class="dropdown-menu dropdown-left-manual" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" routerLink="reports/infeed-report"><i
+                      class="bi bi-clipboard-plus-fill"></i> Loading Operation Report
+                  </a></li>
+                <li><a class="dropdown-item" routerLink="reports/outfeed-report"><i
+                      class="bi bi-clipboard-minus-fill"></i>
+                    Unloading Operation Report</a></li>
+
+                <li><a class="dropdown-item" routerLink="reports/alarm-history-report"><i class="bi bi-alarm-fill"></i>
+                    Alarm History
+                    Report</a></li>
+                <li><a class="dropdown-item" routerLink="reports/audit-trail-report"><i class="bi bi-person-fill"></i>
+                    Audit Trail
+                    Report</a></li>
+
+                <li><a class="dropdown-item" routerLink="reports/inventory-summary-report"><i
+                      class="bi bi-clipboard-plus-fill"></i>
+                    Inventory summary dashboard Report</a></li>
+                <li><a class="dropdown-item" routerLink="reports/transferpallet-mission-runtime-details"><i
+                      class="bi bi-clipboard-plus-fill"></i>
+                    Tranfer Pallet Mission Runtime Details Report
+                  </a></li>
+                <li><a class="dropdown-item" routerLink="reports/lock-unlock-cell-details"><i class="fas fa-lock"></i>
+                    <i class="fas fa-key"></i>
+                    Lock Cell Details
+                  </a></li>
+                <li><a class="dropdown-item" routerLink="reports/temperature-mission-runtime-details"><i
+                      class="bi bi-file-earmark-text"></i>
+                    Temperature Mission Details
+                  </a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa fa-user-circle"
+                  style=" font-size:45px; padding-bottom: 20px;"></i></a>
+              <ul class="dropdown-menu dropdown-left-manual" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" routerLink="/myprofile"><i class="bi bi-person-fill"></i> My Profile</a>
+                </li>
+                <li><a class="dropdown-item" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- </div> -->
+    </div>
+
+    <hr>
+    <!--Body-->
+
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <section id="body-area">
+          <div class="container-fluid">
+
+            <router-outlet></router-outlet>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+
+
+    <!-- ======= Footer ======= -->
+    <section id="footer-area">
+      <div class="row">
+        <hr>
+        <div class="col-5">
+          <div class="container">
+            <div class="row">
+              <!-- <div class="pro" style="margin-top: -8px;"> <img class="project-logo" src="assets/images/ats-logo-store.png" alt="project-logo"></div> -->
+              <div class="col mapicon">
+                <a href="https://www.google.com/maps/dir/18.7304693,73.8348705/ats+conveyors/@18.7309634,73.8320254,17z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3bc2b62016f02b1d:0x33742c018e3a63ee!2m2!1d73.8345204!2d18.730545?entry=ttu"
+                  target="_blank" rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:31px;color:white"><i class="bi bi-geo-alt-fill"></i> </i>
+                </a>
+              </div>
+              <div class="col-11 address">
+                Plot No G-8/A, MIDC Chakan, Phase 3,<br> Kurali, Khed, Maharashtra 410501
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-4  companyname">
+          <div class="row">
+            <img src="{{editImagesrc}}" alt="Red dot" style="height: 60px; width: 100px;">
+
+          </div>
+          <div class="row">
+            <span> &#169; 2022 ATS Conveyors India Pvt Ltd</span>
+          </div>
+        </div> -->
+
+
+        <div class="col-3  com-logo flex">
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col  aboutusicon">
+
+              </div>
+
+            </div>
+          </div>
+          <span> &#169; 2024 ATS Conveyors India Pvt Ltd</span>
+        </div>
+
+        <div class="col-1"></div>
+        <div class="col-3 footer-contact-us flex">
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col  aboutusicon">
+                <!-- <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+                <a href="https://www.ats-group.com/EN/about-ats-group/history.html" target="_blank"
+                  rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white;margin-right: -12px;"> <i
+                      class="bi bi-exclamation-circle-fill"></i></i>
+                </a>
+              </div>
+              <!-- <div class="col">
+                <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-globe2"></i></i>
+              </div> -->
+              <div class="col">
+                <a href="https://www.ats-group.com/" target="_blank" rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-globe2"></i></i>
+                </a>
+              </div>
+
+              <div class="col envelope" style="margin-right: 13px;">
+                <a href="https://www.ats-group.com/EN/contact-us.html" target="_blank" rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-envelope"></i></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a class="link-secondary" href="https://www.ats-group.com/EN/about-ats-group/history.html"
+            style="margin-right: 7px;">About Us</a> |
+          <a class="link-secondary" href="https://www.ats-group.com/" style="margin-right: 5px;"> Visit Web Site</a> |
+          <a class="link-secondary" href="https://www.ats-group.com/EN/contact-us.html"
+            style="margin-right: 15px;">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+
+
+  </div>
+
+
+
+  <div class="row navigation-bar navbar-fixed-top" *ngIf="authService.currentUserValue!=null">
+    <div class="col-12 col-sm-12 col-md-12 float-end project-brand header-height-style">
+
+      <a class="navbar-brand ">
+        <!-- <img class="project-logo" src="assets/images/ats-logo-store7.png" alt="">
+        <h3 class="d-inline align-middle project-name header-style" >The Clever Warehouse</h3> -->
+
+        <!-- <img class="project-logo" src="assets/images/ats-logo-store.png" alt=""> -->
+        <img class="mahindra-logo1" src="assets/images/M&M-images.png" alt="mahindra-logo">
+        <h5 class="d-inline align-middle project-name header-style" style="margin-left: 7px;">The Clever
+          Warehouse-Battery Pack ASRS</h5>
+
+      </a>
+
+
+
+      <div class="float-end header-height-style">
+        <!-- <div class="container"> -->
+        <nav class="navbar navbar-expand-lg header-style float-end header-height-style" id="main-nav">
+          <button type="button" class="navbar-toggler   " data-bs-toggle="collapse"
+            style="margin-left: 75%; margin-right: 8px; width: 50px; height: 50px;" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+          </button>
+
+          <div class="collapse navbar-collapse navbar-links box-body" id="navbarSupportedContent"
+            *ngIf="authService.currentUserValue!=null">
+            <ul class="navbar-nav me-auto mb-1 mb-lg-0">
+              <li class="nav-item header-right">
+                <a class="nav-link header-style" routerLink="/dashboard" tabindex="-1" aria-disabled="true"><i
+                    class="fa fa-bar-chart nav-icon-style "></i>
+                  Dashboard</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="fa fa-th-large" aria-hidden="true"></i> Master
+                </a>
+                <ul class="dropdown-menu content-wrapper" aria-labelledby="navbarDropdown">
+
+                  <!-- <li><a class="dropdown-item" routerLink="master/master-aging-days-details"><i
+                        class='fas fa-calendar-alt' aria-hidden="true"></i> Master Aging Days Details</a></li> -->
+                  <li><a class="dropdown-item" routerLink="master/mst-product-details"><i class="fa fa-cube"
+                        aria-hidden="true"></i> Master Part Details</a></li>
+
+                  <li><a class="dropdown-item" routerLink="master/master-product-details"><i class="fa fa-cubes"
+                        aria-hidden="true"></i> Master Model Details</a></li>
+                  <!-- <li><a class="dropdown-item" routerLink="master/mst-equipment-details"><i class="bi bi-tools"></i>
+                  Master Equipment</a></li> -->
+                  <li><a class="dropdown-item" routerLink="master/mst-reason-details/"><i class="fa fa-clock-o"
+                        aria-hidden="true"></i> Master Reason</a></li>
+                  <li><a class="dropdown-item" routerLink="master/mst-user-details/"><i class="fa fa-user-circle"
+                        aria-hidden="true"></i> Master User</a></li>
+
+
+
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="fa fa-cog nav-icon-style"></i>
+                  Control
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <!-- <li><a class="dropdown-item" routerLink="control/loading-station-details/">
+                    <i class="bi bi-display  nav-bar-icon " aria-hidden="true"></i> Loading Station</a></li>-->
+                  <li><a class="dropdown-item" routerLink="control/manage-location/">
+                      <i class="bi bi-display  nav-bar-icon " aria-hidden="true"></i> Manage Location</a></li>
+                  <!-- <li><a class="dropdown-item" routerLink="control/qr-code-generation/"><i class="bi bi-qr-code"></i> QR
+                      Code Generation</a></li> -->
+                  <li><a class="dropdown-item" routerLink="control/internal-pallet-movement/"><i
+                        class="fa fa-map-marker" aria-hidden="true"></i> Internal Pallet Movement</a></li>
+                  <li><a class="dropdown-item" routerLink="control/manual-retrieval-order/"><i
+                        class="bi bi-file-arrow-down-fill"></i> Generate Manual Retrieval Order</a></li>
+                  <li><a class="dropdown-item" routerLink="control/access-matrix/"><i class="bi bi-person-x-fill"
+                        aria-hidden="true"></i> Access Matrix</a></li>
+                  <li><a class="dropdown-item" routerLink="control/plc-it-datamismatch-details/"><i
+                        class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> PLC-IT Data Mismatch Details</a>
+                  </li>
+                  <!-- <li><a class="dropdown-item" routerLink="master/mst-sku/"><i class="bi bi-cart-dash-fill"></i> Manual
+                      Outfeed</a></li>
+                  <li><a class="dropdown-item" routerLink="master/mst-sku/"><i class="bi bi-cart-plus-fill"></i> Manual
+                      Infeed</a></li> -->
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="fa fa-desktop" aria-hidden="true"></i>
+                  Monitor
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <!-- <li><a class="dropdown-item" routerLink="monitor/equipment-sensors/"><i class="bi bi-upc"></i>
+                    Equipment
+                    Sensor</a></li> -->
+                  <li><a class="dropdown-item" routerLink="monitor/layout/"><i class="bi bi-window"
+                        aria-hidden="true"></i> 2d Layout</a></li>
+
+                  <!-- <li><a class="dropdown-item" routerLink="monitor/stacker-live-faults/"><i class="bi bi-tools"
+                        aria-hidden="true"></i> -->
+
+                  <li><a class="dropdown-item" (click)=" goToBatteryAlarm()" style="cursor: pointer;"><i class="bi bi-tools"
+                        aria-hidden="true"></i>
+
+
+                      Stacker Live Faults</a></li>
+                  <li><a class="dropdown-item" routerLink="monitor/current-stock-details/"><i class="bi bi-boxes"
+                        aria-hidden="true"></i> Current Stock Details</a></li>
+
+                  <li><a class="dropdown-item" routerLink="monitor/current-missions/"><i class="bi bi-broadcast"
+                        aria-hidden="true"></i> Current Missions</a></li>
+
+                  <li><a class="dropdown-item" routerLink="monitor/equipment-sensor-details/"><i class="bi bi-tools"
+                        aria-hidden="true"></i> Equipment Sensor
+                      Details</a></li>
+
+                  <li><a class="dropdown-item" routerLink="monitor/yokogawa-temprature-details/"><i
+                        class="bi bi-cloud-sun-fill" aria-hidden="true"></i>YokoGawa Temperature Details</a></li>
+
+                  <li><a class="dropdown-item" routerLink="monitor/mockdrill-mission-details/"><i
+                        class="bi bi-clipboard-check" aria-hidden="true"></i> Mock Drill Test details</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="fa fa-wpforms nav-icon-style"></i>
+                  Reports
+                </a>
+                <ul class="dropdown-menu dropdown-left-manual" aria-labelledby="navbarDropdown">
+                  <!-- <li><a class="dropdown-item" routerLink="reports/infeed-report"><i
+                    class="bi bi-clipboard-plus-fill"></i> Loading Operation Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/outfeed-report"><i class="bi bi-clipboard-minus-fill"></i>
+                    Unloading Operation Report</a></li> -->
+                  <li><a class="dropdown-item" routerLink="reports/infeedMission-report"><i
+                        class="bi bi-clipboard-plus-fill"></i> IN Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/outfeedMission-report"><i
+                        class="bi bi-clipboard-plus-fill"></i> Dispatch Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/alarm-history-report"><i
+                        class="bi bi-alarm-fill"></i> Alarm History
+                      Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/audit-trail-report"><i class="bi bi-person-fill"></i>
+                      Audit Trail
+                      Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/inventory-summary-report"><i
+                        class="bi bi-clipboard-plus-fill"></i>
+                      Inventory summary dashboard Report</a></li>
+                  <li><a class="dropdown-item" routerLink="reports/transferpallet-mission-runtime-details"><i
+                        class="bi bi-clipboard-plus-fill"></i>
+                      Tranfer Pallet Mission Runtime Details Report
+                    </a></li>
+                  <li><a class="dropdown-item" routerLink="reports/lock-unlock-cell-details"><i class="fas fa-lock"></i>
+                      <i class="fas fa-key"></i>
+                      Lock Cell Details
+                    </a></li>
+                  <li><a class="dropdown-item" routerLink="reports/temperature-mission-runtime-details"><i
+                        class="bi bi-file-earmark-text"></i>
+                      Temperature Mission Details
+                    </a></li>
+
+                </ul>
+              </li>
+              <li class="nav-item">
+                <span>
+
+                  <img [src]="authService.currentUserValue.userPhotoImageIn64Base"
+                    style="border-radius: 50px; height: 55px; width: 55px; " alt="">
+                  <!-- <i class="fa fa-user-circle" style=" font-size:44px; cursor: pointer; "></i> -->
+                  <a class="nav-link  header-style" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"></a>
+
+
+                  <ul class="dropdown-menu dropdown-left-manual" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" routerLink="/myprofile"><i class="bi bi-person-fill"></i> My
+                        Profile</a>
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()"><i
+                          class="bi bi-box-arrow-right"></i> Logout</a></li>
+                  </ul>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <hr>
+    <!--Body-->
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <section id="body-area">
+          <div class="container-fluid">
+
+            <router-outlet></router-outlet>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+
+
+
+
+    <!-- ======= Footer ======= -->
+    <!--Footer-->
+    <section id="footer-area">
+      <div class="row">
+        <hr>
+        <div class="col-5">
+          <div class="container">
+            <div class="row">
+              <div class="pro" style="margin-top: -15px;"> <img class="project-logo"
+                  src="assets/images/ats-logo-store.png" alt="project-logo"></div>
+              <div class="col mapicon" style="margin-left: 90px;margin-top: -60px;">
+                <i class="material-icons" style="font-size:31px;color:white"><i class="bi bi-geo-alt-fill"></i> </i>
+              </div>
+              <div class="col-11 address" style="margin-left: 140px;margin-top: -60px;">
+                Plot No G-8/A, MIDC Chakan, Phase 3, <br>Kurali, Khed, Maharashtra 410501
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- <div class="col-4  companyname">
+          <div class="row">
+            <img src="{{editImagesrc}}" alt="Red dot" style="height: 60px; width: 100px;">
+
+          </div>
+          <div class="row">
+            <span> &#169; 2022 ATS Conveyors India Pvt Ltd</span>
+          </div>
+        </div> -->
+
+
+
+        <div class="col-3  com-logo flex">
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col  aboutusicon">
+                <!-- <img src="assets/images/Mahindra-Logo.png" alt="Red dot" style="height: 50px; width: 80px;"> -->
+              </div>
+
+            </div>
+          </div>
+          <span style="font-size: 20px;"> &#169; 2024 ATS Conveyors India Pvt Ltd</span>
+        </div>
+        <div class="col-1"></div>
+        <!-- <div class="col-3 footer-contact-us flex">
+
+          <div class="container-fluid" style="margin-top: -10px;">
+            <div class="row">
+              <div class="col  aboutusicon">
+                <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                  <a href="https://www.ats-group.com/EN/about-ats-group/history.html" target="_blank"
+                  rel="noopener noreferrer">
+                <i class="material-icons" style="font-size:30px;color:white;margin-right: -30px;"> <i
+                    class="bi bi-exclamation-circle-fill"></i></i>
+                  </a>
+              </div>
+              <div class="col">
+                <i class="material-icons" style="font-size:30px;color:white;margin-right: -10px;"><i class="bi bi-globe2"></i></i>
+              </div>
+              <div class="col envelope">
+                <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-envelope"></i></i>
+              </div>
+            </div>
+          </div>
+          <a class="link-secondary" routerLink="/dashboard">About Us</a> |
+          <a class="link-secondary">Visit Web Site</a> |
+          <a class="link-secondary" routerLink="dashboard" style="margin-right: 5px;">Contact Us</a>
+
+        </div> -->
+
+        <div class="col-3 footer-contact-us flex">
+
+          <div class="container-fluid" style="margin-top: -10px;">
+            <div class="row">
+              <div class="col  aboutusicon">
+                <!-- <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+                <a href="https://www.ats-group.com/EN/about-ats-group/history.html" target="_blank"
+                  rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white;margin-right: -12px;"> <i
+                      class="bi bi-exclamation-circle-fill"></i></i>
+                </a>
+              </div>
+              <!-- <div class="col">
+                <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-globe2"></i></i>
+              </div> -->
+              <div class="col">
+                <a href="https://www.ats-group.com/" target="_blank" rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-globe2"></i></i>
+                </a>
+              </div>
+
+              <div class="col envelope" style="margin-right: 13px;">
+                <a href="https://www.ats-group.com/EN/contact-us.html" target="_blank" rel="noopener noreferrer">
+                  <i class="material-icons" style="font-size:30px;color:white"><i class="bi bi-envelope"></i></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a class="link-secondary" href="https://www.ats-group.com/EN/about-ats-group/history.html"
+            style="margin-right: 7px;">About Us</a> |
+          <a class="link-secondary" href="https://www.ats-group.com/" style="margin-right: 5px;"> Visit Web Site</a> |
+          <a class="link-secondary" href="https://www.ats-group.com/EN/contact-us.html"
+            style="margin-right: 15px;">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+</div>
+<!--Container-->

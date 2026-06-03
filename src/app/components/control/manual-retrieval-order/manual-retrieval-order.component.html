@@ -1,0 +1,536 @@
+<div class="row heading-name-area">
+
+    <div class="col-sm-10 ">
+        <h4 class="main-heading"><u>Generate Retrieval Order</u></h4>
+    </div>
+    <div class="row" style="margin-left:-20px;">
+        <div *ngFor="let item of mesConnectionDetailsList; let i = index" class="d-flex align-items-center mb-3 py-2"
+            style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;">
+
+            <!-- Smaller spinner with conditional colors -->
+            <div class="spinner-grow me-2" [ngClass]="{
+      'text-success': item.connectionStatus === 1,
+      'text-danger': item.connectionStatus === 0
+    }" role="status" style="width: 1rem; height: 1rem;">
+                <span class="visually-hidden">
+                    {{ item.connectionStatus === 1 ? 'Active' : 'Loss' }}
+                </span>
+            </div>
+
+
+            <div class="scroll-container">
+                <p class="scroll-text mb-0 ms-3" [ngClass]="{
+                         'text-success': item.connectionStatus === 1,
+                           'text-danger': item.connectionStatus === 0
+                             }">
+                    <span class="scroll-inner-text">
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    
+
+
+        <div style="margin-left: 30px; margin-bottom: 20px;">
+            <button class="btn btn-secondary float-end" data-bs-toggle="collapse" data-bs-target="#infeedReportFilter"
+                style="margin-left: 4px;" aria-expanded="false" aria-controls="reportFilter"><i
+                    class="bi bi-funnel"></i>
+                Filter
+            </button>
+            <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+                style="background-color: white; border-color: red; color: red;">
+                <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png"
+                    alt="pdf">
+                <!-- <mat-icon class="float-end mx-1" style="color: rgb(240, 26, 26);">picture_as_pdf</mat-icon> -->
+                Download
+            </button>
+
+            <button class="btn btn-outline-success float-end mx-1" (click)="generateMannualRetrivalExcelReport()">
+                <img class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+                    alt="excel">
+                Download
+            </button>
+
+            <button type="button" class="btn btn-primary float-end add-reason-button" data-bs-toggle="modal"
+                [disabled]="isMonitor()" data-bs-target="#addEngineDispatchScheduleModal"
+                style="margin-right: 4px; margin-top: -2px;"><i class="bi bi-plus-square"></i>
+            </button>
+
+
+
+
+<!-- ===================================================== -->
+<!-- REMOVE DUPLICATE CHECKBOX -->
+<!-- KEEP ONLY THIS -->
+<!-- ===================================================== -->
+
+<div
+style="
+display: flex;
+align-items: center;
+justify-content: flex-start;
+gap: 10px;
+margin-top: 20px;
+clear: both;">
+
+    <label class="square-toggle" style="margin: 0;">
+
+        <input
+            type="checkbox"
+            [checked]="isMesReadModeActive === 1"
+            (change)="onMesReadToggle($event)" />
+
+        <span class="square-toggle-slider"></span>
+
+    </label>
+
+    <p
+    class="toggle-text mb-0 font-weight-bold"
+    style="
+    margin: 0;
+    line-height: 40px;
+    font-size: 18px;">
+
+        MES Read {{ isMesReadModeActive === 0 ? 'OFF' : 'ON' }}
+
+    </p>
+
+</div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="collapse" id="infeedReportFilter">
+    <form #infeedFilterForm="ngForm" (ngSubmit)="fetchAllDetailsByAllFilters()" name="infeedFilterForm">
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">Start Date</label>
+                <input type="datetime-local" id="startdatepicker" name="infeedMissionStartCdatetime"
+                    [(ngModel)]="cDatetimeStart" class="form-control" (input)="dateTimeValidation()">
+                <div *ngIf="cDatetimeStart>cDatetimeEnd" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">End Date</label>
+                <input type="datetime-local" id="enddatepicker" name="infeedMissionEndCdatetime"
+                    [(ngModel)]="cDatetimeEnd" [disabled]="disableDateTime" class="form-control"
+                    (input)="dateTimeValidation()">
+                <div *ngIf="cDatetimeStart>cDatetimeEnd" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                        end-date.
+                    </p>
+                </div>
+            </div>
+            <!-- <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">Start Date</label>
+                <input type="datetime-local" id="startdatepicker" name="cDatetimeStart" [(ngModel)]="cDatetimeStart"
+                    class="form-control" (input)="dateTimeValidation()">
+                <div *ngIf="cDatetimeStart>cDatetimeEnd" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                        end-date.
+                    </p>
+                </div>
+
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+                <label class="control-label">End Date</label>
+                <input type="datetime-local" id="enddatepicker" name="cDatetimeEnd" [(ngModel)]="cDatetimeEnd"
+                    [disabled]="disableDateTime" class="form-control" (input)="dateTimeValidation()">
+                <div *ngIf="cDatetimeStart>cDatetimeEnd" class="error">
+                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Start-date should be less than
+                        end-date.
+                    </p>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-2 mt-1">
+                <label class="control-label">Dispatch Order Number</label>
+                <select name="floorName" id="floorName" class="form-select" [(ngModel)]="dispatchOrderNumber"#selectedDispatchOrderValue="ngModel" 
+                (change)="selectDispatchOrderNumberChangeHandler(selectedDispatchOrderValue.value)">
+                    <option value="" disabled selected>Select Order Number</option>
+                    <option *ngFor="let order of manunualRetrivalDetailsList" [ngValue]="order.dispatchOrderNumber">
+                        {{ order.dispatchOrderNumber }}
+                    </option>
+                </select>
+            </div> -->
+            <div class="col-md-2 mt-1">
+                <label class="control-label">Dispatch Order Number</label>
+                <select name="floorName" id="floorName" class="form-select" [(ngModel)]="selectedDispatchOrderNumber"
+                    #selectedDispatchOrderValue="ngModel"
+                    (change)="selectDispatchOrderNumberChangeHandler(selectedDispatchOrderValue.value)">
+                    <option value="" disabled selected>Select Order Number</option>
+
+                    <option *ngFor="let order of manunualRetrivalList" [ngValue]="order.dispatchOrderNumber">
+                        {{ order.dispatchOrderNumber }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-2 mt-1">
+                <label class="control-label">Model Number</label>
+                <select name="productVariantCode" id="productVariantCodeId" class="form-select"
+                    [(ngModel)]="productVariantCode" #selectedModelNumberValue="ngModel"
+                    (change)="selectModelNumberChangeHandler(selectedModelNumberValue.value)">
+                    <option value="" disabled selected>Select Model Number</option>
+                    <option *ngFor="let model of modelNumberDropDown" [ngValue]="model.productVariantCode">
+                        {{ model.productVariantCode }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 mt-1">
+                <label class="control-label">Shift </label>
+                <select name="shiftName" id="shiftId" class="form-select" [(ngModel)]="shiftName"
+                    #selectedShiftValue="ngModel" (change)="selectShiftNameChangeHandler(selectedShiftValue.value)">
+                    <option value="" disabled selected>Select Shift Name</option>
+                    <option *ngFor="let shift of shiftNameDropDownList" [ngValue]="shift.shiftName">
+                        {{ shift.shiftName }}
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="col-md-2 mt-1">
+                <label class="control-label">Order Type</label>
+                <select name="orderType" id="orderTypeId" class="form-select" [(ngModel)]="orderSourceDetails"
+                    #selectedOrderType="ngModel" (change)="selectOrderTypeChangeHandler(selectedOrderType.value)">
+                    <option value="" disabled selected>Select Order Type</option>
+                    <option value="MES">MES</option>
+                    <option value="NON-MES">NON-MES</option>
+                </select>
+            </div>
+
+
+
+
+
+            <div class="col-md-4 mt-1">
+                <h5 class="mt-4 "></h5>
+                <button class="btn btn-success" type="submit" [disabled]="disableSearchButton"><i
+                        class="fa fa-search"></i>Search</button>
+                <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+                    (click)="fetchAllMesAndNonMesMissionDetails()"><i class="fa fa-eraser"></i>
+                    Reset</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<div class="row table-area"
+    style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; padding-top: 5px;">
+    <div class="col">
+
+
+        <div id="table">
+            <table id="ManualOrderId"
+                class="table-responsive-sm table-bordered stripe">
+                <thead>
+
+                    <tr>
+                        <th class="th-sm">Sr No</th>
+                        <th class="th-sm">Dispatch Order Number</th>
+
+                        <!-- <th class="th-sm">ProductVariantCode</th> -->
+                        <th class="th-sm">Part No</th>
+                        <th class="th-sm">Model</th>
+                        <th class="th-sm">Order Batch Number</th>
+                        <th class="th-sm">VinNumber</th>
+                        <th class="th-sm">MFG Date</th>
+                        <!-- <th class="th-sm">ProductVariantName</th> -->
+                        <th class="th-sm">Part Name</th>
+                        <th class="th-sm">Planned Quantity</th>
+                        <th class="th-sm">Acutual Quantity</th>
+                        <th class="th-sm">Balance Quantity</th>
+                        <th class="th-sm">Shift Name</th>
+                        <th class="th-sm">User Name</th>
+                        <th class="th-sm">Order Type</th>
+                        <th class="th-sm">Dispatch Status</th>
+                        <th class="th-sm">CDatetime</th>
+                        <th class="th-sm">Is Dispatch Start</th>
+                        <th class="th-sm text-center">
+    Action
+    <br>
+
+ <button
+*ngIf="isDeleteShow"
+class="btn btn-danger btn-sm mt-1"
+(click)="ConfirmManualDelete()"
+title="Delete All">
+
+    <i class="fa fa-trash"></i> Delete All
+
+</button>
+</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let mannualRetrivalDetails of viewGenerateRetrivalNonMesAndMesOrderDetailsList; index as i trackBy: trackById">
+                        <td>{{i+1}}</td>
+                        <td>{{mannualRetrivalDetails.dispatchOrderNumber}}</td>
+                        <td>{{mannualRetrivalDetails.productVariantCode}}</td>
+                        <td>{{mannualRetrivalDetails.productName}}</td>
+                        <td>{{mannualRetrivalDetails.orderBatchNumber}}</td>
+                        <td>{{mannualRetrivalDetails.vinNumber}}</td>
+                        <td>{{mannualRetrivalDetails.mfgDate}}</td>
+                        <td>{{mannualRetrivalDetails.productVariantName}}</td>
+                        <td>{{mannualRetrivalDetails.plannedQuantity}}</td>
+                        <td>{{mannualRetrivalDetails.acutualQuantity}}</td>
+                        <td>{{mannualRetrivalDetails.balanceQuantity}}</td>
+                        <td>{{mannualRetrivalDetails.shiftName}}</td>
+                        <td>{{mannualRetrivalDetails.userName}}</td>
+                        <td>{{mannualRetrivalDetails.orderSourceDetails}}</td>
+                        <td>{{mannualRetrivalDetails.dispatchStatus}}</td>
+                        <td>{{mannualRetrivalDetails.createdDatetime}}</td>
+
+                        <td>
+                            <label class="switch" style="margin-left: 35px; margin-top: -10px;">
+                                <input type="checkbox" id="addActiveId" (change)="
+                                  editSelectedIsDispatchStartActiveInActiveCheckBox(
+                                    viewGenerateRetrivalNonMesAndMesOrderDetailsList[i])"
+                                    [checked]="viewGenerateRetrivalNonMesAndMesOrderDetailsList[i].isDispatchStart == 1"
+                                    [disabled]="mannualRetrivalDetails.dispatchStatus==='COMPLETED' ||isMonitor()" />
+
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        <td><button type="button" class="btn info fetch-button1"
+                                (click)="cancelOrder(mannualRetrivalDetails)"
+                                [disabled]="mannualRetrivalDetails.dispatchStatus==='COMPLETED' ||isMonitor()">Order
+                                cancel</button>
+
+                            <button type="button" class="btn info fetch-button2"
+                                (click)="deleteOrder(mannualRetrivalDetails)"
+                                [disabled]="mannualRetrivalDetails.dispatchStatus==='COMPLETED' || isMonitor()">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for addin MannualRetrival  -->
+
+<div class="modal" id="addEngineDispatchScheduleModal" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-plus-square"></i> Add Material Dispatch Schedule
+                </h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #addEngineDispatchScheduleModalForm="ngForm" novalidate>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required" style="margin-top: 10px; font-size: 20px; font-weight: normal;">Model
+                                Number</p>
+                        </div>
+
+                        <div class="col-7">
+                            <div class="dropdownBox">
+                                <ng-select [(ngModel)]="productVariantCode" name="productVariantCode"
+                                    (change)="selectProductVrientCodeChangeHandler1($event)"
+                                    [items]="modelNumberDropDown" bindLabel="productVariantCode"
+                                    bindValue="productVariantCode" #modelNumber="ngModel"
+                                    [placeholder]="placeholderText" [searchable]="true" class="dropdown" required>
+                                </ng-select>
+                                <div class="toggle-button">▼</div>
+                                <div *ngIf="modelNumber.invalid && (modelNumber.dirty || modelNumber.touched)">
+                                    <div *ngIf="modelNumber.errors && modelNumber.errors.hasOwnProperty('required')">
+                                        <p class="text-danger"> <i class="bi bi-exclamation-circle-fill"></i>Please
+                                            Enter
+                                            Model Number
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required" style="margin-top: 15px; font-size: 20px; font-weight: normal;">Planned
+                                Quantity</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="number" name="addQuantityName" id="addQuantityId" required
+                                [(ngModel)]="plannedQuantity" #addQuantityRef="ngModel"
+                                style="width: 200px; height: 30px; margin-top: 10px; margin-bottom: 10px; border-radius: 3px;" />
+
+                            <!-- Display error message for Planned Quantity -->
+                            <div *ngIf="addQuantityRef.invalid && (addQuantityRef.dirty || addQuantityRef.touched)"
+                                class="error">
+                                <div>
+                                    <p class="text-danger">
+                                        <i class="bi bi-exclamation-circle-fill"></i>Please Enter Planned Quantity
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div *ngIf="plannedQuantity === 0 && (addQuantityRef.dirty || addQuantityRef.touched)"
+                                class="error">
+                                <div>
+                                    <p class="text-danger">
+                                        <i class="bi bi-exclamation-circle-fill"></i>Please Enter Quantity greater than
+                                        0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required" style="margin-top: 15px; font-size: 20px; font-weight: normal;">NON-MES
+                                Order</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="radio" name="orderType" value="NON-MES" [(ngModel)]="orderSourceDetails"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <p class="required" style="margin-top: 15px; font-size: 20px; font-weight: normal;">Order
+                                Against MES</p>
+                        </div>
+                        <div class="col-7">
+                            <input type="radio" name="orderType" value="MES" [(ngModel)]="orderSourceDetails"
+                                required />
+                        </div>
+                    </div>
+                    <div *ngIf="orderSourceDetails === 'MES'">
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="required" style="margin-top: 15px; font-size: 20px; font-weight: normal;">
+                                    Reason:
+                                </p>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <select name="reason" id="reasonId" class="form-select" [(ngModel)]="reason"
+                                    #reasonModel="ngModel" [required]="orderSourceDetails === 'MES'">
+                                    <option value="" disabled selected>Select Reason</option>
+                                    <option value="MES Server is down">MES Server is down</option>
+                                    <option value="Communication Failure">Communication Failure</option>
+                                    <option value="Data Synchronization error">Data Synchronization error</option>
+                                    <option value="Production emergency override">Production emergency override</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+
+                            <div class="row" *ngIf="reason === 'Other'">
+                                <div class="col-6">
+                                    <p>Please Add Reason :</p>
+                                </div>
+                                <textarea class="form-control" [(ngModel)]="otherReasonText" name="otherReasonText"
+                                    #otherReasonModel="ngModel" required></textarea>
+                                <br>
+                                <div
+                                    *ngIf="otherReasonModel.invalid && (otherReasonModel.dirty || otherReasonModel.touched)">
+                                    <p class="text-danger">
+                                        <i class="bi bi-exclamation-circle-fill"></i>Please enter a reason for "Other"
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert"
+                        style="background-color: #fadcd9; color: red; margin: 10px;">
+                        Comment to be added in the future, if necessary.
+                    </div>
+
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-bs-dismiss="modal" type="submit"
+                            [disabled]="!isFormValid() ||!orderSourceDetails" (click)="GenerateMannualRetrival()">Submit
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="modal" id="confirmationModel" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style">
+                <h5 class="modal-title confText">Confirmation Message</h5>
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="margin-left: 100px; font-size: 27px; border-radius: 50%; ">
+                    <span aria-hidden="true" style="font-size: 32px; color: red; margin-top: 5px;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <p>Insufficient Quantity available you want to dispatch available quantity</p> -->
+                <!-- <p>{{ responseData | json }}</p> -->
+                <p class="textdesign">{{ responseData?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onDispatchButtonClick()">Dispatch</button>
+            </div>
+        </div>
+    </div>
+</div>

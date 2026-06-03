@@ -1,0 +1,116 @@
+<div class="row heading-name-area">
+
+    <div class="col-sm-10 ">
+        <h4 class="main-heading"><u>Lock Cell Details Report</u></h4>
+    </div>
+    <div class="row" style="margin-left:-40px;">
+
+
+        <div style="margin-left: 30px; margin-bottom: 20px;">
+            <button class="btn btn-secondary float-end" data-bs-toggle="collapse"
+                data-bs-target="#lockUnlockReportFilter" style="margin-left: 4px;" aria-expanded="false"
+                aria-controls="reportFilter"><i class="bi bi-funnel"></i>
+                Filter
+            </button>
+
+            <button class="btn btn-outline-primary float-end mx-1  pdfbtn" (click)="createPdf()"
+                style="background-color: white; border-color: red; color: red;">
+                <img class="float-end mx-1" style="width: 25px; height: 22px;" src="assets/images/pdf-image.png"
+                alt="pdf">
+               
+                Download
+            </button> 
+             <button class="btn btn-outline-success float-end mx-1" (click)="generateLockUnlockRunTimeExcelReport()"><img
+                    class="float-end mx-1" style="width: 20px; height: 20px;" src="assets/images/excel-1.png"
+                    alt="excel">Download</button>
+        </div>
+    </div>
+    <div class="collapse" id="lockUnlockReportFilter">
+        <form #infeedFilterForm="ngForm" (ngSubmit)="fetchLockDetailsByAllFilters()">
+
+            <div class="row">
+
+
+                <div class="col-md-2 mt-1">
+                    <label class="control-label">Area Id</label>
+                    <select name="Area" [(ngModel)]="areaId" class="form-select">
+                        <option [ngValue]="0">Select Area Id</option>
+                        <option *ngFor="let areaList of areaDetailsList" [ngValue]="areaList.areaId">
+                            {{ areaList.areaId }}
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 mt-1">
+                    <label class="control-label">Floor Id</label>
+                    <select name="floor" [(ngModel)]="floorId" class="form-select">
+                        <option [ngValue]="0">Select Floor Id</option>
+                        <option *ngFor="let floorList of floorDetailsList" [ngValue]="floorList.floorId">
+                            {{ floorList.floorId }}
+                        </option>
+                    </select>
+
+                </div>
+
+
+
+                <div class="col-md-4 mt-1">
+                    <h5 class="mt-4 "></h5>
+                    <button class="btn btn-success" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+
+
+                    <button class="btn btn-secondary mx-2" type="reset" value="submit" (input)="resetData()"
+                        (click)="fetchAllCurrentDateLockDetails()"><i class="fa fa-eraser"></i>
+                        Reset</button>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    <!-- TABLE SECTION -->
+
+
+    <div class="row table-area"
+        style="box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; padding-top: 5px;">
+        <div class="col">
+
+
+            <div id="table">
+                <table datatable [dtOptions]="lockUnlockReportDtOptions" id="lockUnlokDetailsId"
+                    class="table-responsive-sm table-bordered stripe">
+                    <thead>
+
+                        <tr>
+                            <th class="th-sm">Sr No</th>
+                            <th class="th-sm">Position Name</th>
+                            <th class="th-sm">Position Description</th>
+                            <th class="th-sm">Area Id</th>
+                            <th class="th-sm">Floor Id</th>
+
+                            <th class="th-sm">Username</th>
+                            <!-- <th class="th-sm">CDateTime</th> -->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let lockCellDetails of lockUnlockDetailsList; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{lockCellDetails.positionName}}</td>
+                            <td>{{lockCellDetails.positionDesc}}</td>
+                            <td>{{lockCellDetails.areaId }}</td>
+                            <td>{{lockCellDetails.floorId}}</td>
+
+                            <td>{{lockCellDetails.userName}}</td>
+                            <!-- <td>{{lockCellDetails.cDateTime}}</td> -->
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

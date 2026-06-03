@@ -1,0 +1,263 @@
+
+<!-- <div class="row heading-name-area">
+    <div class="col-sm-8 col-md-9 col-lg-10">
+
+        <h4 class="float-left main-heading" style="margin-left: 1%;"><img class="blink"
+                src="/assets/images/live-icon.png" style="height: 65px;">
+            <span style="color: red;">Live</span> Alarms
+        </h4>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="legend-wrapper legend1">
+        <h1 class="legend-heading">High Level</h1>
+        <div class="rectangle" style=" background-color: rgb(246, 113, 113)"></div>
+    </div>
+
+    <div class="legend-wrapper legend2">
+        <h1 class="legend-heading">Medium Level</h1>
+        <div class="rectangle" style="background-color:  lightsalmon"></div>
+    </div>
+
+    <div class="legend-wrapper legend3">
+        <h1 class="legend-heading">Low Level</h1>
+        <div class="rectangle" style="background-color:  #f5df73"></div>
+    </div>
+</div>
+
+
+<div class="container1 rectangle1" style="background-color: #F8F8F8;box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;  background-color:#eaeaf7;">
+    <div>
+        <div class="card bg-light mb-3 card1 box1">
+            <div class="card-header title-name">Zone-1 : Alarms</div>
+            <div class="card-body">
+                <div id="stacker-alarm">
+                    <div style="clear: both">
+                       
+                        <h4 class="box-text" style="float: right;margin-top: 20px; font-size: 22px;">Total Count : {{stacker1AlarmCount}}
+                        </h4>
+                    </div>
+                    <table class="table-responsive-sm  table-hover table-borderless table ">
+
+                        <tbody>
+                            <tr *ngFor="let equipmentDetails of equipment1IdList; index as i">
+
+                                <td  [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmName }}</td>
+                                <td [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmOccurredDatetime }}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="card bg-light mb-3 card1 box2">
+            <div class="card-header title-name">Zone-2 : Alarms</div>
+            <div class="card-body">
+                <div id="stacker-alarm">
+                    <div style="clear: both">
+                        
+                        <h4 class="box-text" style="float: right;margin-top: 20px;font-size: 22px;">Total Count : {{stacker2AlarmCount}}
+                        </h4>
+                    </div>
+                    <table class="table-responsive-sm  table-hover table-borderless table ">
+
+                        <tbody>
+                            
+                            <tr *ngFor="let equipmentDetails of equipment2IdList; index as i">
+
+                                <td [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmName }}</td>
+                                <td [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmOccurredDatetime }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="card bg-light mb-3 card1 box3">
+            <div class="card-header title-name" >Zone-3 : Alarms</div>
+            <div class="card-body">
+                <div id="stacker-alarm">
+                    <div style="clear: both">
+                       
+                        <h4 class="box-text" style="float: right;margin-top: 20px;font-size: 22px;">Total Count : {{stacker3AlarmCount}}
+                        </h4>
+                    </div>
+                    <table class="table-responsive-sm  table-hover table-borderless table ">
+
+                        <tbody>
+                            <tr *ngFor="let equipmentDetails of equipment3IdList; index as i">
+
+                                <td [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmName }}</td>
+                                <td [ngClass]="getBackgroundColorClass(equipmentDetails.alarmLevel)">{{
+                                    equipmentDetails.equipmentAlarmOccurredDatetime }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> -->
+
+
+<!--Table Section-->
+<!-- <div class="row table-area">
+    <div class="col shadow-border p-3 mb-5 rounded">
+
+        <div id="stacker-alarm">
+            <div style="clear: both">
+                <h4 style="float: left" style="margin-left: 13%;" >CONVEYOR-1</h4>
+                <h4 style="float: right">Total Count:{{stacker1AlarmCount}}</h4>
+            </div>
+            <table class="table-responsive-sm  table-hover table-borderless table ">
+                <thead>
+                    <tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let equipmentDetails of equipment1IdList; index as i">
+
+                        <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                        <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+        <div class="col shadow-border p-3 mb-5 rounded">
+
+            <div id="stacker-alarm">
+                <div style="clear: both">
+                    <h4 style="float: left" style="margin-left: 13%;" >STACKER-1</h4>
+                    <h4 style="float: right">Total Count:{{stacker2AlarmCount}}</h4>
+                </div>
+                <table class="table-responsive-sm  table-hover table-borderless table ">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let equipmentDetails of equipment2IdList; index as i">
+
+                            <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                            <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col shadow-border p-3 mb-5 rounded">
+
+            <div id="stacker-alarm">
+                <div style="clear: both">
+                    <h4 style="float: left" style="margin-left: 13%;">STACKER-2</h4>
+                    <h4 style="float: right">Total Count:{{stacker3AlarmCount}}</h4>
+                </div>
+                <table class="table-responsive-sm  table-hover table-borderless table ">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let equipmentDetails of equipment3IdList; index as i">
+
+                            <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                            <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col shadow-border p-3 mb-5 rounded">
+
+            <div id="stacker-alarm">
+                <div style="clear: both">
+                    <h4 style="float: left" style="margin-left: 13%;">STACKER-3 </h4>
+                    <h4 style="float: right">Total Count:{{stacker4AlarmCount}}</h4>
+                </div>
+                <table class="table-responsive-sm  table-hover table-borderless table ">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let equipmentDetails of equipment4IdList index as i">
+
+                            <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                            <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="col shadow-border p-3 mb-5 rounded">
+
+            <div id="stacker-alarm">
+                <div style="clear: both">
+                    <h4 style="float: left" style="margin-left: 13%;">STACKER-4 </h4>
+                    <h4 style="float: right">Total Count:{{stacker5AlarmCount}}</h4>
+                </div>
+                <table class="table-responsive-sm  table-hover table-borderless table ">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let equipmentDetails of equipment5IdList index as i">
+
+                            <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                            <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="col shadow-border p-3 mb-5 rounded">
+
+            <div id="stacker-alarm">
+                <div style="clear: both">
+                    <h4 style="float: left" style="margin-left: 13%;">Alarm Level </h4>
+                    <h4 style="float: right">Total Count:{{stacker5AlarmCount}}</h4>
+                </div>
+                <table class="table-responsive-sm  table-hover table-borderless table ">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let equipmentDetails of equipment5IdList index as i">
+
+                            <td>{{equipmentDetails.equipmentAlarmName}}</td>
+                            <td>{{equipmentDetails.equipmentAlarmOccurredDatetime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> -->
+
+
+
+
+
+
+<!-- </div> -->

@@ -1,0 +1,604 @@
+/* Base styles (For 1920px width screen size) */
+.bt1 {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.duplicated-legend {
+  position: absolute;
+  top: 0;
+  right: 60rem;
+  /* Adjust as necessary to fit your layout */
+  display: flex;
+  justify-content: flex-start;
+  /* Align items horizontally */
+  align-items: center;
+  /* Center the legend items vertically */
+  width: auto;
+  /* Adjust width based on content */
+  font-size: 17px;
+  z-index: 10;
+  margin-top: 10.8rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  padding: 10px;
+}
+
+/* Style individual legend items */
+.duplicated-legend ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  /* Make the list horizontal */
+  margin: 0;
+}
+
+.duplicated-legend li {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  /* Space between items */
+}
+
+.duplicated-legend .legend-color {
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
+  /* Space between color and label */
+  display: inline-block;
+  border: 2px solid black;
+}
+
+
+
+.heading-name-area {
+  margin-top: 1rem;
+}
+
+.main-heading {
+  text-align: center;
+  margin-left: 25%;
+  font-size: 1.6rem;
+  font-family: ibm-plex-sans-regular;
+  font-weight: bold;
+  text-underline-position: under;
+}
+
+.text-legend {
+  font-size: 1.6rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: bold;
+  margin-left: 1.9rem;
+  margin-top: -1.1rem;
+  text-underline-position: under;
+
+  color: rgb(56, 91, 139);
+}
+
+.pdfbtn:hover,
+.pdfbtn:active {
+  background-color: #ff0000 !important;
+  color: white !important;
+}
+
+.pdfbtn:hover mat-icon {
+  background-color: #ff0000 !important;
+  color: white !important;
+}
+
+.charts-container {
+  position: fixed;
+  bottom: 100px;
+  left: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  background-color: #dfdddd;
+}
+
+.chart-item {
+  max-width: 300px;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 25px;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-left: 350px;
+  margin-top: 69px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #eaeaf7;
+  padding: 5px;
+  margin-top: -60px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-day {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.day-number {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.temp-details {
+  font-size: 0.9em;
+}
+
+.min-temp {
+  background-color: #4fc553;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.max-temp {
+  background-color: #F44336;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+
+
+
+.min-temp-green {
+  background-color: #19be1e;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.min-temp-yellow {
+  background-color: #FFEA00;
+  color: #000;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.min-temp-red {
+  background-color: #dd3226;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.max-temp-green {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.max-temp-yellow {
+  background-color: #FFEB3B;
+  color: #000;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.max-temp-red {
+  background-color: #F44336;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+
+.bi-cloud-sun-fill {
+  color: skyblue;
+  margin-left: 130px;
+  font-size: 15px;
+}
+
+.button-70,
+.button-89 {
+  margin: 5px;
+}
+
+.button-70 {
+  background-image: linear-gradient(#0dccea, #0d70ea);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: Montserrat, sans-serif;
+  font-size: .9em;
+  margin: 5px;
+  padding: 10px 15px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+
+
+/* CSS */
+.button-89 {
+  --b: 3px;
+  /* border thickness */
+  --s: .45em;
+  /* size of the corner */
+  --color: #373B44;
+
+  padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+  color: var(--color);
+  --_p: var(--s);
+  background:
+    conic-gradient(from 90deg at var(--b) var(--b), #0000 90deg, var(--color) 0) var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+  transition: .3s linear, color 0s, background-color 0s;
+  outline: var(--b) solid #0000;
+  outline-offset: .6em;
+  font-size: 16px;
+
+  border: 0;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-89:hover,
+.button-89:focus-visible {
+  --_p: 0px;
+  outline-color: var(--color);
+  outline-offset: .05em;
+}
+
+.button-89:active {
+  background: var(--color);
+  color: #fff;
+}
+
+/* Style the select element */
+select {
+  background-color: #f0f8ff;
+  /* Light sky blue background */
+  border: 1px solid #ddd;
+  /* Light gray border */
+  border-radius: 4px;
+  /* Rounded corners */
+  padding: 8px 12px;
+  /* Padding inside the select */
+  font-size: 16px;
+  /* Font size for the text */
+  color: #333;
+  /* Text color */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  /* Smooth transition */
+}
+
+/* Style the select element on focus */
+select:focus {
+  border-color: #007bff;
+  /* Blue border on focus */
+  outline: none;
+  /* Remove default outline */
+}
+
+/* Style the options */
+option {
+  background-color: #fff;
+  /* White background for options */
+  color: #333;
+  /* Text color */
+  padding: 8px;
+  /* Padding for options */
+}
+
+/* Style the select when it is disabled */
+select[disabled] {
+  background-color: #e9ecef;
+  /* Gray background for disabled state */
+  color: #6c757d;
+  /* Gray text color for disabled state */
+  cursor: not-allowed;
+  /* Not-allowed cursor for disabled state */
+}
+
+.buttonbox {
+  background-color: rgb(51, 121, 190);
+  color: white;
+  width: 150px;
+  height: 40px;
+  border: none;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 10px;
+
+
+
+}
+
+.buttonbox:hover {
+  color: #000000;
+  background-color: rgb(144, 232, 238);
+
+}
+
+.modal-title {
+  text-align: center;
+  margin-left: 35%;
+  font-size: 1.5rem;
+  font-family: ibm-plex-sans-regular;
+  font-weight: bold;
+  color: white;
+
+}
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* dark transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.alert-box {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+  max-width: 400px;
+}
+
+
+
+
+/* Responsive styles */
+@media(width: 1680px) {
+  .text-legend {
+    font-size: 1.2rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold;
+    margin-left: 3.9rem;
+    margin-top: -2.5rem;
+    text-underline-position: under;
+
+    color: rgb(56, 91, 139);
+  }
+
+
+  .duplicated-legend {
+    position: absolute;
+    top: 0;
+    right: 50rem;
+    /* Adjust as necessary to fit your layout */
+    display: flex;
+    justify-content: flex-start;
+    /* Align items horizontally */
+    align-items: center;
+    /* Center the legend items vertically */
+    width: auto;
+    /* Adjust width based on content */
+    font-size: 14px;
+    z-index: 10;
+    margin-top: 9.8rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    padding: 10px;
+
+  }
+
+  /* Style individual legend items */
+  .duplicated-legend ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    /* Make the list horizontal */
+    margin: 0;
+  }
+
+  .duplicated-legend li {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    /* Space between items */
+  }
+
+  .duplicated-legend .legend-color {
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    /* Space between color and label */
+    display: inline-block;
+    border: 2px solid black;
+  }
+}
+
+
+@media(width: 1600px) {
+  .text-legend {
+    font-size: 1.2rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold;
+    margin-left: 3.9rem;
+    margin-top: -2.5rem;
+    text-underline-position: under;
+
+    color: rgb(56, 91, 139);
+  }
+
+  .charts-container {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin: 20px 0;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+
+  .duplicated-legend {
+    margin-top: 30.9rem;
+  }
+  .calendar-container {
+    margin-left: -0.5rem;
+    width: 90%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  
+}
+
+
+@media (max-width: 1440px) {
+  .main-heading {
+    margin-left: 15%;
+  }
+
+  .charts-container {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin: 20px 0;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .calendar-container {
+    margin-left: 0;
+    width: 90%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bi-cloud-sun-fill {
+    margin-left: 0;
+  }
+
+  .duplicated-legend {
+    margin-top: 1.5rem;
+    margin-left: 109rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  
+  .charts-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-item {
+    max-width: 250px;
+  }
+
+  .calendar-header {
+    width: 100%;
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-heading {
+    margin-left: 0;
+    font-size: 1.4rem;
+  }
+
+  .charts-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .calendar-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-item {
+    max-width: 200px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .button-70,
+  .button-89 {
+    font-size: 0.8em;
+    padding: 5px 10px;
+  }
+
+  .bi-cloud-sun-fill {
+    font-size: 12px;
+  }
+}

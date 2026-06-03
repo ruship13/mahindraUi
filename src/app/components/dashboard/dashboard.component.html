@@ -1,0 +1,2923 @@
+<!-- HEADER SECTION -->
+
+
+<div class="row align-items-center">
+
+
+    <div *ngFor="let item of mesConnectionDetailsList; let i = index" class="d-flex align-items-center mb-3 py-2"
+        style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;">
+
+        <!-- Smaller spinner with conditional colors -->
+        <div class="spinner-grow me-2" [ngClass]="{
+      'text-success': item.connectionStatus === 1,
+      'text-danger': item.connectionStatus === 0
+    }" role="status" style="width: 1rem; height: 1rem;">
+            <span class="visually-hidden">
+                {{ item.connectionStatus === 1 ? 'Active' : 'Loss' }}
+            </span>
+        </div>
+
+
+        <div class="scroll-container">
+            <p class="scroll-text mb-0 ms-3" [ngClass]="{
+                         'text-success': item.connectionStatus === 1,
+                           'text-danger': item.connectionStatus === 0
+                             }">
+                <span class="scroll-inner-text">
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {{ item.connectionStatus === 1 ? 'MES Connection Active' : 'MES Connection Loss' }}
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9" style="margin-left: -70px; margin-top: -35px;">
+        <h4 class="float-left main-heading">
+            <img class="blink main-heading-style" src="assets/images/live-icon.png">
+            <span class="dasboardspan"> Live</span> Dashboard
+        </h4>
+    </div>
+    <!-- <div class="col-sm-4 col-md-3 col-lg-3 d-flex justify-content-end ml-5 emptyPalletCount" data-bs-toggle="modal" data-bs-target="#EmptyPalletcurrentStockModel">
+        <div class="card emptypalletBox" style="background-color: rgb(245, 245, 245);">
+            <div class="counter-box" >
+               
+                <p class="orders-header-style empty-label"> <i class="fa fa-cubes asrs-order-icon-style emptyIcon" style="color: rgb(240, 61, 234);;" 
+                    aria-hidden="true"></i>Empty Pallet Count</p>
+                <div class="verticalLine"></div>
+                <span class="counter orders-header-style">{{dashboardDetails.bevEmptyPalletCount}}</span>
+            </div>
+        </div>
+    </div> -->
+
+
+
+    <!-- <div class="col-sm-4 col-md-3 col-lg-3 d-flex justify-content-end ml-5 emptyPalletCount" data-bs-toggle="modal" data-bs-target="#EmptyPalletcurrentStockModel">
+        <div class="card emptypalletBox" style="background-color: rgb(245, 245, 245);">
+            <div class="counter-box" >
+               
+                <p class="orders-header-style empty-label"> <i class="fa fa-cubes asrs-order-icon-style emptyIcon" style="color: rgb(240, 61, 234);;" 
+                    aria-hidden="true"></i>Empty Pallet Count</p>
+                <div class="verticalLine"></div>
+                <span class="counter orders-header-style">{{dashboardDetails.bevEmptyPalletCount}}</span>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- <div class="col-sm-4 col-md-3 col-lg-3 d-flex justify-content-end ml-5 emptyPalletCount">
+        <div class="card emptypalletBox" style="background-color: rgb(245, 245, 245);">
+            <div class="counter-box d-flex justify-content-between align-items-center" style="width: 100%;">
+
+               
+                <div class="counter-section text-center" data-bs-toggle="modal"
+                    data-bs-target="#EmptyPalletcurrentStockModel">
+                    <p class="orders-header-style empty-label">BEV Empty Count</p>
+                    <span class="counter orders-header-style">{{dashboardDetails.bevEmptyPalletCount}}</span>
+                </div>
+
+               
+                <div class="verticalLine"></div>
+
+              
+                <div class="counter-section text-center" data-bs-toggle="modal"
+                    data-bs-target="#s230EmptyPalletcurrentStockModel">
+                    <p class="orders-header-style empty-label">S230 Empty Count</p>
+                    <span class="counter orders-header-style">{{dashboardDetails.s230EmptyPalletCount}}</span>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
+
+
+</div>
+
+<br>
+
+
+
+<!-- TABLE SECTION -->
+
+<div class="row ">
+    <div class="col-12  all-details-table ">
+
+        <div class="row borderforsection">
+            <h4 class="header-style header-style-Day-wise" style="font-size: 20px;">Day-Wise report </h4>
+            <div class="centered">
+
+                <section class="cards" style="margin-top: -10px;">
+
+
+                    <div class="card dash-card-Day-wise" (click)="fetchBEVAllInfeedMissionRuntimeDetails()"
+                        data-bs-toggle="modal" data-bs-target="#EditDataModalId">
+                        <div data-placement="top" title="Current date infeed count">
+                            <h3 class="S230ok infeed-back">BEV IN Count </h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style infeed"
+                                style="color: green; font-size: 40px; text-align: center;">
+                                <i class="bi bi-cart-plus day-wise-icon-style"></i>{{dashboardDetails.bevInfeedCount}}
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- <div class="card dash-card-Day-wise s230Infeed" (click)="fetchS230AllInfeedMissionRuntimeDetails()"
+                        data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <div data-placement="top" title="Current date infeed count">
+                            <h3 class="S230ok infeed-back">S230 Put Away Count </h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style infeed"
+                                style="color: green; font-size: 40px;text-align: center;">
+                                <i class="bi bi-cart-plus day-wise-icon-style"></i>{{dashboardDetails.s230InfeedCount}}
+                            </h3>
+                        </div>
+                    </div> -->
+
+                    <div class="card dash-card-Day-wise Nokcard picklistbox"
+                        (click)="fetchBEVAllOutfeedMissionRuntimeDetails()" data-bs-toggle="modal"
+                        data-bs-target="#bevOutfeedDetailsModel">
+                        <div data-placement="top" title="Current date outfeed count">
+                            <h3 class="S230ok outfeedback">BEV Dispatch Count</h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style outfeed-style" style="font-size: 40px;text-align: center;">
+                                <i
+                                    class="bi bi-cart-dash outfeed day-wise-icon-style"></i>{{dashboardDetails.bevOutfeedCount}}
+                            </h3>
+
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div class="card dash-card-Day-wise okcard card12">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok outfeedback">BEV</h3>
+                        </div>
+                        <div class="card-body"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+
+
+                            <div class="ok-section bevOK" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                                <h3 class="header-content-style titlegreen"> OK </h3>
+                                <h4 class="bevokcount">{{dashboardDetails.totalOKBEVCount}}</h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#NOKUserModal">
+                                <h3 class="header-content-style bevNOK"> NOK </h3>
+                                <h4 class="bevNokcount">{{dashboardDetails.totalNOKBEVCount}}
+                                </h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+
+                            <div class="ok-section bevOK" data-bs-toggle="modal"
+                                data-bs-target="#EmptyPalletcurrentStockModel">
+                                <h3 class="header-content-style titlegreen" style="color: rgb(240, 61, 234);"> EMPTY
+                                </h3>
+                                <h4 class="bevokcount" style="color: rgb(240, 61, 234);">
+                                    {{dashboardDetails.bevEmptyPalletCount}}</h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#bufferPalletModel">
+                                <h3 class="header-content-style bevNOK" style="color: rgb(24, 140, 218);"> WIP </h3>
+                                <h4 class="bevNokcount" style="color: rgb(24, 140, 218);">
+                                    {{dashboardDetails.bevBufferCount}}
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div> -->
+
+                    <div class="card dash-card-Day-wise okcard card12">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok outfeedback">BEV</h3>
+                        </div>
+                        <div class="card-body"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="ok-section bevOK" data-bs-toggle="modal" data-bs-target="#deleteUserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsBEVOKBYPage({ qualityStatus: 'OK', page: 0, size: 10 })">
+                                <h3 class="header-content-style titlegreen"> OK </h3>
+                                <h4 class="bevokcount">{{dashboardDetails.totalOKBEVCount}}</h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#bufferPalletModel"
+                                (click)="fetchAllBufferPalletDetails({ page: '0', size: '10' })">
+                                <h3 class="header-content-style bevNOK" style="color: rgb(24, 140, 218);"> WIP </h3>
+                                <h4 class="bevNokcount" style="color: rgb(24, 140, 218);">
+                                    {{dashboardDetails.bevBufferCount}}
+                                </h4>
+                            </div>
+
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+                            <div class="ok-section bevOK" data-bs-toggle="modal"
+                                data-bs-target="#EmptyPalletcurrentStockModel"
+                                (click)="fetchAllEmptyPalletList({ page: '0', size: '10' })">
+                                <h3 class="header-content-style titlegreen" style="color: rgb(240, 61, 234);">EMPTY
+                                </h3>
+                                <h4 class="bevokcount" style="color: rgb(240, 61, 234);">
+                                    {{dashboardDetails.bevEmptyPalletCount}}</h4>
+                            </div>
+
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#NOKUserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsBEVNOKBYPage({ qualityStatus: 'NOK', page: 0, size: 10 })">
+                                <h3 class="header-content-style bevNOK"> NOK </h3>
+                                <h4 class="bevNokcount">{{dashboardDetails.totalNOKBEVCount}}
+                                </h4>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="card dash-card-Day-wise okcard currentstock">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok outfeedback" (click)="gotoList()">Current Stock</h3>
+                        </div>
+                        <div class="card-body"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+
+
+                            <div class="ok-section bevOK currentbox" data-bs-toggle="modal"
+                                data-bs-target="#deleteUserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsBEVOKBYPage({ qualityStatus: 'OK', page: 0, size: 10 })">
+                                <h3 class="header-content-style titlegreen titlegreen1"> BEV </h3>
+                                <h4 class="bevokcount currentcount1">{{dashboardDetails.totalOKBEVCount}}</h4>
+                            </div>
+                            <span class="vertical" style="margin-top: -30px;"></span>
+
+                            <div class="nok-section bevNOK s230title" data-bs-toggle="modal"
+                                data-bs-target="#s230UserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsS230OKBYPage({ qualityStatus: 'OK', page: 0, size: 10 })">
+                                <h3 class="header-content-style currentstocktitle currentTitle"> S230 </h3>
+                                <h4 class="currentcount currentcount1">{{dashboardDetails.totalS230OKCount}}
+                                </h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card dash-card-Day-wise okcard"  >
+                        <div data-placement="top" title="Current date alarm count">
+                            <h3 class="S230ok infeed-back">Cum. IN Count</h3>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="header-content-style infeed"
+                                style="color: green; font-size: 40px; text-align: center;">
+                                <i class="bi bi-cart-plus day-wise-icon-style"></i>{{dashboardTotalInfeedCount}}
+                            </h3>
+                        </div>
+                    </div>
+                </section>
+                <br>
+                <section class="cards sectionbottom">
+                    <!-- <div class="card dash-card-Day-wise Nokcard picklistbox"
+                        (click)="fetchBEVAllOutfeedMissionRuntimeDetails()" data-bs-toggle="modal"
+                        data-bs-target="#bevOutfeedDetailsModel">
+                        <div data-placement="top" title="Current date outfeed count">
+                            <h3 class="S230ok outfeedback">BEV Picklist Count</h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style outfeed-style" style="font-size: 40px;text-align: center;">
+                                <i
+                                    class="bi bi-cart-dash outfeed day-wise-icon-style"></i>{{dashboardDetails.bevOutfeedCount}}
+                            </h3>
+
+                        </div>
+                    </div> -->
+
+                    <div class="card dash-card-Day-wise s230Infeed" (click)="fetchS230AllInfeedMissionRuntimeDetails()"
+                        data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <div data-placement="top" title="Current date infeed count">
+                            <h3 class="S230ok infeed-back">S230 IN Count </h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style infeed"
+                                style="color: green; font-size: 40px;text-align: center;">
+                                <i class="bi bi-cart-plus day-wise-icon-style"></i>{{dashboardDetails.s230InfeedCount}}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="card dash-card-Day-wise Nokcard" (click)="fetchS230AllOutfeedMissionRuntimeDetails()"
+                        data-bs-toggle="modal" data-bs-target="#S230OutfeedDetailsModel">
+                        <div data-placement="top" title="Current date outfeed count">
+                            <h3 class="S230ok outfeedback">S230 Dispatch Count</h3>
+                        </div>
+
+                        <div class="card-body boxcount">
+                            <h3 class="header-content-style outfeed-style" style="font-size: 40px;text-align: center; ">
+                                <i class="bi bi-cart-dash day-wise-icon-style"></i>{{dashboardDetails.s230OutfeedCount}}
+                            </h3>
+
+                        </div>
+                    </div>
+                    <!-- <div class="card dash-card-Day-wise okcard" data-bs-toggle="modal" data-bs-target="#NOKUserModal">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="current-stock " style="color: rgb(230, 96, 118);">NOK Material</h3>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="header-content-style" style="color: rgb(230, 96, 118);">
+                                <i class="fa fa-cubes day-wise-icon-style"
+                                    aria-hidden="true"></i>{{dashboardDetailsList1.totalNOKCount}}
+                            </h3>
+                        </div>
+                    </div> -->
+                    <!-- <div class="card dash-card-Day-wise  okcard">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok">S230</h3>
+                        </div>
+                        <div class="card-body vertical">
+                            <h3 class="header-content-style bevOK" data-bs-toggle="modal"
+                                data-bs-target="#s230UserModal" style="margin-right: 75px; text-align: center;"> OK <br>
+                                <h4 class="bevokcount">{{dashboardDetailsList1.OkS230MaterialCurrentStockDetails}}</h4>
+                            </h3>
+
+                            <h3 class="header-content-style bevNOK" data-bs-toggle="modal"
+                                data-bs-target="#s230NOKUserModal" style="margin-left: 35px; text-align: center;">
+                                NOK <h4 class="bevNokcount">{{dashboardDetailsList1.NOkS230MaterialCurrentStockDetails}}
+                                </h4>
+                            </h3>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="card dash-card-Day-wise okcard">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok">S230</h3>
+                        </div>
+                        <div class="card-body"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+
+
+                            <div class="ok-section bevOK" data-bs-toggle="modal" data-bs-target="#s230UserModal">
+                                <h3 class="header-content-style titlegreen"> OK </h3>
+                                <h4 class="bevokcount">{{dashboardDetails.totalS230OKCount}}</h4>
+                            </div>
+                            <span class="vertical" style="margin-top: -30px;"></span>
+
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#s230NOKUserModal">
+                                <h3 class="header-content-style bevNOK"> NOK </h3>
+                                <h4 class="bevNokcount">{{dashboardDetails.totalS230NOKCount}}
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div> -->
+
+                    <div class="card dash-card-Day-wise okcard card-box card12">
+                        <div data-placement="top" title="Current date current stock count">
+                            <h3 class="S230ok">S230</h3>
+                        </div>
+                        <div class="card-body"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="ok-section bevOK" data-bs-toggle="modal" data-bs-target="#s230UserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsS230OKBYPage({ qualityStatus: 'OK', page: 0, size: 10 })">
+                                <h3 class="header-content-style titlegreen"> OK </h3>
+                                <h4 class="bevokcount">{{dashboardDetails.totalS230OKCount}}</h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+                            <div class="nok-section bevNOK" data-bs-toggle="modal"
+                                data-bs-target="#S230bufferPalletModel"
+                                (click)="fetchAllS230BufferPalletDetails({ page: '0', size: '10' })">
+                                <h3 class="header-content-style bevNOK" style="color: rgb(24, 140, 218);"> WIP </h3>
+                                <h4 class="bevNokcount" style="color: rgb(24, 140, 218);">
+                                    {{dashboardDetails.s230BufferCount}}
+                                </h4>
+                            </div>
+
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+
+                            <div class="ok-section bevOK" data-bs-toggle="modal"
+                                data-bs-target="#s230EmptyPalletcurrentStockModel"
+                                (click)="fetchAllEmptyPalletListS230({ page: '0', size: '10' })">
+                                <h3 class="header-content-style titlegreen" style="color: rgb(240, 61, 234);"> EMPTY
+                                </h3>
+                                <h4 class="bevokcount" style="color: rgb(240, 61, 234);">
+                                    {{dashboardDetails.s230EmptyPalletCount}}</h4>
+                            </div>
+                            <span class="vertical1" style="margin-top: -30px;"></span>
+                            <div class="nok-section bevNOK" data-bs-toggle="modal" data-bs-target="#s230NOKUserModal"
+                                (click)="fetchAllCurrentPalletStockDetailsS230NOKBYPage({ qualityStatus: 'NOK', page: 0, size: 10 })">
+                                <h3 class="header-content-style bevNOK"> NOK </h3>
+                                <h4 class="bevNokcount">{{dashboardDetails.totalS230NOKCount}}
+                                </h4>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="card dash-card-Day-wise okcard">
+                        <div data-placement="top" title="Current date alarm count">
+                            <h3 class="S230ok infeed-back" (click)=" goToBatteryAlarm()">Alarm Count</h3>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="text-danger header-content-style alarm"
+                                style="font-size: 40px;text-align: center; ">
+                                <i class="bi-stopwatch day-wise-icon-style"></i>{{dashboardDetails.totalAlarmCount}}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="card dash-card-Day-wise okcard">
+                        <div data-placement="top" title="Current date alarm count">
+                            <h3 class="S230ok infeed-back">Cum. Dispatch Count</h3>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="header-content-style outfeed-style" style="font-size: 40px;text-align: center; ">
+                                <i
+                                    class="bi bi-cart-dash outfeed day-wise-icon-style"></i>{{dashboardTotalOutfeedCount}}
+                            </h3>
+                        </div>
+                    </div>
+
+
+                </section>
+
+            </div>
+
+        </div>
+
+
+        <div class="row dashboard_materialtable-Capacity-Row">
+
+
+
+            <!-- <div class="col-4 all-details-table okNok infeed graph-box" style="margin-top: 10px;">
+                <div class="chart-card in-out-chart-card chartHeight">
+                    <div data-placement="top">
+                        <h4 class="header-style" style="font-size: 20px;">Put Away And Picklist Order Chart</h4>
+                    </div>
+                    <div class="card-body in-out-chart-card-body bodyBox">
+
+                        <div id="column-chart">
+                            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                [responsive]="chartOptions.responsive" [labels]="chartOptions.labels"
+                                [xaxis]="chartOptions.xaxis">
+                            </apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 all-details-table okNok graphok graph-box" style="margin-top: 10px; margin-left: -25px; ">
+                <div class="chart-card in-out-chart-card oknok chartHeight">
+                    <div data-placement="top">
+                        <h4 class="header-style" style="font-size: 20px;">Ok And NOK Material Chart</h4>
+                    </div>
+                    <div class="card-body in-out-chart-card-body bodyBox">
+                        <div id="ok-nok-column-chart">
+                            <apx-chart [series]="okNokChartOptions.series" [chart]="okNokChartOptions.chart"
+                                [responsive]="okNokChartOptions.responsive" [labels]="okNokChartOptions.labels"
+                                [xaxis]="okNokChartOptions.xaxis">
+                            </apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-12 all-details-table" style="margin-left: -10px;">
+                <div class="row order-details-Row borderforsection1 box-design">
+                    <h4 class="order-heading" style="font-size: 23px; margin-bottom: 15px;">ASRS Order Details</h4>
+                    <div class="order-details d-flex justify-content-between" style="gap: 20px; padding: 0 20px;">
+
+                        <div class="card order-cards flex-grow-1"
+                            style="background-color:#ffede0; border-color: rgb(74, 74, 105);">
+                            <div>
+                                <h3 class="orders-header-style">Area-1 Count</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <!-- <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i> -->
+                                    <img class="count-logo" src="assets/images/FontAwesome-Cubes-icon.png"
+                                        alt="count-logo" style="font-size: 10px; width: 30px;height: 30px;">
+                                    {{dashboardDetails.area1Count}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="card order-cards flex-grow-1"
+                            style="background-color:#ffede0; border-color: rgb(74, 74, 105);">
+                            <div>
+                                <h3 class="orders-header-style">Area-2 Count</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <!-- <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i> -->
+                                    <img class="count-logo" src="assets/images/FontAwesome-Cubes-icon.png"
+                                        alt="count-logo" style="font-size: 10px; width: 30px;height: 30px;">
+                                    {{dashboardDetails.area2Count}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="card order-cards flex-grow-1"
+                            style="background-color:#fafad2; border-color: rgb(74, 74, 105);">
+                            <div>
+                                <h3 class="orders-header-style">Total Orders</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <!-- <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i> -->
+                                    <img class="count-logo" src="assets/images/FontAwesome-Cubes-icon.png"
+                                        alt="count-logo" style="font-size: 10px; width: 30px;height: 30px;">
+                                    {{dashboardDetails.totalOrders}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="card order-cards flex-grow-1"
+                            style="background-color:#cef3ce; border-color: rgb(74, 74, 105);">
+                            <div>
+                                <h3 class="orders-header-style">Executed Orders</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <!-- <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i> -->
+                                    <img class="count-logo" src="assets/images/FontAwesome-Cubes-icon.png"
+                                        alt="count-logo" style="font-size: 10px; width: 30px;height: 30px;">
+                                    {{dashboardDetails.executedOrders}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="card order-cards flex-grow-1"
+                            style="background-color:#f7e7c9; border-color: rgb(74, 74, 105);">
+                            <div>
+                                <h3 class="orders-header-style">Open Order</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <!-- <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i> -->
+                                    <img class="count-logo" src="assets/images/FontAwesome-Cubes-icon.png"
+                                        alt="count-logo" style="font-size: 10px; width: 30px;height: 30px;">
+                                    {{dashboardDetails.remainingOrders}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- <div class="card order-cards flex-grow-1" style="background-color:#b0e0e6; border-color: rgb(74, 74, 105);">
+                            <div class="" data-placement="top" title="Current date infeed count">
+                                <h3 class="orders-header-style">Percentage</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="header-content-style asrsTextDesign">
+                                    <i class="fa fa-cubes asrs-order-icon-style" aria-hidden="true"></i>
+                                    {{dashboardDetailsList1.percentageOrders | number:'1.4-4'}}
+                                </h3>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="col-12 all-details-table okNok prod productHeight"
+                style=" margin-left: -8px; min-width: 3000px;">
+                <h4 class="header-style header-style-Day-wise oknoktitle"
+                    style="font-size: 20px; text-align: center;margin-left: -1100px;">
+                    IN And
+                    Dispatch
+                    Trends</h4>
+                <div class="chart-card chart-card-style chartbox">
+                    <div data-placement="top">
+                        <h4 class="header-style" style="margin-left: -1100px;">IN And Dispatch Count <span
+                                class="placeHolderName">Last 30 days
+                                data</span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="production-trend-chart">
+                          
+                            <div>
+                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                    [xaxis]="{ categories: dateTimeChart }" [yaxis]="chartOptions.yaxis"
+                                    [colors]="chartOptions.colors" [plotOptions]="chartOptions.plotOptions"
+                                    [dataLabels]="chartOptions.dataLabels" [fill]="chartOptions.fill"
+                                    [stroke]="chartOptions.stroke" [legend]="chartOptions.legend"
+                                    >
+                                </apx-chart>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+            <div class="col-12 all-details-table okNok prod productHeight"
+                style="margin-left: -8px; min-width: 3000px;">
+                <h4 class="header-style header-style-Day-wise oknoktitle"
+                    style="font-size: 20px; text-align: center;margin-left: -1100px;">
+                    IN And Dispatch Trends
+                </h4>
+                <div class="chart-card chart-card-style chartbox">
+                    <div data-placement="top">
+                        <h4 class="header-style" style="margin-left: -1100px;">IN And Dispatch Count <span
+                                class="placeHolderName">Last 30 days data</span></h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="production-trend-chart-container" style="position: relative;">
+                            <!-- Single ApexChart Instance (Legend on the Left) -->
+                            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                [xaxis]="{ categories: dateTimeChart }" [yaxis]="chartOptions.yaxis"
+                                [colors]="chartOptions.colors" [plotOptions]="chartOptions.plotOptions"
+                                [dataLabels]="chartOptions.dataLabels" [fill]="chartOptions.fill"
+                                [stroke]="chartOptions.stroke" [legend]="chartOptions.legend">
+                            </apx-chart>
+
+                            <!-- Duplicated Legend on the Right -->
+                            <div id="right-legend" class="duplicated-legend">
+                                <!-- Duplicating the legend manually here -->
+                                <ul>
+                                    <li><span class="legend-color" style="background-color: #00E396;"></span>BEV IN
+                                        Count</li>
+                                    <li><span class="legend-color" style="background-color: #FFA500;"></span>S230 IN
+                                        Count</li>
+                                    <li><span class="legend-color" style="background-color: #008FFB;"></span>BEV
+                                        Dispatch Count</li>
+                                    <li><span class="legend-color" style="background-color: #A020F0;"></span>S230
+                                        Dispatch Count</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+<!-- BEV Infeed Details of CurrentDate data Modal -->
+<div class="modal " id="EditDataModalId">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-cart-plus day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;IN
+                    Details Of BEV
+                    Material
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #InfeedBEVDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="BEVinfeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let bevinfeedMissionDetails of infeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{bevinfeedMissionDetails.palletCode}}</td>
+                                    <td>{{bevinfeedMissionDetails.serialNumber}}</td>
+                                    <td>{{bevinfeedMissionDetails.productName}}</td>
+                                    <td>{{bevinfeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{bevinfeedMissionDetails.productVariantName}}</td>
+                                    <td>{{bevinfeedMissionDetails.quantity}}</td>
+                                    <td>{{bevinfeedMissionDetails.floorName}}</td>
+                                    <td>{{bevinfeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{bevinfeedMissionDetails.infeedMissionStatus}}</td>
+
+                                    <td>{{bevinfeedMissionDetails.positionName}}</td>
+
+
+                                    <td>{{bevinfeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- S230 Infeed Details of CurrentDate data Modal -->
+<div class="modal" id="addUserModal">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-cart-plus day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;IN
+                    Details Of
+                    S230 Material
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #InfeedS230DetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="S230infeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+
+                                    <th class="th-sm">Location</th>
+
+
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let s230infeedMissionDetails of infeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{s230infeedMissionDetails.palletCode}}</td>
+                                    <td>{{s230infeedMissionDetails.serialNumber}}</td>
+                                    <td>{{s230infeedMissionDetails.productName}}</td>
+                                    <td>{{s230infeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{s230infeedMissionDetails.productVariantName}}</td>
+                                    <td>{{s230infeedMissionDetails.quantity}}</td>
+                                    <td>{{s230infeedMissionDetails.floorName}}</td>
+                                    <td>{{s230infeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{s230infeedMissionDetails.infeedMissionStatus}}</td>
+
+                                    <td>{{s230infeedMissionDetails.positionName}}</td>
+
+
+                                    <td>{{s230infeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- BEV Outfeed Details of CurrentDate data Modal -->
+<div class="modal" id="bevOutfeedDetailsModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-cart-dash day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;Dispatch
+                    Details Of BEV
+                    Material
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #OutfeedBEVDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="BEVOutfeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let outfeedMissionDetails of outfeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{outfeedMissionDetails.palletCode}}</td>
+                                    <td>{{outfeedMissionDetails.serialNumber}}</td>
+                                    <td>{{outfeedMissionDetails.productName}}</td>
+                                    <td>{{outfeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{outfeedMissionDetails.productVariantName}}</td>
+                                    <td>{{outfeedMissionDetails.quantity}}</td>
+                                    <td>{{outfeedMissionDetails.floorName}}</td>
+                                    <td>{{outfeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{outfeedMissionDetails.outfeedMissionStatus}}</td>
+                                    <td>{{outfeedMissionDetails.positionName}}</td>
+                                    <td>{{outfeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="S230OutfeedDetailsModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title outfeedtitle">
+                    <i class="bi bi-cart-dash day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;Dispatch
+                    Details Of S230
+                    Material
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #OutfeedS230DetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="S230OutfeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+
+                                    <th class="th-sm">Location</th>
+
+
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let outfeedMissionDetails of outfeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{outfeedMissionDetails.palletCode}}</td>
+                                    <td>{{outfeedMissionDetails.serialNumber}}</td>
+                                    <td>{{outfeedMissionDetails.productName}}</td>
+                                    <td>{{outfeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{outfeedMissionDetails.productVariantName}}</td>
+                                    <td>{{outfeedMissionDetails.quantity}}</td>
+                                    <td>{{outfeedMissionDetails.floorName}}</td>
+                                    <td>{{outfeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{outfeedMissionDetails.outfeedMissionStatus}}</td>
+
+                                    <td>{{outfeedMissionDetails.positionName}}</td>
+
+
+                                    <td>{{outfeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Ok CurrentStock Details of CurrentDate data Modal -->
+<div class="modal" id="deleteUserModal">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon"
+                        aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;CurrentStock BEV OK
+                    Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 66px;">
+                <form #addPalletCodeDetailsModalFormOk="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsOk(addPalletCodeDetailsModalFormOk)" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefOk="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeOk" style="width:300px;">
+                    <button type="button" class="btn btn-success" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormOk.valid ||isMonitor()">
+                        Dispatch
+                    </button>
+                    <div *ngIf="!addPalletCodeRefOk.valid && (addPalletCodeRefOk.dirty || addPalletCodeRefOk.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefOk.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 58%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="okBEVCurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-lg">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let currentStockOKBEVDetails of CurrentStockBEVOkDetailsList; let i = index">
+                                    <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+
+                                    <td>{{ currentStockOKBEVDetails.palletCode }}</td>
+                                    <td>{{ currentStockOKBEVDetails.serialNumber }}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantCode}}</td>
+                                    <td>{{currentStockOKBEVDetails.productName}}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockOKBEVDetails.quantity}}</td>
+                                    <td>{{currentStockOKBEVDetails.palletStatusname}}</td>
+                                    <td>{{currentStockOKBEVDetails.qualityStatus}}</td>
+                                    <td>{{currentStockOKBEVDetails.ageingDays}}</td>
+
+                                    <td>{{currentStockOKBEVDetails.positionName}}</td>
+
+
+                                    <td>{{currentStockOKBEVDetails.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            style="margin-left: -4px;" data-bs-toggle="modal"
+                                            data-bs-target="#updateCurrentModal" [disabled]="isMonitor()"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockOKBEVDetails)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button" style="margin-top: 3px;" (click)="dispatchCurrentStockDetailsRow(currentStockOKDetails)" [disabled]="!isManualDispatchEnabled(currentStockOKDetails.positionName)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockOKBEVDetails.qualityStatus === 'NOK'; else dispatchButton1">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px;margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton1>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-top: 3px;width: 70px; margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) || currentStockOKBEVDetails.qualityStatus !== 'OK' || isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="itemsPerPage" [length]="totalElements" (page)="nextPage($event)"></mat-paginator> -->
+                        <mat-paginator *ngIf="qualityStatus === 'OK'" [pageSizeOptions]="[10, 25, 100]"
+                            [pageSize]="itemsPerPage" [length]="totalElements"
+                            (page)="nextPage($event)"></mat-paginator>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" id="NOKUserModal">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title currentStock">
+                    <i class="fa fa-cubes day-wise-icon-style" aria-hidden="true"
+                        style="color: white; margin-left: 10px;"></i>&nbsp;&nbsp;&nbsp;CurrentStock BEV NOK
+                    Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 50px;">
+                <form #addPalletCodeDetailsModalFormNok="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsNok(addPalletCodeDetailsModalFormNok)" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefNok="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeNok" style="width:300px;">
+                    <button type="button" class="btn btn-danger" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormNok.valid ||isMonitor()">
+                        Reject
+                    </button>
+                    <div *ngIf="!addPalletCodeRefNok.valid && (addPalletCodeRefNok.dirty || addPalletCodeRefNok.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefNok.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 53%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+                                Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <h1 class="dispatch-text">Add Dispatch Details</h1>
+            <button type="button" class="btn btn-primary float-end add-reason-button" data-bs-toggle="modal"
+                data-bs-target="#addEngineDispatchScheduleModal" [disabled]="isMonitor()"><i
+                    class="bi bi-plus-square"></i>
+            </button>
+
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockNOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="NokBEVCurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-sm">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let currentStockNOKDetails of CurrentStockBEVNOkDetailsList; index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesNOK - 1) * itemsPerPageNOK }}</td>
+                                    <td>{{currentStockNOKDetails.palletCode}}</td>
+                                    <td>{{ currentStockNOKDetails.serialNumber }}</td>
+                                    <td>{{currentStockNOKDetails.productVariantCode}}</td>
+                                    <td>{{currentStockNOKDetails.productName}}</td>
+                                    <td>{{currentStockNOKDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockNOKDetails.quantity}}</td>
+                                    <td>{{currentStockNOKDetails.palletStatusname}}</td>
+                                    <td>{{currentStockNOKDetails.qualityStatus}}</td>
+                                    <td>{{currentStockNOKDetails.ageingDays}}</td>
+
+                                    <td>{{currentStockNOKDetails.positionName}}</td>
+
+
+                                    <td>{{currentStockNOKDetails.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            data-bs-toggle="modal" data-bs-target="#updateNokCurrentModal"
+                                            [disabled]="isMonitor()" style="margin-right: 6px;"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockNOKDetails)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button"
+                                            (click)="dispatchCurrentStockDetailsRow(currentStockNOKDetails)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockNOKDetails.qualityStatus === 'NOK'; else dispatchButton2">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px; margin-top: 3px;margin-left: 4px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockNOKDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockNOKDetails.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton2>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-left: 4px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockNOKDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockNOKDetails.positionName) || currentStockNOKDetails.qualityStatus !== 'OK' || isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                        <mat-paginator *ngIf="qualityStatus1 === 'NOK'" [pageSizeOptions]="[10, 25, 100]"
+                            [pageSize]="itemsPerPageNOK" [length]="totalElementsNOK"
+                            (page)="nextPagesNOK($event)"></mat-paginator>
+
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+<div class="modal" id="s230UserModal">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon"
+                        aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;CurrentStock S230 OK
+                    Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 66px;">
+                <form #addPalletCodeDetailsModalFormOk="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsS230Ok(addPalletCodeDetailsModalFormOk)" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefOk="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeS230Ok" style="width:300px;">
+                    <button type="button" class="btn btn-success" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormOk.valid ||isMonitor()">
+                        Dispatch
+                    </button>
+                    <div *ngIf="!addPalletCodeRefOk.valid && (addPalletCodeRefOk.dirty || addPalletCodeRefOk.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefOk.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 58%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+                                Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="okS230CurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-lg">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let currentStockOKBEVDetails of CurrentStockS230OkDetailsList; let i = index">
+                                    <td>{{ i + 1 + (currentPagesS230OK - 1) * itemsPerPageS230OK }}</td>
+
+                                    <td>{{ currentStockOKBEVDetails.palletCode }}</td>
+                                    <td>{{ currentStockOKBEVDetails.serialNumber }}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantCode}}</td>
+                                    <td>{{currentStockOKBEVDetails.productName}}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockOKBEVDetails.quantity}}</td>
+                                    <td>{{currentStockOKBEVDetails.palletStatusname}}</td>
+                                    <td>{{currentStockOKBEVDetails.qualityStatus}}</td>
+                                    <td>{{currentStockOKBEVDetails.ageingDays}}</td>
+
+                                    <td>{{currentStockOKBEVDetails.positionName}}</td>
+
+
+                                    <td>{{currentStockOKBEVDetails.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            style="margin-left: -4px;" data-bs-toggle="modal"
+                                            data-bs-target="#updateCurrentModal" [disabled]="isMonitor()"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockOKBEVDetails)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button" style="margin-top: 3px;" (click)="dispatchCurrentStockDetailsRow(currentStockOKDetails)" [disabled]="!isManualDispatchEnabled(currentStockOKDetails.positionName)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockOKBEVDetails.qualityStatus === 'NOK'; else dispatchButton1">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px;margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton1>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-top: 3px;width: 70px; margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) || currentStockOKBEVDetails.qualityStatus !== 'OK' ||isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="itemsPerPage" [length]="totalElements" (page)="nextPage($event)"></mat-paginator> -->
+                        <mat-paginator *ngIf="qualityStatus === 'OK'" [pageSizeOptions]="[10, 25, 100]"
+                            [pageSize]="itemsPerPageS230OK" [length]="totalElementsS230OK"
+                            (page)="nextPagesS230OK($event)"></mat-paginator>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" id="s230NOKUserModal">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title currentStock">
+                    <i class="fa fa-cubes day-wise-icon-style" aria-hidden="true"
+                        style="color: white; margin-left: 10px;"></i>&nbsp;&nbsp;&nbsp;CurrentStock S230 NOK
+                    Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 50px;">
+                <form #addPalletCodeDetailsModalFormNok="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsS230Nok(addPalletCodeDetailsModalFormNok)" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefNok="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeS230Nok" style="width:300px;">
+                    <button type="button" class="btn btn-danger" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormNok.valid ||isMonitor()">
+                        Reject
+                    </button>
+                    <div *ngIf="!addPalletCodeRefNok.valid && (addPalletCodeRefNok.dirty || addPalletCodeRefNok.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefNok.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 53%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+                                Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <h1 class="dispatch-text">Add Dispatch Details</h1>
+            <button type="button" class="btn btn-primary float-end add-reason-button" data-bs-toggle="modal"
+                data-bs-target="#addEngineDispatchScheduleModal1" [disabled]="isMonitor()"><i
+                    class="bi bi-plus-square"></i>
+            </button>
+
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockNOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="nokS230CurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-sm">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let currentStockS230NOKDetails of CurrentStockS230NOkDetailsList index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesS230NOK - 1) * itemsPerPageS230NOK }}</td>
+                                    <td>{{currentStockS230NOKDetails.palletCode}}</td>
+                                    <td>{{ currentStockS230NOKDetails.serialNumber }}</td>
+                                    <td>{{currentStockS230NOKDetails.productVariantCode}}</td>
+                                    <td>{{currentStockS230NOKDetails.productName}}</td>
+                                    <td>{{currentStockS230NOKDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockS230NOKDetails.quantity}}</td>
+                                    <td>{{currentStockS230NOKDetails.palletStatusname}}</td>
+                                    <td>{{currentStockS230NOKDetails.qualityStatus}}</td>
+                                    <td>{{currentStockS230NOKDetails.ageingDays}}</td>
+
+                                    <td>{{currentStockS230NOKDetails.positionName}}</td>
+
+
+                                    <td>{{currentStockS230NOKDetails.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            data-bs-toggle="modal" data-bs-target="#updateNokCurrentModal"
+                                            [disabled]="isMonitor()" style="margin-right: 6px;"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockS230NOKDetails)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button"
+                                            (click)="dispatchCurrentStockDetailsRow(currentStockNOKDetails)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockS230NOKDetails.qualityStatus === 'NOK'; else dispatchButton2">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px; margin-top: 3px;margin-left: 4px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockS230NOKDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockS230NOKDetails.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton2>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-left: 4px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockS230NOKDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockS230NOKDetails.positionName) || currentStockS230NOKDetails.qualityStatus !== 'OK' ||isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                        <mat-paginator *ngIf="qualityStatus === 'NOK'" [pageSizeOptions]="[10, 25, 100]"
+                            [pageSize]="itemsPerPageS230NOK" [length]="totalElementsS230NOK"
+                            (page)="nextPagesS230NOK($event)"></mat-paginator>
+
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<!-- Ok CurrentStock Details of CurrentDate data Modal -->
+<div class="modal" id="BevcurrentStockModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon"
+                        aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;CurrentStock BEV Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 66px;">
+                <form #addPalletCodeDetailsModalFormOk="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsCurrentStock(addPalletCodeDetailsModalFormOk,'BEV')" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefOk="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeOkBEV" style="width:300px;">
+                    <button type="button" class="btn btn-success" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormOk.valid ||isMonitor()">
+                        Dispatch
+                    </button>
+                    <div *ngIf="!addPalletCodeRefOk.valid && (addPalletCodeRefOk.dirty || addPalletCodeRefOk.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefOk.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 58%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+                                Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="bevCurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-lg">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let currentStockOKBEVDetails of CurrentStockBevDetailsList; let i = index">
+                                    <td>{{ i + 1 + (currentPagesBev - 1) * itemsPerPageBev }}</td>
+
+                                    <td>{{ currentStockOKBEVDetails.palletCode }}</td>
+                                    <td>{{ currentStockOKBEVDetails.serialNumber }}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantCode}}</td>
+                                    <td>{{currentStockOKBEVDetails.productName}}</td>
+                                    <td>{{currentStockOKBEVDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockOKBEVDetails.quantity}}</td>
+                                    <td>{{currentStockOKBEVDetails.palletStatusname}}</td>
+                                    <td>{{currentStockOKBEVDetails.qualityStatus}}</td>
+                                    <td>{{currentStockOKBEVDetails.ageingDays}}</td>
+
+                                    <td>{{currentStockOKBEVDetails.positionName}}</td>
+
+
+                                    <td>{{currentStockOKBEVDetails.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            style="margin-left: -4px;" data-bs-toggle="modal"
+                                            data-bs-target="#updateCurrentModal" [disabled]="isMonitor()"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockOKBEVDetails)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button" style="margin-top: 3px;" (click)="dispatchCurrentStockDetailsRow(currentStockOKDetails)" [disabled]="!isManualDispatchEnabled(currentStockOKDetails.positionName)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockOKBEVDetails.qualityStatus === 'NOK'; else dispatchButton1">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px;margin-left: 6px; margin-top: 5px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton1>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-top: 3px;width: 70px; margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockOKBEVDetails)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockOKBEVDetails.positionName) || currentStockOKBEVDetails.qualityStatus !== 'OK' || isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[ 10, 25, 100]" [pageSize]="10" [length]="totalElementsBev"
+                            (page)="nextPagesBev($event)"> </mat-paginator>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Ok CurrentStock Details of CurrentDate data Modal -->
+<div class="modal" id="S230currentStockModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon"
+                        aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;CurrentStock S230 Material Details
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div class="col-sm-7" style="margin-left: 66px;">
+                <form #addPalletCodeDetailsModalFormOk="ngForm"
+                    (ngSubmit)="addPalletCodeDetailsCurrentStock(addPalletCodeDetailsModalFormOk, 'S230')" nonvalidate>
+                    <label class="control-label"><b>Enter Pallet
+                            Code</b></label>
+                    <input type="text" name="palletCode" id="palletCode" required #addPalletCodeRefOk="ngModel"
+                        style="margin-left: 25px;" [(ngModel)]="manualOutfeedPalletCodeOkS230" style="width:300px;">
+                    <button type="button" class="btn btn-success" type="dispatch"
+                        [disabled]="!addPalletCodeDetailsModalFormOk.valid ||isMonitor()">
+                        Dispatch
+                    </button>
+                    <div *ngIf="!addPalletCodeRefOk.valid && (addPalletCodeRefOk.dirty || addPalletCodeRefOk.touched)"
+                        class="error">
+                        <div *ngIf="addPalletCodeRefOk.errors?.['required']">
+                            <p class="text-danger" style="margin-left: 58%;"><i
+                                    class="bi bi-exclamation-circle-fill"></i> Enter Pallet
+                                Code</p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #CurrentStockOKDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="S230CurrentStockDetailsId"
+                            class="table-responsive-sm table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+                                    <th class="th-lg">Change Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let currentStockS230Details of CurrentStockS230DetailsList; let i = index">
+                                    <td>{{ i + 1 + (currentPagesS230 - 1) * itemsPerPageS230 }}</td>
+                                    <td>{{ currentStockS230Details.palletCode }}</td>
+                                    <td>{{ currentStockS230Details.serialNumber }}</td>
+                                    <td>{{currentStockS230Details.productVariantCode}}</td>
+                                    <td>{{currentStockS230Details.productName}}</td>
+                                    <td>{{currentStockS230Details.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{currentStockS230Details.quantity}}</td>
+                                    <td>{{currentStockS230Details.palletStatusname}}</td>
+                                    <td>{{currentStockS230Details.qualityStatus}}</td>
+                                    <td>{{currentStockS230Details.ageingDays}}</td>
+
+                                    <td>{{currentStockS230Details.positionName}}</td>
+
+
+                                    <td>{{currentStockS230Details.loadDatetime}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm edit-button"
+                                            style="margin-left: -4px;" data-bs-toggle="modal"
+                                            data-bs-target="#updateCurrentModal" [disabled]="isMonitor()"
+                                            (click)="editCurrentPalletStockDetailsRow(currentStockS230Details)"><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm edit-button" style="margin-top: 3px;" (click)="dispatchCurrentStockDetailsRow(currentStockOKDetails)" [disabled]="!isManualDispatchEnabled(currentStockOKDetails.positionName)">Dispatch
+                                        </button> -->
+                                        <ng-container
+                                            *ngIf="currentStockS230Details.qualityStatus === 'NOK'; else dispatchButton1">
+                                            <button type="button" class="btn btn-danger btn-sm edit-button"
+                                                style="width: 74px;margin-left: 6px; margin-top: 5px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockS230Details)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockS230Details.positionName) ||isMonitor()">
+                                                Reject
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-template #dispatchButton1>
+                                            <button type="button" class="btn btn-info btn-sm edit-button"
+                                                style="margin-top: 3px;width: 70px; margin-left: 6px;"
+                                                (click)="dispatchCurrentStockDetailsRow(currentStockS230Details)"
+                                                [disabled]="!isManualDispatchEnabled(currentStockS230Details.positionName) || currentStockS230Details.qualityStatus !== 'OK' ||isMonitor()">
+                                                Dispatch
+                                            </button>
+                                        </ng-template>
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="itemsPerPage" [length]="totalElements" (page)="nextPage($event)"></mat-paginator> -->
+                        <mat-paginator [pageSizeOptions]="[ 10, 25, 100]" [pageSize]="10" [length]="totalElementsS230"
+                            (page)="nextPagesS230($event)"> </mat-paginator>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div class="modal" id="addEngineDispatchScheduleModal1" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-plus-square onpopup"></i> Add Material Dispatch Details
+                </h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #addEngineDispatchScheduleModalForm="ngForm" (ngSubmit)="findPalletStockDetails()" novalidate>
+
+                    <!-- <div class="row">
+                        <div class="col-5">
+                            <p class="required" class="label-text">Dispatch Order Number :</p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                id="addQuantityId" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+                      
+                        </div>
+                    </div> -->
+
+
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">Start BP Serial No. </p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                name="startBP" id="addQuantityId" [(ngModel)]="serialNumber1" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 8px; margin-bottom: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">End BP Serial No </p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                name="endBP" id="addQuantityId" [(ngModel)]="serialNumber2" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 8px; margin-bottom: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">Model Name</p>
+                        </div>
+                        <div class="col-7">
+
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                name="endBP" id="addQuantityId" [(ngModel)]="productName" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+                            <!-- <input class="form-control pallet-code-input" type="text" id="displayProductId"
+                                name="displayProductName" required
+                                [(ngModel)]="dispatchCurrentStockDetailsInstance.productName"
+                                #displayProductNameRef="ngModel" pattern="[A-Z0-9 ]*"
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;"
+                                (ngModelChange)="onProductNameChange()">
+                            <i class="bi bi-check-circle input-icon"
+                                [ngClass]="{'text-success': isproductNameValidated}"
+                                (click)="validateProductName(dispatchCurrentStockDetailsInstance)"></i>-->
+
+                            <div *ngIf="displayProductNameRef.invalid && (displayProductNameRef.dirty || displayProductNameRef.touched)"
+                                class="error">
+
+                                <div *ngIf="displayProductNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Product Name</p>
+                                </div>
+
+                                <div *ngIf="displayProductNameRef.errors?.['pattern']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Only capital
+                                        letters and numbers
+                                        are allowed</p>
+                                </div>
+
+                                <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-bs-dismiss="modal" type="submit"
+                            [disabled]="!addEngineDispatchScheduleModalForm.valid ||!productName">
+                            Dispatch
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" id="addEngineDispatchScheduleModal" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-plus-square"></i> Add Material Dispatch Details
+                </h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #addEngineDispatchScheduleModalForm="ngForm" (ngSubmit)="findPalletStockDetails()" novalidate>
+
+                    <!-- <div class="row">
+                        <div class="col-5">
+                            <p class="required" class="label-text">Dispatch Order Number :</p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                id="addQuantityId" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+                      
+                        </div>
+                    </div> -->
+
+
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">Start BP Serial No. </p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                name="startBP" id="addQuantityId" [(ngModel)]="serialNumber1" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 8px; margin-bottom: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">End BP Serial No. </p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" name="addQuantityName"
+                                name="endBP" id="addQuantityId" [(ngModel)]="serialNumber2" required
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;" />
+
+
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 8px; margin-bottom: 10px;">
+                        <div class="col-5">
+                            <p class="required label-text">Model Name</p>
+                        </div>
+                        <div class="col-7">
+                            <input class="form-control pallet-code-input" type="text" id="displayProductId"
+                                name="displayProductName" required [(ngModel)]="productName"
+                                #displayProductNameRef="ngModel" pattern="[A-Z0-9 ]*"
+                                style="width: 200px; height: 30px; margin-top: -5px; margin-bottom: 10px; border-radius: 3px;">
+
+
+                            <div *ngIf="displayProductNameRef.invalid && (displayProductNameRef.dirty || displayProductNameRef.touched)"
+                                class="error">
+                                <!-- Required Error -->
+                                <div *ngIf="displayProductNameRef.errors?.['required']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                        Product Name</p>
+                                </div>
+                                <!-- Pattern Error -->
+                                <div *ngIf="displayProductNameRef.errors?.['pattern']">
+                                    <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Only capital
+                                        letters and numbers
+                                        are allowed</p>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-bs-dismiss="modal" type="submit"
+                            [disabled]="!addEngineDispatchScheduleModalForm.valid ||!productName">
+                            Dispatch
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal window 2 to update the data into table Called on Button=> Update-->
+<div class="modal" id="updateCurrentModal" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header  modal-header-style ">
+
+                <h4 class="modal-title" style="margin-left: 120px;"> Pallet Code :
+                    {{editCurrentPalletStockDetailsInstance.palletCode}}
+                </h4>
+
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                    <form #editCurrentDetailsModalForm="ngForm" (ngSubmit)="editCurrentPalletStockDetailsOk()"
+                        nonvalidate>
+                        <div class="row">
+
+                            <div class="col-8">
+                                <p class="required status-label-style">Quality Inspection Status</p>
+                            </div>
+
+                        </div>
+
+                        <select name="editQualityStatus" id="editQualityStatus" #editQualityStatus="ngModel" required
+                            class="form-control text-center"
+                            [(ngModel)]="editCurrentPalletStockDetailsInstance.qualityStatus" class="form-select">
+                            <option value="" disabled selected>Select Inspection Status Name</option>
+                            <option value="" disabled selected></option>
+                            <option value="OK">OK</option>
+                            <option value="NOK">NOK</option>
+                        </select>
+
+
+                        <div class="row">
+                            <!-- Modal footer -->
+                            <div class="modal-footer" style="
+                            margin-top: 30px;">
+                                <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                                    [disabled]="!editCurrentDetailsModalForm.valid"
+                                    style="margin-left: -60px;margin-top: 6px;">Update</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="updateNokCurrentModal" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header  modal-header-style">
+
+                <h4 class="modal-title"> Pallet Code :{{editCurrentPalletStockDetailsInstance.palletCode}}
+                </h4>
+
+            </div>
+            <div class="container">
+                <div class="modal-body">
+                    <form #editCurrentDetailsModalForm="ngForm" (ngSubmit)="editCurrentPalletStockDetailsNOk()"
+                        nonvalidate>
+                        <div class="row">
+
+                            <div class="col-8">
+                                <p class="required status-label-style">Quality Inspection Status</p>
+                            </div>
+
+                        </div>
+
+                        <select name="editQualityStatus" id="editQualityStatus" #editQualityStatus="ngModel" required
+                            class="form-control text-center"
+                            [(ngModel)]="editCurrentPalletStockDetailsInstance.qualityStatus" class="form-select">
+                            <option value="" disabled selected>Select Inspection Status Name</option>
+                            <option value="" disabled selected></option>
+                            <option value="OK">Ok</option>
+                            <option value="NOK">NOK</option>
+                        </select>
+
+
+                        <div class="row">
+                            <!-- Modal footer -->
+                            <div class="modal-footer" style="
+                            margin-top: 30px;">
+                                <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                                    [disabled]="!editCurrentDetailsModalForm.valid"
+                                    style="margin-left: -60px;margin-top: 6px;">Update</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="EmptyPalletcurrentStockModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;BEV
+                    Empty Pallet Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #InfeedBEVDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions" id="emptyPalletDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emptyPalletDetails of EmptyPalletDetailsDetailsList; index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesEmpty - 1) * itemsPerPageEmpty }}</td>
+                                    <td>{{emptyPalletDetails.palletCode}}</td>
+                                    <td>{{ emptyPalletDetails.serialNumber }}</td>
+                                    <td>{{emptyPalletDetails.productVariantCode}}</td>
+                                    <td>{{emptyPalletDetails.productName}}</td>
+                                    <td>{{emptyPalletDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{emptyPalletDetails.quantity}}</td>
+                                    <td>{{emptyPalletDetails.palletStatusname}}</td>
+                                    <td>{{emptyPalletDetails.qualityStatus}}</td>
+                                    <td>{{emptyPalletDetails.ageingDays}}</td>
+
+                                    <td>{{emptyPalletDetails.positionName}}</td>
+
+
+                                    <td>{{emptyPalletDetails.loadDatetime}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10"
+                                [length]="totalElementsEmpty" (page)="nextPageEmptyBEV($event)">
+                            </mat-paginator>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal" id="s230EmptyPalletcurrentStockModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;S230
+                    Empty Pallet Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #InfeedBEVDetailsOfCdateTimeForm="ngForm" novalidate>
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="S230EmptyPalletDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Quality Status</th>
+                                    <th class="th-sm">Aging Days</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let s230EmptyPalletDetails of S230EmptyPalletDetailsDetailsList; index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesS230Empty - 1) * itemsPerPageS230Empty }}</td>
+                                    <td>{{s230EmptyPalletDetails.palletCode}}</td>
+                                    <td>{{ s230EmptyPalletDetails.serialNumber }}</td>
+                                    <td>{{s230EmptyPalletDetails.productVariantCode}}</td>
+                                    <td>{{s230EmptyPalletDetails.productName}}</td>
+                                    <td>{{s230EmptyPalletDetails.productVariantName}}</td>
+                                    <!-- <td>{{currentStockOKDetails.batchNumber}}</td> -->
+
+                                    <td>{{s230EmptyPalletDetails.quantity}}</td>
+                                    <td>{{s230EmptyPalletDetails.palletStatusname}}</td>
+                                    <td>{{s230EmptyPalletDetails.qualityStatus}}</td>
+                                    <td>{{s230EmptyPalletDetails.ageingDays}}</td>
+
+                                    <td>{{s230EmptyPalletDetails.positionName}}</td>
+
+
+                                    <td>{{s230EmptyPalletDetails.loadDatetime}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10"
+                                [length]="totalElementsS230Empty" (page)="nextPageEmptyS230($event)">
+                            </mat-paginator>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal " id="bufferPalletModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp; Bev
+                    Buffer
+                    Pallet Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #BufferPalletDetailsForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions" id="BufferPalletDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">MFG Date</th>
+                                    <th class="th-sm">MFG Shift</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let bufferPalletDetails of BufferDetailsList; index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesBufferPallet - 1) * itemsPerPageBufferPallet }}</td>
+                                    <td>{{bufferPalletDetails.palletCode}}</td>
+                                    <td>{{ bufferPalletDetails.serialNumber }}</td>
+                                    <td>{{bufferPalletDetails.productVariantCode}}</td>
+                                    <td>{{bufferPalletDetails.productName}}</td>
+                                    <td>{{bufferPalletDetails.productVariantName}}</td>
+                                    <td>{{bufferPalletDetails.quantity}}</td>
+
+                                    <td>{{bufferPalletDetails.mfgDate}}</td>
+
+                                    <td>{{bufferPalletDetails.mfgShift}}</td>
+
+
+                                    <td>{{bufferPalletDetails.loadDateTime}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10"
+                                [length]="totalElementsBufferPallet" (page)="nextPageBufferData($event)">
+                            </mat-paginator>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal " id="S230bufferPalletModel">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="fa fa-cubes day-wise-icon-style popupicon" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp; S230
+                    Buffer
+                    Pallet Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #BufferPalletDetailsForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="allCurrentPalletStockDetailsDtOptions"
+                            id="S230BufferPalletDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm"> Part No</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm"> Part Name</th>
+                                    <!-- <th class="th-sm" style="width: 60px;">Batch Number</th> -->
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">MFG Date</th>
+                                    <th class="th-sm">MFG Shift</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let bufferPalletDetailsS230 of S230BufferPalletDetails; index as i">
+                                    <!-- <td>{{i+1}}</td> -->
+                                    <td>{{ i + 1 + (currentPagesS230BufferPallet - 1) * itemsPerPageS230BufferPallet }}
+                                    </td>
+                                    <td>{{bufferPalletDetailsS230.palletCode}}</td>
+                                    <td>{{ bufferPalletDetailsS230.serialNumber }}</td>
+                                    <td>{{bufferPalletDetailsS230.productVariantCode}}</td>
+                                    <td>{{bufferPalletDetailsS230.productName}}</td>
+                                    <td>{{bufferPalletDetailsS230.productVariantName}}</td>
+                                    <td>{{bufferPalletDetailsS230.quantity}}</td>
+
+                                    <td>{{bufferPalletDetailsS230.mfgDate}}</td>
+
+                                    <td>{{bufferPalletDetailsS230.mfgShift}}</td>
+
+
+                                    <td>{{bufferPalletDetailsS230.loadDateTime}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10"
+                                [length]="totalElementsS230BufferPallet" (page)="nextPageS230BufferData($event)">
+                            </mat-paginator>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal" id="confirmationModel" tabindex="-1" role="dialog" data-bs-keyboard="false" data-bs-backdrop="static" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" >
+                <h5 class="modal-title confText" >Confirmation Message</h5>
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close" style="margin-left: 100px; font-size: 27px; border-radius: 50%; ">
+                    <span aria-hidden="true" style="font-size: 32px; color: red; margin-top: 5px;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+                <p class="textdesign">{{ responseData?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="findPalletStockDetails1()" >Dispatch</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal" id="confirmationModel" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style">
+                <h5 class="modal-title confText1">Confirmation Message</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="margin-left: 100px; font-size: 27px; border-radius: 50%;">
+                    <span aria-hidden="true" style="font-size: 32px; color: red; margin-top: 5px;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <p class="textdesign">[innerHTML]="{{ responseData?.message }}</p> -->
+                <p class="textdesign" [innerHTML]="responseData?.message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="findPalletStockDetails1()">Dispatch</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal AudioPopup" id="confirmationModel1" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+                <p class="textdesign1">{{ responseDataforAudio?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="confirmationModel5" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+                <p class="textdesign1">{{ responseDataforNoEmpty?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal " id="AllInfeedMissionRuntimeDetailsId">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-cart-plus day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;Total Put Away
+                    Material Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #InfeedDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="getInfeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let totalinfeedMissionDetails of totalInfeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{totalinfeedMissionDetails.palletCode}}</td>
+                                    <td>{{totalinfeedMissionDetails.serialNumber}}</td>
+                                    <td>{{totalinfeedMissionDetails.productName}}</td>
+                                    <td>{{totalinfeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{totalinfeedMissionDetails.productVariantName}}</td>
+                                    <td>{{totalinfeedMissionDetails.quantity}}</td>
+                                    <td>{{totalinfeedMissionDetails.floorName}}</td>
+                                    <td>{{totalinfeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{totalinfeedMissionDetails.infeedMissionStatus}}</td>
+
+                                    <td>{{totalinfeedMissionDetails.positionName}}</td>
+
+
+                                    <td>{{totalinfeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal " id="AllOutfeedMissionRuntimeDetailsId">
+    <div class="modal-dialog modal-lg model-width">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-title-style  modal-header-style">
+                <h4 class="modal-title">
+                    <i class="bi bi-cart-plus day-wise-icon-style popupicon"></i>&nbsp;&nbsp;&nbsp;Total Dispatch
+                    Material Details
+
+                </h4>
+
+                <button type="button closebtn" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    style="font-size: 22px; width: 40px; height: 40px; ">
+                    <span aria-hidden="true" style="font-size: 37px;" class="dasboardspan">&times;</span>
+                </button>
+
+            </div>
+            <!-- Modal body editCurrentStockDetailsForSelectedIdInstance-->
+            <div class="modal-body modal-bev">
+                <div class="row">
+                    <form #OutfeedDetailsOfCdateTimeForm="ngForm" novalidate>
+
+
+
+
+                        <table datatable [dtOptions]="infeedMissionDtOptions" id="getOutfeedMissionRuntimeDetailsId"
+                            class="table-responsive-sm   table-bordered table stripe column-width">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="th-sm">Sr No</th>
+                                    <th class="th-sm">Pallet Code</th>
+                                    <th class="th-sm">BP Serial No.</th>
+                                    <th class="th-sm">Model</th>
+                                    <th class="th-sm">Part No</th>
+                                    <th class="th-sm">Part Name</th>
+                                    <th class="th-sm">Quantity</th>
+                                    <th class="th-sm">Floor Name</th>
+                                    <th class="th-sm">Pallet Status</th>
+                                    <th class="th-sm">Status</th>
+                                    <th class="th-sm">Location</th>
+                                    <th class="th-sm">Load Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let totaloutfeedMissionDetails of totalOutfeedMissionRuntimeDetailsList; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{totaloutfeedMissionDetails.palletCode}}</td>
+                                    <td>{{totaloutfeedMissionDetails.serialNumber}}</td>
+                                    <td>{{totaloutfeedMissionDetails.productName}}</td>
+                                    <td>{{totaloutfeedMissionDetails.productVariantCode}}</td>
+                                    <td>{{totaloutfeedMissionDetails.productVariantName}}</td>
+                                    <td>{{totaloutfeedMissionDetails.quantity}}</td>
+                                    <td>{{totaloutfeedMissionDetails.floorName}}</td>
+                                    <td>{{totaloutfeedMissionDetails.palletStatusName}}</td>
+                                    <td>{{totaloutfeedMissionDetails.outfeedMissionStatus}}</td>
+
+                                    <td>{{totaloutfeedMissionDetails.positionName}}</td>
+
+
+                                    <td>{{totaloutfeedMissionDetails.loadDateTime}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="modal first-popup" id="confirmationModel3" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData1?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMission('Area-1')" [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal second-popup" id="confirmationModel4" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert</h5>
+            </div>
+            <div class="modal-body" style="background-color: red;">
+                <p class="textdesign1">{{ responseData2?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" (click)="onAddMockDrillMissionForArea2('Area-2')" [disabled]="isMonitor()">Generate Mockdrill Mission</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<div class="modal" id="confirmationModel77" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+
+                <p class="textdesign1">{{ responseDataMismatchCell?.message }}</p>
+
+
+                <ul class="text-white">
+                    <li *ngFor="let cell of responseDataMismatchCell?.data">
+                        {{ cell }}
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="confirmationModelForDuplicatePalletCode" tabindex="-1" role="dialog" data-bs-keyboard="false"
+    data-bs-backdrop="static">
+    <div class="modal-dialog left-side-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-style" style="background-color: white;">
+                <h5 class="modal-title confText"><i class="bi bi-exclamation-circle-fill" style="color: red;"></i>Alert
+                </h5>
+
+            </div>
+            <div class="modal-body" style="background-color: red;">
+
+
+                <p class="textdesign1">{{ duplicatePallet?.message }}</p>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>

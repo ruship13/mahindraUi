@@ -1,0 +1,214 @@
+<!-- MASTER HEADER SECTION -->
+<div class="row heading-name-area">
+    <div class="col-sm-8 col-md-9 col-lg-10">
+        <!-- <h4 class="headertag"> <u>Master Reason Details</u></h4> -->
+        <h5 class="main-heading"><u>Master Reason Details</u></h5>
+    </div>
+
+    <div class="col-sm-4 col-md-3 col-lg-2">
+
+        <button type="button" class="btn btn-primary float-end add-reason-button" data-bs-toggle="modal"
+            data-bs-target="#addReasonModal"  [disabled]="isMonitor()"><i class="bi bi-plus-square"></i> </button>
+    </div>
+</div>
+
+
+
+<!-- TABLE SECTION -->
+<div class="row table-area ">
+    <div class="col shadow-border p-3 mb-5 rounded">
+        <div id="table">
+            <table datatable [dtOptions]="reasonDtOptions" id="reasonId"
+            class="table-responsive-sm table-bordered stripe">
+
+                <thead>
+                    <tr>
+                        <th class="th-sm">Sr No</th>
+                        <th class="th-sm">Operator Actions</th>
+                        <th class="th-sm">Reason</th>
+                        <th class="th-sm">Reason Created Date Time</th>
+                        <th class="th-sm">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let reasonDetails of masterReasonDetailsTableList; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{reasonDetails.operatorAction}}</td>
+                        <td>{{reasonDetails.reason}}</td>
+                        <td> {{reasonDetails.cdatetime}}</td>
+
+                        <td><button type="button" class="btn btn-warning btn-sm edit-button" data-bs-toggle="modal"
+                                data-bs-target="#updateReasonModal" [disabled]="isMonitor()"
+                                (click)="editMasterReasonDetailsRow(reasonDetails)"><i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete-button" data-bs-toggle="modal"
+                                data-bs-target="#deleteReasonModal" [disabled]="isMonitor()"
+                                (click)="deleteMasterReasonDetailsRow(reasonDetails)"><i class="bi bi-trash3 "></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal window 2 to delete the data into table Called on Button=> Delete -->
+    <div class="modal fade" id="deleteReasonModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form #DeleteMasterReasonTable="ngForm" novalidate>
+                    <div class="modal-header modal-header-style" >
+                        <!-- <i class="bi bi-exclamation-triangle"></i> -->
+                        <h4 class="modal-title "><i class="bi bi-trash3 popupidit"></i> Delete Reason :
+                            "{{deleteMasterReasonDetailsForSeletedIdInstance.reason}}"
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="status-label-style">Are you sure you want to delete?</p>
+                        <label for="masterReasonDetailsTableList" class="required status-label-style">Mention the reason </label><br><br>
+                        <select id="deleteReason" name="deleteReason" placeholder="please mention reason"
+                            [(ngModel)]="selectedAddReasonName" #deleteReasonRef="ngModel"
+                            (change)="selectReasonChangeHandler(deleteReasonRef.value)" required
+                            style="width: 450px; height: 40px;">
+                            <option *ngFor="let masterReasonDetails of masterReasonDetailsTableList"
+                                [ngValue]="masterReasonDetails.reason">
+                                {{masterReasonDetails.reason}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" (click)="deleteMasterReasonDetails()" data-bs-dismiss="modal"
+                            type="submit" [disabled]="!DeleteMasterReasonTable.valid ||isMonitor()">Delete</button>
+                        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window 2 to update the data into table Called on Button=> Update-->
+    <div class="modal" id="updateReasonModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header-style" >
+                    <div class="row">
+                        <h4 class="modal-title"><i class="bi bi-pencil-square popupidit1"></i> Edit Reason Details :
+                            {{editReasonDetailsForSelectedIdInstance.operatorAction}}</h4>
+
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form #editReasonDetailsModalForm="ngForm" (ngSubmit)="editMasterReasonDetails()" nonvalidate>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="required label-text1">Operator Action </p>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="editoperatorActionId" name="editoperatorAction"
+                                    #editOperatorActionRef="ngModel" required
+                                    [(ngModel)]="editReasonDetailsForSelectedIdInstance.operatorAction">
+
+                                <div *ngIf="!editOperatorActionRef.valid &&(editOperatorActionRef.dirty || editOperatorActionRef.touched)"
+                                    class="error">
+                                    <div *ngIf="editOperatorActionRef.errors?.['required']">
+                                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i> Please
+                                            Enter Operator Action
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="required label-text1">Reason</p>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="editReasonId" name="editreason" #editReasonRef="ngModel" required
+                                    [(ngModel)]="editReasonDetailsForSelectedIdInstance.reason">
+                                <div *ngIf="!editReasonRef.valid &&(editReasonRef.dirty || editReasonRef.touched)"
+                                    class="error">
+                                    <div *ngIf="editReasonRef.errors?.['required']">
+                                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                            Reason
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                                [disabled]="!editReasonDetailsModalForm.valid || isMonitor()">Update</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window 2 to insert the data into table Called on Button=> Add-->
+    <div class="modal" id="addReasonModal" method="get">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+
+                <div class="modal-header modal-header-style" >
+                    <div class="row">
+                        <h4 class="modal-title"><i class="bi bi-plus-square"></i> Add New Reason Details</h4>
+                    </div>
+
+
+                </div>
+                <div class="modal-body">
+                    <form #addReasonDetailsModalForm="ngForm"
+                        (ngSubmit)="addMasterReasonDetails(addReasonDetailsModalForm)" nonvalidate>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="required label-text1">Operator Action </p>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="addOperatorActionId" name="addOperatorAction" required
+                                    #addOperatorActionRef="ngModel"
+                                    [(ngModel)]="addReasonDetailsInstance.operatorAction">
+                                <div *ngIf="!addOperatorActionRef.valid &&(addOperatorActionRef.dirty || addOperatorActionRef.touched)"
+                                    class="error">
+                                    <div *ngIf="addOperatorActionRef.errors?.['required']">
+                                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                            Operator Action
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="required label-text1">Reason </p>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="addReasonId" name="addReason" #addReasonRef="ngModel" required
+                                    [(ngModel)]="addReasonDetailsInstance.reason">
+                                <div *ngIf="!addReasonRef.valid &&(addReasonRef.dirty || addReasonRef.touched)"
+                                    class="error">
+                                    <div *ngIf="addReasonRef.errors?.['required']">
+                                        <p class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>Please Enter
+                                            Reason
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" type="submit" data-bs-dismiss="modal"
+                                [disabled]="!addReasonDetailsModalForm.valid">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
