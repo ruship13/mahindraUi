@@ -34,24 +34,37 @@ pipeline {
             }
         }
 
-        stage('Deploy to Windows Server') {
-            steps {
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: 'windows-server',
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: 'dist/**/*',
-                                    removePrefix: 'dist',
-                                    remoteDirectory: 'angular-deploy'
-                                )
-                            ]
-                        )
-                    ]
-                )
-            }
-        }
+        // stage('Deploy to Windows Server') {
+        //     steps {
+        //         sshPublisher(
+        //             publishers: [
+        //                 sshPublisherDesc(
+        //                     configName: 'windows-server',
+        //                     transfers: [
+        //                         sshTransfer(
+        //                             sourceFiles: 'dist/**/*',
+        //                             removePrefix: 'dist',
+        //                             remoteDirectory: 'angular-deploy'
+        //                         )
+        //                     ]
+        //                 )
+        //             ]
+        //         )
+        //     }
+        // }
+        stage('Deploy to Tomcat') {
+    steps {
+        deploy adapters: [
+            tomcat9(
+                credentialsId: 'TomcatCreds',
+                path: '',
+                url: 'http://192.168.11.76:8088'
+            )
+        ],
+        contextPath: 'mahindra-battery',
+        war: 'dist/**'
+    }
+}
     }
 
     post {
