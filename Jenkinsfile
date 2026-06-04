@@ -2,21 +2,13 @@ pipeline {
     agent any
 
     tools {
-        // Must match the name configured in Jenkins Tools
-        nodejs 'node20' 
+        nodejs 'node20'
     }
-
-    environment {
-    DIST_DIR = 'dist/ats_mahindra_battery_cc_ui'
-    // Example for Windows XAMPP. Update this to your path from Step 1!
-    DEPLOY_DIR = 'C:/xampp/htdocs' 
-}
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Pulls code from the repository configured in the Jenkins job
-                checkout scm 
+                checkout scm
             }
         }
 
@@ -30,17 +22,37 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Building Angular application for Production...'
-                // Generates the static production files inside the 'dist/' folder
-                sh 'npm run build -- --configuration production' 
+                sh 'npm run build -- --configuration production'
             }
         }
 
-        stage('Deploy to Web Server') {
+        stage('Verify Build') {
             steps {
-                echo 'Deploying static files to the web server...'
-                // Cleans old deployment and copies new build artifacts
-                sh "sudo rm -rf ${DEPLOY_DIR}/*"
-                sh "sudo cp -r ${DIST_DIR}/* ${DEPLOY_DIR}/"
+                sh 'find dist -type f | head -20'
+            }
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+                echo 'Packaging and deploying to Tomcat...'
+
+                sh '''
+                    cd dist/ats_mahindra_battery_cc_ui
+                    jar -cvf ../../mahindra-battery.war .
+                '''
+
+                withCredentials([usernamePassword(
+                    credentialsId: 'TomcatCreds',
+                    usernameVariable: 'TOMCAT_USER',
+                    passwordVariable: 'TOMCAT_PASS'
+                )]) {
+                    sh '''
+                        curl -v \
+                        -u $TOMCAT_USER:$TOMCAT_PASS \
+                        -T mahindra-battery.war \
+                        "http://192.168.11.76:8088/manager/text/deploy?path=/mahindra-battery&update=true"
+                    '''
+                }
             }
         }
     }
