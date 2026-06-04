@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-   tools {
-    nodejs 'node20'
-}
+    tools {
+        nodejs 'node20'
+    }
 
     stages {
 
@@ -13,12 +13,10 @@ pipeline {
                     url: 'https://github.com/ruship13/mahindraUi.git'
             }
         }
-        
 
         stage('Install Dependencies') {
             steps {
                 sh 'npm install --legacy-peer-deps'
-               
             }
         }
 
@@ -34,44 +32,33 @@ pipeline {
             }
         }
 
-        // stage('Deploy to Windows Server') {
-        //     steps {
-        //         sshPublisher(
-        //             publishers: [
-        //                 sshPublisherDesc(
-        //                     configName: 'windows-server',
-        //                     transfers: [
-        //                         sshTransfer(
-        //                             sourceFiles: 'dist/**/*',
-        //                             removePrefix: 'dist',
-        //                             remoteDirectory: 'angular-deploy'
-        //                         )
-        //                     ]
-        //                 )
-        //             ]
-        //         )
-        //     }
-        // }
         stage('Deploy to Tomcat') {
-    steps {
-        deploy adapters: [
-            tomcat9(
-                credentialsId: 'TomcatCreds',
-                path: '',
-                url: 'http://192.168.11.76:8088'
-            )
-        ],
-        contextPath: 'mahindra-battery',
-        war: 'dist/**'
-    }
-}
+            steps {
+                sh '''
+                    cd dist
+                    zip -r ../mahindra-battery.war .
+                '''
+
+                withCredentials([usernamePassword(
+                    credentialsId: 'TomcatCreds',
+                    usernameVariable: 'TOMCAT_USER',
+                    passwordVariable: 'TOMCAT_PASS'
+                )]) {
+                    sh '''
+                        curl -v \
+                        -u $TOMCAT_USER:$TOMCAT_PASS \
+                        -T mahindra-battery.war \
+                        "http://192.168.11.76:8088/manager/text/deploy?path=/mahindra-battery&update=true"
+                    '''
+                }
+            }
+        }
     }
 
     post {
         success {
             echo 'Angular Build and Deployment Successful!'
         }
-
         failure {
             echo 'Build or Deployment Failed!'
         }
