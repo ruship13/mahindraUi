@@ -2,65 +2,55 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node20'
+        // Must match the name configured in Jenkins Tools
+        nodejs 'node20' 
     }
 
-    stages {
+    environment {
+    DIST_DIR = 'dist/ats_mahindra_battery_cc_ui'
+    // Example for Windows XAMPP. Update this to your path from Step 1!
+    DEPLOY_DIR = 'C:/xampp/htdocs' 
+}
 
-        stage('Checkout') {
+    stages {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/ruship13/mahindraUi.git'
+                // Pulls code from the repository configured in the Jenkins job
+                checkout scm 
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install --legacy-peer-deps'
+                echo 'Installing node modules...'
+                sh 'npm install'
             }
         }
 
-        stage('Build Angular') {
+        stage('Build Application') {
             steps {
-                sh 'npm run build -- --configuration production'
+                echo 'Building Angular application for Production...'
+                // Generates the static production files inside the 'dist/' folder
+                sh 'npm run build -- --configuration production' 
             }
         }
 
-        stage('Verify Build') {
+        stage('Deploy to Web Server') {
             steps {
-                sh 'find dist -type f | head -20'
-            }
-        }
-
-        stage('Deploy to Tomcat') {
-            steps {
-                sh '''
-                    cd dist
-                    zip -r ../mahindra-battery.war .
-                '''
-
-                withCredentials([usernamePassword(
-                    credentialsId: 'TomcatCreds',
-                    usernameVariable: 'TOMCAT_USER',
-                    passwordVariable: 'TOMCAT_PASS'
-                )]) {
-                    sh '''
-                        curl -v \
-                        -u $TOMCAT_USER:$TOMCAT_PASS \
-                        -T mahindra-battery.war \
-                        "http://192.168.11.76:8088/manager/text/deploy?path=/mahindra-battery&update=true"
-                    '''
-                }
+                echo 'Deploying static files to the web server...'
+                // Cleans old deployment and copies new build artifacts
+                sh "sudo rm -rf ${DEPLOY_DIR}/*"
+                sh "sudo cp -r ${DIST_DIR}/* ${DEPLOY_DIR}/"
             }
         }
     }
 
     post {
         success {
-            echo 'Angular Build and Deployment Successful!'
+            echo 'Deployment completed successfully!'
         }
         failure {
-            echo 'Build or Deployment Failed!'
+            echo 'Deployment failed. Please check the logs.'
         }
     }
 }
